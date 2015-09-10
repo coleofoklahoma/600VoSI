@@ -37,4 +37,6 @@ public class Protagonist extends Sprite{
         this.draw(batch);
         batch.end();
     }
+    
+    
 }
