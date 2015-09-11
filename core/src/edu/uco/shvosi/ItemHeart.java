@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 public class ItemHeart extends Sprite{
     private int iX;
     private int iY;
-    
+    private int type;
     
     public ItemHeart(Texture texture, int iX, int iY){
         super(texture);
