@@ -6,14 +6,20 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.math.Rectangle;
 
 public class MyGdxGame extends ApplicationAdapter {
 	private SpriteBatch batch;
         private OrthographicCamera camera;
         private Protagonist bernard;
+        private ItemHeart health;
         private Map map;
         private EntityGrid entityGrid;
         private int tileDimension;
+        
+        //Ignore this variable
+        int toggle = 1;
+        
         
         //Temporary Level Grid Creation Var
         private int[][] levelGrid;
@@ -25,6 +31,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
                 
                 bernard = new Protagonist(TextureLoader.BERNARDTEXTURE, 1, 1);
+                health = new ItemHeart(TextureLoader.HEALTHTEXTURE, 5, 3);
                 
                 camera = new OrthographicCamera();
                 camera.setToOrtho(false, Constants.SCREENWIDTH, Constants.SCREENHEIGHT);
@@ -70,6 +77,7 @@ public class MyGdxGame extends ApplicationAdapter {
                 
                 //Draw Bernard
                 bernard.render(batch);
+               
                 
                 //Move Camera
                 if(Gdx.input.isKeyJustPressed(Keys.A) && entityGrid.canMove("left")) camera.position.x -= tileDimension;
@@ -80,6 +88,22 @@ public class MyGdxGame extends ApplicationAdapter {
                 //Bernard follows camera center
                 bernard.setX(camera.position.x - bernard.getWidth()/2);
                 bernard.setY(camera.position.y - bernard.getHeight()/2);
+                
+
+                //LOL Terrible collision mechanic but it works for the video so ayyyyyyy//////
+                    if ((health.getIX() == bernard.getCX()) & (health.getIY() == bernard.getCY()))
+                    {
+                        // A Collision!  
+                        health.setSize(0,0);
+                        toggle = 0;
+                    }
+                    else 
+                    {
+                        if (toggle == 1){//Draw Health
+                        health.render(batch);
+                        }
+                    }
+                //End up Terrible collision/////
 	}
         
         @Override
