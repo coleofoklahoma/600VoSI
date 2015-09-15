@@ -14,8 +14,11 @@ public class Protagonist extends Sprite {
 
     // Sorry to just throw all this in here lol --Cody
     private Animation redLaser;
+    private Animation skillOne;
+    private boolean executeSkillOne;
     private boolean firing;
     private float firingTime;
+    private float elapsedSkillOne;
     private TextureRegion temp;
 
     public Protagonist(Texture texture, int cX, int cY) {
@@ -30,6 +33,10 @@ public class Protagonist extends Sprite {
         firing = false;
         firingTime = 0f;
 
+        // Skill one
+        skillOne = TextureLoader.skillOne;
+        executeSkillOne = false;
+        elapsedSkillOne = 0f;
     }
 
     public int getCX() {
@@ -66,11 +73,31 @@ public class Protagonist extends Sprite {
                 firingTime = 0f;
             }
         }
+
+        if (executeSkillOne) {
+            elapsedSkillOne += Gdx.graphics.getDeltaTime();
+            if (this.isFlipX()) {
+                temp = skillOne.getKeyFrame(elapsedSkillOne);
+                temp.flip(true, false);
+                batch.draw(temp, this.getX() - Constants.TILEDIMENSION * 2, this.getY(), Constants.TILEDIMENSION * 2, Constants.TILEDIMENSION);
+                temp.flip(true, false);
+            } else {
+                batch.draw(skillOne.getKeyFrame(elapsedSkillOne), this.getX() + Constants.TILEDIMENSION, this.getY(), Constants.TILEDIMENSION * 2, Constants.TILEDIMENSION);
+            }
+            if (skillOne.isAnimationFinished(elapsedSkillOne)) {
+                executeSkillOne = false;
+                elapsedSkillOne = 0f;
+            }
+        }
+
         batch.end();
     }
 
     public void setFiring(boolean firing) {
         this.firing = firing;
     }
-
+    
+    public void setExecuteSkillOne(boolean executeSkillOne) {
+        this.executeSkillOne = executeSkillOne;
+    }
 }

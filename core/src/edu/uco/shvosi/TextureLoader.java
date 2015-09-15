@@ -13,13 +13,14 @@ public class TextureLoader {
   
     public static final Texture BERNARDTEXTURE = new Texture(Gdx.files.internal("characters/bernard.png"));
     public static final Texture HEALTHTEXTURE = new Texture (Gdx.files.internal("items/health.png"));
-    
+    public static final Texture SKILLONETEXTURE = new Texture(Gdx.files.internal("skillOne.png"));
     public static final Texture REDLASERTEXTURE = new Texture(Gdx.files.internal("RedLaserAnimation.png"));
-    
+    public static final Texture TRAPTEXTURE = new Texture(Gdx.files.internal("traps/trap.png"));
+    public static final Texture TRAPTEXTURE2 = new Texture(Gdx.files.internal("traps/trap2.png"));
     private Array<TextureRegion> laserFrames;
-    
+    private Array<TextureRegion> skillOneFrames;
     public static Animation redLaser;
-    
+    public static Animation skillOne;
     TextureLoader()
     {
         laserFrames = new Array<TextureRegion>(15);
@@ -30,6 +31,13 @@ public class TextureLoader {
         }
         
         redLaser = new Animation(0.05f, laserFrames, PlayMode.NORMAL);
+        
+        skillOneFrames = new Array<TextureRegion>(6);
+         for(int i = 0; i < 6; i++)
+        {
+            skillOneFrames.add(new TextureRegion(SKILLONETEXTURE, 25, i * 90, 200, 100));
+        }
+        skillOne = new Animation(0.05f, skillOneFrames, PlayMode.NORMAL);
     }
     
     public void dispose()
@@ -38,6 +46,9 @@ public class TextureLoader {
         WALLTILETEXTURE.dispose();
         BERNARDTEXTURE.dispose();
         HEALTHTEXTURE.dispose();
+        TRAPTEXTURE.dispose();
+        TRAPTEXTURE2.dispose();
         REDLASERTEXTURE.dispose();
+        SKILLONETEXTURE.dispose();
     }
 }

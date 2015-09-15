@@ -13,6 +13,8 @@ public class MyGdxGame extends ApplicationAdapter {
         private OrthographicCamera camera;
         private Protagonist bernard;
         private ItemHeart health;
+        private TrapType1 trap;
+        private TrapType2 trap2;
         private Map map;
         private EntityGrid entityGrid;
         private int tileDimension;
@@ -35,6 +37,8 @@ public class MyGdxGame extends ApplicationAdapter {
                 
                 bernard = new Protagonist(TextureLoader.BERNARDTEXTURE, 1, 1);
                 health = new ItemHeart(TextureLoader.HEALTHTEXTURE, 5, 3);
+                trap = new TrapType1(TextureLoader.TRAPTEXTURE, 2, 2);
+                trap2 = new TrapType2(TextureLoader.TRAPTEXTURE2, 3, 2);
                 
                 camera = new OrthographicCamera();
                 camera.setToOrtho(false, Constants.SCREENWIDTH, Constants.SCREENHEIGHT);
@@ -82,9 +86,15 @@ public class MyGdxGame extends ApplicationAdapter {
                     bernard.setFiring(true);
                 }
                 
+                if(Gdx.input.isKeyJustPressed(Keys.NUM_1)){
+                    bernard.setExecuteSkillOne(true);
+                }
                 //Draw Bernard
                 bernard.render(batch);
                
+                //Draw Trap
+                trap.render(batch);
+                trap2.render(batch);
                 
                 //Move Camera
                 if(Gdx.input.isKeyJustPressed(Keys.A) && entityGrid.canMove("left")) {
