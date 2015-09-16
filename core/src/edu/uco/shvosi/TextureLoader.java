@@ -21,6 +21,7 @@ public class TextureLoader {
     private Array<TextureRegion> skillOneFrames;
     public static Animation redLaser;
     public static Animation skillOne;
+    public static Animation skillTwo;
     TextureLoader()
     {
         laserFrames = new Array<TextureRegion>(15);
@@ -38,6 +39,8 @@ public class TextureLoader {
             skillOneFrames.add(new TextureRegion(SKILLONETEXTURE, 25, i * 90, 200, 100));
         }
         skillOne = new Animation(0.05f, skillOneFrames, PlayMode.NORMAL);
+        
+        skillTwo = new Animation(0.05f, skillOneFrames, PlayMode.LOOP);
     }
     
     public void dispose()

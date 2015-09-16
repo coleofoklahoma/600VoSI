@@ -89,6 +89,10 @@ public class MyGdxGame extends ApplicationAdapter {
                 if(Gdx.input.isKeyJustPressed(Keys.NUM_1)){
                     bernard.setExecuteSkillOne(true);
                 }
+                
+                if(Gdx.input.isKeyJustPressed(Keys.NUM_2)){
+                    bernard.setExecuteSkillTwo(true);
+                }
                 //Draw Bernard
                 bernard.render(batch);
                

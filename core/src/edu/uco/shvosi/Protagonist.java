@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class Protagonist extends Sprite {
+public class Protagonist extends Sprite implements GameEntity {
 
     private int cX;
     private int cY;
@@ -15,10 +15,13 @@ public class Protagonist extends Sprite {
     // Sorry to just throw all this in here lol --Cody
     private Animation redLaser;
     private Animation skillOne;
+    private boolean executeSkillTwo;
     private boolean executeSkillOne;
     private boolean firing;
     private float firingTime;
     private float elapsedSkillOne;
+    private float elapsedSkillTwo;
+    private float skillTwoRotation;
     private TextureRegion temp;
 
     public Protagonist(Texture texture, int cX, int cY) {
@@ -37,6 +40,9 @@ public class Protagonist extends Sprite {
         skillOne = TextureLoader.skillOne;
         executeSkillOne = false;
         elapsedSkillOne = 0f;
+
+        elapsedSkillTwo = 0f;
+        skillTwoRotation = 0f;
     }
 
     public int getCX() {
@@ -55,6 +61,9 @@ public class Protagonist extends Sprite {
         this.cY = cY;
     }
 
+    
+  
+    @Override
     public void render(SpriteBatch batch) {
         batch.begin();
         this.draw(batch);
@@ -90,14 +99,35 @@ public class Protagonist extends Sprite {
             }
         }
 
+        if (executeSkillTwo) {
+            elapsedSkillTwo += Gdx.graphics.getDeltaTime();
+            skillTwoRotation += 200 * Gdx.graphics.getDeltaTime();
+            temp = TextureLoader.skillTwo.getKeyFrame(elapsedSkillTwo);
+            batch.draw(temp, this.getX(), this.getY(), this.getWidth() / 2,this.getHeight() / 2, Constants.TILEDIMENSION * 2, Constants.TILEDIMENSION, 1, 1, skillTwoRotation);
+            if (skillOne.isAnimationFinished(elapsedSkillTwo / 6)) {
+                executeSkillTwo = false;
+                elapsedSkillTwo = 0f;
+                skillTwoRotation = 0f;
+            }
+        }
+
         batch.end();
     }
 
     public void setFiring(boolean firing) {
         this.firing = firing;
     }
-    
+
     public void setExecuteSkillOne(boolean executeSkillOne) {
         this.executeSkillOne = executeSkillOne;
+    }
+
+    public void setExecuteSkillTwo(boolean executeSkillTwo) {
+        this.executeSkillTwo = executeSkillTwo;
+    }
+
+    @Override
+    public void update() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
