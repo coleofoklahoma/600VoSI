@@ -36,10 +36,11 @@ public class MyGdxGame extends ApplicationAdapter {
 		batch = new SpriteBatch();
                 
                 bernard = new Protagonist(TextureLoader.BERNARDTEXTURE, 1, 1);
+                
                 health = new ItemHeart(TextureLoader.HEALTHTEXTURE, 5, 3);
                 trap = new TrapType1(TextureLoader.TRAPTEXTURE, 2, 2);
                 trap2 = new TrapType2(TextureLoader.TRAPTEXTURE2, 3, 2);
-                
+                bernard.addObserver(trap);
                 camera = new OrthographicCamera();
                 camera.setToOrtho(false, Constants.SCREENWIDTH, Constants.SCREENHEIGHT);
                 camera.position.x = bernard.getX() + bernard.getWidth()/2;
@@ -103,18 +104,26 @@ public class MyGdxGame extends ApplicationAdapter {
                 //Move Camera
                 if(Gdx.input.isKeyJustPressed(Keys.A) && entityGrid.canMove("left")) {
                     camera.position.x -= tileDimension;
+                    bernard.notifyObservers();
                     if(!bernard.isFlipX()){
                         bernard.flip(true, false);
                     }
                 }
                 else if(Gdx.input.isKeyJustPressed(Keys.D) && entityGrid.canMove("right")) {
                     camera.position.x += tileDimension;
+                    bernard.notifyObservers();
                     if(bernard.isFlipX()){
                         bernard.flip(true, false);
                     }
                 }
-                else if(Gdx.input.isKeyJustPressed(Keys.W) && entityGrid.canMove("up")) camera.position.y += tileDimension;
-                else if(Gdx.input.isKeyJustPressed(Keys.S) && entityGrid.canMove("down")) camera.position.y -= tileDimension;
+                else if(Gdx.input.isKeyJustPressed(Keys.W) && entityGrid.canMove("up")) {
+                    camera.position.y += tileDimension;
+                    bernard.notifyObservers();
+                }
+                else if(Gdx.input.isKeyJustPressed(Keys.S) && entityGrid.canMove("down")) {
+                    camera.position.y -= tileDimension;
+                    bernard.notifyObservers();
+                }
                 
                 //Bernard follows camera center
                 bernard.setX(camera.position.x - bernard.getWidth()/2);

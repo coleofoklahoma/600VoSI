@@ -17,15 +17,22 @@ public class TextureLoader {
     public static final Texture REDLASERTEXTURE = new Texture(Gdx.files.internal("RedLaserAnimation.png"));
     public static final Texture TRAPTEXTURE = new Texture(Gdx.files.internal("traps/trap.png"));
     public static final Texture TRAPTEXTURE2 = new Texture(Gdx.files.internal("traps/trap2.png"));
+    public static final Texture TRAPKUNAI = new Texture(Gdx.files.internal("traps/kunai.png"));
+    private TextureRegion[] kunaiFrames;
     private Array<TextureRegion> laserFrames;
     private Array<TextureRegion> skillOneFrames;
     public static Animation redLaser;
     public static Animation skillOne;
     public static Animation skillTwo;
+    public static Animation kunaiTrap;
+    
+    private static final int FRAME_COLS = 5;
+    private static final int FRAME_ROWS = 4;
+    
     TextureLoader()
     {
-        laserFrames = new Array<TextureRegion>(15);
-        
+        //Big Ass Laser
+        laserFrames = new Array<TextureRegion>(15); 
         for(int i = 0; i < 15; i++)
         {
             laserFrames.add(new TextureRegion(REDLASERTEXTURE, 25, i * 156, 731, 156));
@@ -33,6 +40,7 @@ public class TextureLoader {
         
         redLaser = new Animation(0.05f, laserFrames, PlayMode.NORMAL);
         
+        //Skill One
         skillOneFrames = new Array<TextureRegion>(6);
          for(int i = 0; i < 6; i++)
         {
@@ -40,7 +48,20 @@ public class TextureLoader {
         }
         skillOne = new Animation(0.05f, skillOneFrames, PlayMode.NORMAL);
         
+        //Skill Two
         skillTwo = new Animation(0.05f, skillOneFrames, PlayMode.LOOP);
+        
+        //Kunai Trap
+        TextureRegion[][] tmp = TextureRegion.split(TextureLoader.TRAPKUNAI, TextureLoader.TRAPKUNAI.getWidth() / FRAME_COLS, TextureLoader.TRAPKUNAI.getHeight() / FRAME_ROWS);
+        kunaiFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
+        int index = 0;
+        for (int i = 0; i < FRAME_ROWS; i++) {
+            for (int j = 0; j < FRAME_COLS; j++) {
+                kunaiFrames[index++] = tmp[i][j];
+            }
+        }
+        kunaiTrap = new Animation(0.05f, kunaiFrames);
+        
     }
     
     public void dispose()
@@ -51,6 +72,7 @@ public class TextureLoader {
         HEALTHTEXTURE.dispose();
         TRAPTEXTURE.dispose();
         TRAPTEXTURE2.dispose();
+        TRAPKUNAI.dispose();
         REDLASERTEXTURE.dispose();
         SKILLONETEXTURE.dispose();
     }

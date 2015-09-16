@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Protagonist extends Sprite implements GameEntity {
+public class Protagonist extends Sprite implements GameEntity, Observable {
 
     private int cX;
     private int cY;
@@ -23,6 +25,7 @@ public class Protagonist extends Sprite implements GameEntity {
     private float elapsedSkillTwo;
     private float skillTwoRotation;
     private TextureRegion temp;
+    private List<Observer> observers;
 
     public Protagonist(Texture texture, int cX, int cY) {
         super(texture);
@@ -30,7 +33,7 @@ public class Protagonist extends Sprite implements GameEntity {
         this.cY = cY;
         this.setX(cX * Constants.TILEDIMENSION);
         this.setY(cY * Constants.TILEDIMENSION);
-
+        this.observers=new ArrayList();
         // Laser stuffs --Cody
         redLaser = TextureLoader.redLaser;
         firing = false;
@@ -125,7 +128,21 @@ public class Protagonist extends Sprite implements GameEntity {
     public void setExecuteSkillTwo(boolean executeSkillTwo) {
         this.executeSkillTwo = executeSkillTwo;
     }
-
+    
+    public void notifyObservers() {
+        for(Observer o:observers){
+            o.observerUpdate(this);
+        }
+    }
+    
+    public void addObserver(Observer o) {
+        this.observers.add(o);
+    }
+    
+    public void removeObserver(Observer o) {
+        this.observers.remove(o);
+    }
+    
     @Override
     public void update() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
