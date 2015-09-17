@@ -4,43 +4,15 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.Texture;
 
-public class TrapType2 extends Sprite {
-    private int tX;
-    private int tY;
+public class TrapType2 extends Entity {
     private int state;
     
-    public TrapType2(Texture texture, int tX, int tY){
-        super(texture);
-        this.tX = tX;
-        this.tY = tY;
-        this.setX(tX * Constants.TILEDIMENSION);
-        this.setY(tY * Constants.TILEDIMENSION);
+    public TrapType2(Texture texture, int cX, int cY){
+        super(EntityGridCode.TRAP, texture, cX, cY);
     }
     
-    public int getTX(){
-        return this.tX;
-    }
-    
-    public int getTY(){
-        return this.tY;
-    }
-    
-    public void setTX(int tX){
-        this.tX = tX;
-    }
-    
-    public void setTY(int tY){
-        this.tY = tY;
-    }
-    
-    public void render(SpriteBatch batch){
-        batch.begin();
-        this.draw(batch);
-        batch.end();
-    }
-    
-    public void update() {
-        
+    @Override
+    public void collision(Entity entity){
+        this.setHealth(0);
     }
 }
-

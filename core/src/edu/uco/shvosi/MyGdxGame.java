@@ -6,6 +6,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyGdxGame extends ApplicationAdapter {
     
@@ -19,6 +23,8 @@ public class MyGdxGame extends ApplicationAdapter {
         private EntityGrid entityGrid;
         private int tileDimension;
         private TextureLoader tl; // Creating this variable so that I can get some animations made and then they can be disposed of properly. --Cody
+        private List<Entity> entityList;
+        private Stage stage;
         
         //Ignore this variable
         int toggle = 1;
@@ -29,121 +35,162 @@ public class MyGdxGame extends ApplicationAdapter {
 	
 	@Override
 	public void create () {
-                tl = new TextureLoader();
+            Gdx.input.setInputProcessor(stage);
+            entityList = new ArrayList<Entity>();
+            tl = new TextureLoader();
+            tileDimension = Constants.TILEDIMENSION;
+            batch = new SpriteBatch();
             
-                tileDimension = Constants.TILEDIMENSION;
+            // Create and add entities to the list
+            bernard = new Protagonist(TextureLoader.BERNARDTEXTURE, 1, 1);
+            entityList.add(bernard);
             
-		batch = new SpriteBatch();
-                
-                bernard = new Protagonist(TextureLoader.BERNARDTEXTURE, 1, 1);
-                
-                health = new ItemHeart(TextureLoader.HEALTHTEXTURE, 5, 3);
-                trap = new TrapType1(TextureLoader.TRAPTEXTURE, 2, 2);
-                trap2 = new TrapType2(TextureLoader.TRAPTEXTURE2, 3, 2);
-                bernard.addObserver(trap);
-                camera = new OrthographicCamera();
-                camera.setToOrtho(false, Constants.SCREENWIDTH, Constants.SCREENHEIGHT);
-                camera.position.x = bernard.getX() + bernard.getWidth()/2;
-                camera.position.y = bernard.getY() + bernard.getHeight()/2;
-                
-                //Test Level Grid Creation
-                levelGrid = createMap();
-                for(int i = 0; i < levelGrid.length; i++){
-                    for(int j = 0; j < levelGrid[i].length; j++){
-                        if(j > 0 && j < levelGrid[i].length - 1 && i != 0 && i != levelGrid.length - 1)
-                            levelGrid[i][j] = MapGridCode.FLOOR;
-                        else
-                            levelGrid[i][j] = MapGridCode.WALL;
-                    }
+            //Some Random Enemies for testing, currently bernard texture
+            entityList.add(new Antagonist(TextureLoader.BERNARDTEXTURE, 6, 6));
+            entityList.add(new Antagonist(TextureLoader.BERNARDTEXTURE, 6, 7));
+            entityList.add(new Antagonist(TextureLoader.BERNARDTEXTURE, 6, 8));
+            entityList.add(new Antagonist(TextureLoader.BERNARDTEXTURE, 6, 9));
+            entityList.add(new Antagonist(TextureLoader.BERNARDTEXTURE, 6, 10));
+            entityList.add(new Antagonist(TextureLoader.BERNARDTEXTURE, 6, 11));
+            entityList.add(new Antagonist(TextureLoader.BERNARDTEXTURE, 6, 12));
+            entityList.add(new Antagonist(TextureLoader.BERNARDTEXTURE, 6, 13));
+            entityList.add(new Antagonist(TextureLoader.BERNARDTEXTURE, 6, 14));
+
+            health = new ItemHeart(TextureLoader.HEALTHTEXTURE, 5, 3);
+            entityList.add(health);
+
+            trap = new TrapType1(TextureLoader.TRAPTEXTURE, 2, 2);
+            entityList.add(trap);
+
+            trap2 = new TrapType2(TextureLoader.TRAPTEXTURE2, 3, 2);
+            entityList.add(trap2);
+            
+            bernard.addObserver(trap);
+            
+            //Initialize Camera
+            camera = new OrthographicCamera();
+            camera.setToOrtho(false, Constants.SCREENWIDTH, Constants.SCREENHEIGHT);
+            FitViewport fv = new FitViewport(Constants.SCREENWIDTH,Constants.SCREENHEIGHT, camera);
+            stage = new Stage(fv, batch);
+            centerCameraOn(bernard);
+            
+            // Add the entities to the stage
+            for(int i = 0; i < entityList.size(); i++){
+                stage.addActor(entityList.get(i));
+                switch(entityList.get(i).getEntityType()){
+                    case EntityGridCode.PLAYER:
+                        stage.getActors().get(i).setZIndex(2);
+                        break;
+                    case EntityGridCode.ENEMY:
+                        stage.getActors().get(i).setZIndex(1);
+                        break;
+                    case EntityGridCode.TRAP:
+                    case EntityGridCode.ITEM:
+                    default:
+                        stage.getActors().get(i).setZIndex(0);
+                        break;
                 }
-                
-                levelGrid[4][4] = MapGridCode.WALL;
-                levelGrid[5][4] = MapGridCode.WALL;
-                levelGrid[6][4] = MapGridCode.WALL;
-                levelGrid[7][4] = MapGridCode.WALL;
-                levelGrid[8][4] = MapGridCode.WALL;
-                levelGrid[9][4] = MapGridCode.WALL;
-                levelGrid[9][3] = MapGridCode.WALL;
-                levelGrid[9][2] = MapGridCode.WALL;
-                levelGrid[9][1] = MapGridCode.WALL;
-                
-                //Map Grid and Entity Grid Creation
-                map = new Map(levelGrid, tileDimension);
-                entityGrid = new EntityGrid(map.getMapGrid(), bernard);
+            }
+
+            //Test Level Grid Creation
+            levelGrid = createMap();
+            for(int i = 0; i < levelGrid.length; i++){
+                    for(int j = 0; j < levelGrid[i].length; j++){
+                            if(j > 0 && j < levelGrid[i].length - 1 && i != 0 && i != levelGrid.length - 1)
+                                    levelGrid[i][j] = MapGridCode.FLOOR;
+                            else
+                                    levelGrid[i][j] = MapGridCode.WALL;
+                    }
+            }
+
+            levelGrid[4][4] = MapGridCode.WALL;
+            levelGrid[5][4] = MapGridCode.WALL;
+            levelGrid[6][4] = MapGridCode.WALL;
+            levelGrid[7][4] = MapGridCode.WALL;
+            levelGrid[8][4] = MapGridCode.WALL;
+            levelGrid[9][4] = MapGridCode.WALL;
+            levelGrid[9][3] = MapGridCode.WALL;
+            levelGrid[9][2] = MapGridCode.WALL;
+            levelGrid[9][1] = MapGridCode.WALL;
+
+            //Map Grid and Entity Grid Creation
+            map = new Map(levelGrid, tileDimension);
+            entityGrid = new EntityGrid(map.getMapGrid(), entityList);
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-                
-                camera.update();
-                batch.setProjectionMatrix(camera.combined);
-                
-                //Draw background
-                map.render(batch);
-                
-                if(Gdx.input.isKeyJustPressed(Keys.SPACE)){
-                    bernard.setFiring(true);
-                }
-                
-                if(Gdx.input.isKeyJustPressed(Keys.NUM_1)){
-                    bernard.setExecuteSkillOne(true);
-                }
-                
-                if(Gdx.input.isKeyJustPressed(Keys.NUM_2)){
-                    bernard.setExecuteSkillTwo(true);
-                }
-                //Draw Bernard
-                bernard.render(batch);
-               
-                //Draw Trap
-                trap.render(batch);
-                trap2.render(batch);
-                
-                //Move Camera
-                if(Gdx.input.isKeyJustPressed(Keys.A) && entityGrid.canMove("left")) {
-                    camera.position.x -= tileDimension;
-                    bernard.notifyObservers();
-                    if(!bernard.isFlipX()){
-                        bernard.flip(true, false);
-                    }
-                }
-                else if(Gdx.input.isKeyJustPressed(Keys.D) && entityGrid.canMove("right")) {
-                    camera.position.x += tileDimension;
-                    bernard.notifyObservers();
-                    if(bernard.isFlipX()){
-                        bernard.flip(true, false);
-                    }
-                }
-                else if(Gdx.input.isKeyJustPressed(Keys.W) && entityGrid.canMove("up")) {
-                    camera.position.y += tileDimension;
-                    bernard.notifyObservers();
-                }
-                else if(Gdx.input.isKeyJustPressed(Keys.S) && entityGrid.canMove("down")) {
-                    camera.position.y -= tileDimension;
-                    bernard.notifyObservers();
-                }
-                
-                //Bernard follows camera center
-                bernard.setX(camera.position.x - bernard.getWidth()/2);
-                bernard.setY(camera.position.y - bernard.getHeight()/2);
-                
+            Gdx.gl.glClearColor(1, 0, 0, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            batch.setProjectionMatrix(camera.combined);
+            batch.begin();
+            map.render(batch);
+            batch.end();
 
-                //LOL Terrible collision mechanic but it works for the video so ayyyyyyy//////
-                    if ((health.getIX() == bernard.getCX()) & (health.getIY() == bernard.getCY()))
-                    {
-                        // A Collision!  
-                        health.setSize(0,0);
-                        toggle = 0;
+            stage.act(Gdx.graphics.getDeltaTime());
+            stage.draw();
+                
+            centerCameraOn(bernard);
+            camera.update();
+
+            if(Gdx.input.isKeyJustPressed(Keys.SPACE)){
+                    bernard.setFiring(true);
+            }
+
+            if(Gdx.input.isKeyJustPressed(Keys.NUM_1)){
+                    bernard.setExecuteSkillOne(true);
+            }
+
+            if(Gdx.input.isKeyJustPressed(Keys.NUM_2)){
+                    bernard.setExecuteSkillTwo(true);
+            }
+
+            //Bernard Controls
+            if(Gdx.input.isKeyJustPressed(Keys.W) && entityGrid.canMove(bernard, Direction.UP)) {
+                bernard.setPlayTurn(true);
+                bernard.notifyObservers();
+                bernard.setDirection(Direction.UP);
+                Gdx.app.log("MOVING", "UP");
+            }
+            else if(Gdx.input.isKeyJustPressed(Keys.S) && entityGrid.canMove(bernard, Direction.DOWN)) {
+                bernard.setPlayTurn(true);
+                bernard.notifyObservers();
+                bernard.setDirection(Direction.DOWN);
+                Gdx.app.log("MOVING", "DOWN");
+            }
+            else if(Gdx.input.isKeyJustPressed(Keys.A) && entityGrid.canMove(bernard, Direction.LEFT)) {
+                bernard.setPlayTurn(true);
+                bernard.notifyObservers();
+                if(bernard.getDirection() == Direction.RIGHT){
+                    bernard.flipTexture(Direction.LEFT);
+                }
+                bernard.setDirection(Direction.LEFT);
+                Gdx.app.log("MOVING", "LEFT");
+            }
+            else if(Gdx.input.isKeyJustPressed(Keys.D) && entityGrid.canMove(bernard, Direction.RIGHT)) {
+                bernard.setPlayTurn(true);
+                bernard.notifyObservers();
+                if(bernard.getDirection() == Direction.LEFT){
+                    bernard.flipTexture(Direction.RIGHT);
+                }
+                bernard.setDirection(Direction.RIGHT);
+                Gdx.app.log("MOVING", "RIGHT");
+            }
+
+            if(bernard.getPlayTurn()){
+                for(int i = 0; i < entityList.size(); i++){
+                    Entity entity = entityList.get(i);
+                    entityGrid.calculateAITurn(entity);
+                    entityGrid.moveEntity(entity);
+                    entityGrid.collision(entity);
+                    if(!entityGrid.isAlive(entity)){
+                        entityList.remove(i);
+                        entity.remove();
                     }
-                    else 
-                    {
-                        if (toggle == 1){//Draw Health
-                        health.render(batch);
-                        }
-                    }
-                //End up Terrible collision/////
+                    entity.update();
+                }
+                bernard.setPlayTurn(false);
+            }
 	}
         
         @Override
@@ -160,5 +207,9 @@ public class MyGdxGame extends ApplicationAdapter {
             map = new int[32][18];
             return map;
         }
+		
+        public void centerCameraOn(Entity entity){
+            camera.position.x = entity.getX() + entity.getWidth()/2;
+            camera.position.y = entity.getY() + entity.getHeight()/2;
+        }
 }
-

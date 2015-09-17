@@ -5,14 +5,16 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Protagonist extends Sprite implements GameEntity, Observable {
-
-    private int cX;
-    private int cY;
+public class Protagonist extends Entity implements Observable {
+	
+    private boolean playTurn;
+    private Direction direction;
 
     // Sorry to just throw all this in here lol --Cody
     private Animation redLaser;
@@ -28,11 +30,9 @@ public class Protagonist extends Sprite implements GameEntity, Observable {
     private List<Observer> observers;
 
     public Protagonist(Texture texture, int cX, int cY) {
-        super(texture);
-        this.cX = cX;
-        this.cY = cY;
-        this.setX(cX * Constants.TILEDIMENSION);
-        this.setY(cY * Constants.TILEDIMENSION);
+        super(EntityGridCode.PLAYER, texture, cX, cY);
+        this.playTurn = false;
+		
         this.observers=new ArrayList();
         // Laser stuffs --Cody
         redLaser = TextureLoader.redLaser;
@@ -47,32 +47,13 @@ public class Protagonist extends Sprite implements GameEntity, Observable {
         elapsedSkillTwo = 0f;
         skillTwoRotation = 0f;
     }
-
-    public int getCX() {
-        return this.cX;
-    }
-
-    public int getCY() {
-        return this.cY;
-    }
-
-    public void setCX(int cX) {
-        this.cX = cX;
-    }
-
-    public void setCY(int cY) {
-        this.cY = cY;
-    }
-
-    
   
     @Override
-    public void render(SpriteBatch batch) {
-        batch.begin();
-        this.draw(batch);
+    public void draw(Batch batch, float alpha){
+        super.draw(batch, alpha);
         if (firing) {
             firingTime += Gdx.graphics.getDeltaTime();
-            if (this.isFlipX()) {
+            if (this.getDirection() == Direction.LEFT) {
                 temp = redLaser.getKeyFrame(firingTime);
                 temp.flip(true, false);
                 batch.draw(temp, this.getX() - Constants.TILEDIMENSION * 3, this.getY(), Constants.TILEDIMENSION * 3, Constants.TILEDIMENSION);
@@ -88,7 +69,7 @@ public class Protagonist extends Sprite implements GameEntity, Observable {
 
         if (executeSkillOne) {
             elapsedSkillOne += Gdx.graphics.getDeltaTime();
-            if (this.isFlipX()) {
+            if (this.getDirection() == Direction.LEFT) {
                 temp = skillOne.getKeyFrame(elapsedSkillOne);
                 temp.flip(true, false);
                 batch.draw(temp, this.getX() - Constants.TILEDIMENSION * 2, this.getY(), Constants.TILEDIMENSION * 2, Constants.TILEDIMENSION);
@@ -113,8 +94,27 @@ public class Protagonist extends Sprite implements GameEntity, Observable {
                 skillTwoRotation = 0f;
             }
         }
+    }
+	
+    @Override
+    public void update() {
+        super.update();
+    }
+	
+    public boolean getPlayTurn() {
+            return this.playTurn;
+    }
 
-        batch.end();
+    public void setPlayTurn(boolean playTurn) {
+            this.playTurn = playTurn;
+    }
+    
+    public Direction getDirection() {
+        return this.direction;
+    }
+    
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
     public void setFiring(boolean firing) {
@@ -141,10 +141,5 @@ public class Protagonist extends Sprite implements GameEntity, Observable {
     
     public void removeObserver(Observer o) {
         this.observers.remove(o);
-    }
-    
-    @Override
-    public void update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

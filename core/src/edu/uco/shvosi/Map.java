@@ -20,7 +20,6 @@ public class Map {
     public void render(SpriteBatch batch){
         for(int i = 0; i < mapGrid.length; i++){
             for(int j = 0; j < mapGrid[i].length; j++){
-                batch.begin();
                 switch(mapGrid[i][j]){
                     case MapGridCode.FLOOR:
                         batch.draw(TextureLoader.FLOORTILETEXTURE, i*tileDimension, j*tileDimension);
@@ -31,7 +30,6 @@ public class Map {
                     default:
                         //Do Nothing
                 }
-		batch.end();
             }
         }
     }

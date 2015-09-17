@@ -5,48 +5,27 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class TrapType1 extends Sprite implements Observer {
+public class TrapType1 extends Entity implements Observer {
 
-    private int tX;
-    private int tY;
     private int state = 0;
     private float elapsedKunai;
     private boolean activateKunai;
     private TextureRegion temp;
     private Animation kunai;
 
-    public TrapType1(Texture texture, int tX, int tY) {
-        super(texture);
-        this.tX = tX;
-        this.tY = tY;
-        this.setX(tX * Constants.TILEDIMENSION);
-        this.setY(tY * Constants.TILEDIMENSION);
+    public TrapType1(Texture texture, int cX, int cY) {
+        super(EntityGridCode.TRAP, texture, cX, cY);
         kunai = TextureLoader.kunaiTrap;
         activateKunai = false;
         elapsedKunai = 0f;
     }
-
-    public int getTX() {
-        return this.tX;
-    }
-
-    public int getTY() {
-        return this.tY;
-    }
-
-    public void setTX(int tX) {
-        this.tX = tX;
-    }
-
-    public void setTY(int tY) {
-        this.tY = tY;
-    }
-
-    public void render(SpriteBatch batch) {
-        batch.begin();
-        this.draw(batch);
+	
+    @Override
+    public void draw(Batch batch, float alpha) {
+        super.draw(batch, alpha);
         if (activateKunai) {
             elapsedKunai += Gdx.graphics.getDeltaTime();
             temp = kunai.getKeyFrame(elapsedKunai);
@@ -57,7 +36,11 @@ public class TrapType1 extends Sprite implements Observer {
                 this.state = 1;
             }
         }
-        batch.end();
+    }
+    
+    @Override
+    public void collision(Entity entity){
+        //this.setHealth(0);
     }
 
     public void observerUpdate(Object o) {
@@ -65,7 +48,7 @@ public class TrapType1 extends Sprite implements Observer {
             Protagonist bernard = (Protagonist) o;
             Integer xCoordinate = bernard.getCY();
             Integer yCoordinate = bernard.getCX();
-            if (xCoordinate == this.tX && yCoordinate == this.tY && this.state == 0) {
+            if (xCoordinate == this.getCX() && yCoordinate == this.getCY() && this.state == 0) {
                 this.setSize(0, 0);
                 this.activateKunai = true;
             }
