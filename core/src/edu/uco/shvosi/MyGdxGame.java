@@ -21,6 +21,7 @@ public class MyGdxGame extends ApplicationAdapter {
         private Protagonist bernard;
         private Antagonist wanderer;
         private ItemHeart health;
+        private ItemHeart health2;
         private TrapType1 trap;
         private TrapType2 trap2;
         private Map map;
@@ -83,6 +84,9 @@ public class MyGdxGame extends ApplicationAdapter {
 
             health = new ItemHeart(TextureLoader.HEALTHTEXTURE, 5, 3);
             entityList.add(health);
+            
+            health2 = new ItemHeart(TextureLoader.HEALTHTEXTURE, 6, 3);
+            entityList.add(health2);
 
             trap = new TrapType1(TextureLoader.TRAPTEXTURE, 2, 2);
             entityList.add(trap);
