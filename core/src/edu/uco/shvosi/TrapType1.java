@@ -36,6 +36,7 @@ public class TrapType1 extends Entity implements Observer {
                 activateKunai = false;
                 elapsedKunai = 0f;
                 this.state = 1;
+                this.setHealth(0);
             }
         }
     }
@@ -52,10 +53,9 @@ public class TrapType1 extends Entity implements Observer {
     public void observerUpdate(Object o) {
         if (o instanceof Protagonist) {
             Protagonist bernard = (Protagonist) o;
-            Integer xCoordinate = bernard.getCY();
-            Integer yCoordinate = bernard.getCX();
+            Integer xCoordinate = bernard.getDCY();
+            Integer yCoordinate = bernard.getDCX();
             if (xCoordinate == this.getCX() && yCoordinate == this.getCY() && this.state == 0) {
-                this.setSize(0, 0);
                 this.activateKunai = true;
             }
         }
