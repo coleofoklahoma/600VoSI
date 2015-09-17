@@ -95,7 +95,7 @@ public class MyGdxGame extends ApplicationAdapter {
             entityList.add(trap2);
             
             bernard.addObserver(trap);
-            
+            bernard.addObserver(trap2);
             //Initialize Camera
             camera = new OrthographicCamera();
             camera.setToOrtho(false, Constants.SCREENWIDTH, Constants.SCREENHEIGHT);
