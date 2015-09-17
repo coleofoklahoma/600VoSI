@@ -19,6 +19,7 @@ public class MyGdxGame extends ApplicationAdapter {
 	private SpriteBatch batch;
         private OrthographicCamera camera;
         private Protagonist bernard;
+        private Antagonist wanderer;
         private ItemHeart health;
         private TrapType1 trap;
         private TrapType2 trap2;
@@ -54,7 +55,9 @@ public class MyGdxGame extends ApplicationAdapter {
             
             // Create and add entities to the list
             bernard = new Protagonist(TextureLoader.BERNARDTEXTURE, 1, 1);
+            wanderer = new Antagonist (TextureLoader.WANDERTEXTURE,2,4);
             entityList.add(bernard);
+            entityList.add(wanderer);
             bernard.setHealth(bernard.getHealth());
             healthDisplay = new BitmapFont();
             splashT = new Texture (Gdx.files.internal("splash.png"));
