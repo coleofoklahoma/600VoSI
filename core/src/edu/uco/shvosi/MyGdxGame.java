@@ -72,15 +72,15 @@ public class MyGdxGame extends ApplicationAdapter {
             quitBut.setPosition(650, 15);
             
             //Some Random Enemies for testing, currently bernard texture
-            entityList.add(new Antagonist(TextureLoader.BERNARDTEXTURE, 6, 6));
-            entityList.add(new Antagonist(TextureLoader.BERNARDTEXTURE, 6, 7));
-            entityList.add(new Antagonist(TextureLoader.BERNARDTEXTURE, 6, 8));
-            entityList.add(new Antagonist(TextureLoader.BERNARDTEXTURE, 6, 9));
-            entityList.add(new Antagonist(TextureLoader.BERNARDTEXTURE, 6, 10));
-            entityList.add(new Antagonist(TextureLoader.BERNARDTEXTURE, 6, 11));
-            entityList.add(new Antagonist(TextureLoader.BERNARDTEXTURE, 6, 12));
-            entityList.add(new Antagonist(TextureLoader.BERNARDTEXTURE, 6, 13));
-            entityList.add(new Antagonist(TextureLoader.BERNARDTEXTURE, 6, 14));
+            entityList.add(new Antagonist(TextureLoader.WANDERTEXTURE, 6, 6));
+            entityList.add(new Antagonist(TextureLoader.WANDERTEXTURE, 6, 7));
+            entityList.add(new Antagonist(TextureLoader.WANDERTEXTURE, 6, 8));
+            entityList.add(new Antagonist(TextureLoader.WANDERTEXTURE, 6, 9));
+            entityList.add(new Antagonist(TextureLoader.WANDERTEXTURE, 6, 10));
+            entityList.add(new Antagonist(TextureLoader.WANDERTEXTURE, 6, 11));
+            entityList.add(new Antagonist(TextureLoader.WANDERTEXTURE, 6, 12));
+            entityList.add(new Antagonist(TextureLoader.WANDERTEXTURE, 6, 13));
+            entityList.add(new Antagonist(TextureLoader.WANDERTEXTURE, 6, 14));
 
             health = new ItemHeart(TextureLoader.HEALTHTEXTURE, 5, 3);
             entityList.add(health);
