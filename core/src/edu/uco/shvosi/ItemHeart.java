@@ -8,7 +8,7 @@ public class ItemHeart extends Entity{
     
     public ItemHeart(Texture texture, int cX, int cY){
         super(EntityGridCode.ITEM, texture, cX, cY);
-        this.healAmount = 1;
+        this.healAmount = 25;
     }
     
     @Override

@@ -15,12 +15,14 @@ public class TrapType1 extends Entity implements Observer {
     private boolean activateKunai;
     private TextureRegion temp;
     private Animation kunai;
+    private int damage;
 
     public TrapType1(Texture texture, int cX, int cY) {
         super(EntityGridCode.TRAP, texture, cX, cY);
         kunai = TextureLoader.kunaiTrap;
         activateKunai = false;
         elapsedKunai = 0f;
+        this.damage = 25;
     }
 	
     @Override
@@ -41,6 +43,7 @@ public class TrapType1 extends Entity implements Observer {
     @Override
     public void collision(Entity entity){
         //this.setHealth(0);
+        entity.setHealth(entity.getHealth() - this.damage);
     }
 
     public void observerUpdate(Object o) {

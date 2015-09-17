@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ public class MyGdxGame extends ApplicationAdapter {
         private TextureLoader tl; // Creating this variable so that I can get some animations made and then they can be disposed of properly. --Cody
         private List<Entity> entityList;
         private Stage stage;
+        private String healthpoints;
+        BitmapFont healthDisplay;
         
         //Ignore this variable
         int toggle = 1;
@@ -44,6 +47,8 @@ public class MyGdxGame extends ApplicationAdapter {
             // Create and add entities to the list
             bernard = new Protagonist(TextureLoader.BERNARDTEXTURE, 1, 1);
             entityList.add(bernard);
+            bernard.setHealth(bernard.getHealth());
+            healthDisplay = new BitmapFont();
             
             //Some Random Enemies for testing, currently bernard texture
             entityList.add(new Antagonist(TextureLoader.BERNARDTEXTURE, 6, 6));
@@ -125,6 +130,9 @@ public class MyGdxGame extends ApplicationAdapter {
             batch.setProjectionMatrix(camera.combined);
             batch.begin();
             map.render(batch);
+            healthpoints = "HP: " + bernard.getHealth();
+            healthDisplay.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+            healthDisplay.draw(batch, healthpoints, bernard.getX()+ 25, bernard.getY() + 250);
             batch.end();
 
             stage.act(Gdx.graphics.getDeltaTime());
