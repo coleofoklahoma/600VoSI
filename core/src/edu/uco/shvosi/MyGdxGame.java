@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import java.util.ArrayList;
@@ -28,7 +30,13 @@ public class MyGdxGame extends ApplicationAdapter {
         private Stage stage;
         private String healthpoints;
         BitmapFont healthDisplay;
-        
+        private int gameState = 1;
+        private Sprite splash;
+        private Texture splashT;
+        private Sprite startBut;
+        private Texture startT;
+        private Sprite quitBut;
+        private Texture quitT;
         //Ignore this variable
         int toggle = 1;
         
@@ -49,6 +57,15 @@ public class MyGdxGame extends ApplicationAdapter {
             entityList.add(bernard);
             bernard.setHealth(bernard.getHealth());
             healthDisplay = new BitmapFont();
+            splashT = new Texture (Gdx.files.internal("splash.png"));
+            splash = new Sprite(splashT,800,450);
+            splash.setPosition(0, 0);
+            startT = new Texture (Gdx.files.internal("startButtonS.png"));
+            startBut = new Sprite (startT,100,50);
+            startBut.setPosition(550,15);
+            quitT = new Texture (Gdx.files.internal("quitButton.png"));
+            quitBut = new Sprite(quitT,100, 50);
+            quitBut.setPosition(650, 15);
             
             //Some Random Enemies for testing, currently bernard texture
             entityList.add(new Antagonist(TextureLoader.BERNARDTEXTURE, 6, 6));
@@ -125,6 +142,59 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void render () {
+            
+            switch(gameState){
+                case 1:
+                    StartScreen();
+                    break;
+                    
+                case 2:
+                    GamePlay();
+                    break;
+            }
+	}
+        
+        @Override
+        public void dispose() {
+            batch.dispose();
+            tl.dispose();
+        }
+        
+        public int[][] createMap(){
+            //Will parse txt files to create maps in the future
+            int[][] map;
+//            FileHandle file = Gdx.files.internal("testmap.txt");
+//            String fileString = file.readString();
+            map = new int[32][18];
+            return map;
+        }
+		
+        public void centerCameraOn(Entity entity){
+            camera.position.x = entity.getX() + entity.getWidth()/2;
+            camera.position.y = entity.getY() + entity.getHeight()/2;
+        }
+        
+        
+        public void StartScreen()
+        {
+            Gdx.gl.glClearColor(1, 0, 0, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            batch.setProjectionMatrix(camera.combined);
+            batch.begin();
+            splash.draw(batch);
+            startBut.draw(batch);
+            quitBut.draw(batch);
+            batch.end();
+            
+            if(Gdx.input.isTouched())
+            {
+                gameState = 2;
+            }
+        }
+        
+        public void GamePlay()
+        {
+                      
             Gdx.gl.glClearColor(1, 0, 0, 1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             batch.setProjectionMatrix(camera.combined);
@@ -199,25 +269,6 @@ public class MyGdxGame extends ApplicationAdapter {
                 }
                 bernard.setPlayTurn(false);
             }
-	}
         
-        @Override
-        public void dispose() {
-            batch.dispose();
-            tl.dispose();
-        }
-        
-        public int[][] createMap(){
-            //Will parse txt files to create maps in the future
-            int[][] map;
-//            FileHandle file = Gdx.files.internal("testmap.txt");
-//            String fileString = file.readString();
-            map = new int[32][18];
-            return map;
-        }
-		
-        public void centerCameraOn(Entity entity){
-            camera.position.x = entity.getX() + entity.getWidth()/2;
-            camera.position.y = entity.getY() + entity.getHeight()/2;
         }
 }
