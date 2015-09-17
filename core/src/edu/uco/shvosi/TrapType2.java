@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.Texture;
 
-public class TrapType2 extends Entity {
+public class TrapType2 extends Entity implements Observer {
     private int state;
     private int damage;
     
@@ -20,5 +20,10 @@ public class TrapType2 extends Entity {
         if (entity.getHealth() < 1){
             entity.setHealth(0);
         }
+    }
+
+    @Override
+    public void observerUpdate(Object o) {
+       // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

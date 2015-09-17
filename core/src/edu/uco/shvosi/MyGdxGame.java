@@ -246,7 +246,7 @@ public class MyGdxGame extends ApplicationAdapter {
             else if(Gdx.input.isKeyJustPressed(Keys.A) && entityGrid.canMove(bernard, Direction.LEFT)) {
                 bernard.setPlayTurn(true);
                 bernard.notifyObservers();
-                if(bernard.getDirection() == Direction.RIGHT){
+                if(bernard.getDirection() != Direction.LEFT){
                     bernard.flipTexture(Direction.LEFT);
                 }
                 bernard.setDirection(Direction.LEFT);
@@ -255,7 +255,7 @@ public class MyGdxGame extends ApplicationAdapter {
             else if(Gdx.input.isKeyJustPressed(Keys.D) && entityGrid.canMove(bernard, Direction.RIGHT)) {
                 bernard.setPlayTurn(true);
                 bernard.notifyObservers();
-                if(bernard.getDirection() == Direction.LEFT){
+                if(bernard.getDirection() != Direction.RIGHT){
                     bernard.flipTexture(Direction.RIGHT);
                 }
                 bernard.setDirection(Direction.RIGHT);

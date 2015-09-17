@@ -76,16 +76,21 @@ public class Entity extends Image {
     }
     
     public void flipTexture(Direction direction){
-        textureRegion.flip(true, false);
-//        switch(direction){
-//            case LEFT:
-//            case RIGHT:
-//                textureRegion.flip(true, false);
-//                break;
-//            default:
-//                //Do nothing
-//                break;
-//        }
+        switch(direction){
+            case LEFT:
+                if(!textureRegion.isFlipX()) {
+                    textureRegion.flip(true, false);
+                }
+                break;
+            case RIGHT:
+                if(textureRegion.isFlipX()) {
+                    textureRegion.flip(true, false);
+                }
+                break;
+            default:
+                //Do nothing
+                break;
+       }
     }
 	
     public void update() {
