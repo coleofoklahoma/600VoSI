@@ -44,6 +44,9 @@ public class TrapType1 extends Entity implements Observer {
     public void collision(Entity entity){
         //this.setHealth(0);
         entity.setHealth(entity.getHealth() - this.damage);
+        if (entity.getHealth() < 1){
+            entity.setHealth(0);
+        }
     }
 
     public void observerUpdate(Object o) {

@@ -15,5 +15,8 @@ public class ItemHeart extends Entity{
     public void collision(Entity entity){
         entity.setHealth(entity.getHealth() + this.healAmount);
         this.setHealth(0);
+        if (entity.getHealth() > 100){
+            entity.setHealth(100);
+        }
     }
 }

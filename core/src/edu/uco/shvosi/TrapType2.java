@@ -17,5 +17,8 @@ public class TrapType2 extends Entity {
     public void collision(Entity entity){
         this.setHealth(0);
         entity.setHealth(entity.getHealth() - this.damage);
+        if (entity.getHealth() < 1){
+            entity.setHealth(0);
+        }
     }
 }
