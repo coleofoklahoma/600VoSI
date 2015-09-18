@@ -22,6 +22,8 @@ public class TrapType2 extends Entity implements Observer {
         power = TextureLoader.powerTrap;
         activatePower = false;
         elapsedPower = 0f;
+        this.setVisible(false);
+        this.state = 0;
     }
     @Override
     public void draw(Batch batch, float alpha) {
@@ -41,7 +43,6 @@ public class TrapType2 extends Entity implements Observer {
     
     @Override
     public void collision(Entity entity){
-        this.activatePower = true;
         entity.setHealth(entity.getHealth() - this.damage);
         if (entity.getHealth() < 1){
             entity.setHealth(0);
@@ -51,10 +52,14 @@ public class TrapType2 extends Entity implements Observer {
     public void observerUpdate(Object o) {
         if (o instanceof Protagonist) {
             Protagonist bernard = (Protagonist) o;
-            Integer xCoordinate = bernard.getCX();
-            Integer yCoordinate = bernard.getCY();
+            Integer xCoordinate = bernard.getDCX();
+            Integer yCoordinate = bernard.getDCY();
             if (xCoordinate == this.getCX() && yCoordinate == this.getCY() && this.state == 0) {
-//                this.activatePower = true;
+                this.setVisible(true);
+                this.activatePower = true;
+            }
+            if (bernard.getExecuteDetection() == true && bernard.getDetectionCollisionBox().intersects(this.getCX(), this.getCY(), 3, 3)) {
+                this.setVisible(true);
             }
         }
     }

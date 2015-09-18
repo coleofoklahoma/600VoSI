@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +20,12 @@ public class Protagonist extends Entity implements Observable {
     // Sorry to just throw all this in here lol --Cody
     private Animation redLaser;
     private Animation skillOne;
+    private Animation detection;
+    private boolean executeDetection;
     private boolean executeSkillTwo;
     private boolean executeSkillOne;
     private boolean firing;
+    private float elapsedDetection;
     private float firingTime;
     private float elapsedSkillOne;
     private float elapsedSkillTwo;
@@ -40,11 +44,17 @@ public class Protagonist extends Entity implements Observable {
         firing = false;
         firingTime = 0f;
 
+        // Detection
+        detection = TextureLoader.detectionSkill;
+        executeDetection = false;
+        elapsedDetection = 0f;
+        
         // Skill one
         skillOne = TextureLoader.skillOne;
         executeSkillOne = false;
         elapsedSkillOne = 0f;
-
+        
+        // Skill two
         elapsedSkillTwo = 0f;
         skillTwoRotation = 0f;
     }
@@ -68,6 +78,16 @@ public class Protagonist extends Entity implements Observable {
             }
         }
 
+         if (executeDetection) {
+            elapsedDetection += Gdx.graphics.getDeltaTime();
+            temp = detection.getKeyFrame(elapsedDetection);
+            batch.draw(detection.getKeyFrame(elapsedDetection), this.getX() - 205, this.getY() - 205, Constants.TILEDIMENSION * 5, Constants.TILEDIMENSION * 5);
+            if (detection.isAnimationFinished(elapsedDetection)) {
+                executeDetection = false;
+                elapsedDetection = 0f;
+            }
+        }
+        
         if (executeSkillOne) {
             elapsedSkillOne += Gdx.graphics.getDeltaTime();
             if (this.getDirection() == Direction.LEFT) {
@@ -128,6 +148,18 @@ public class Protagonist extends Entity implements Observable {
 
     public void setExecuteSkillTwo(boolean executeSkillTwo) {
         this.executeSkillTwo = executeSkillTwo;
+    }
+    
+     public void setExecuteDetection(boolean executeDetection) {
+        this.executeDetection = executeDetection;
+    }
+
+    public boolean getExecuteDetection() {
+        return executeDetection;
+    }
+
+    public Rectangle2D.Double getDetectionCollisionBox() {
+        return new Rectangle2D.Double(this.getCX(), this.getCY(), 2, 2);
     }
     
     public void notifyObservers() {

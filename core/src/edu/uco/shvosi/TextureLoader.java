@@ -19,6 +19,8 @@ public class TextureLoader {
     public static final Texture TRAPTEXTURE2 = new Texture(Gdx.files.internal("traps/trap2.png"));
     public static final Texture TRAPKUNAI = new Texture(Gdx.files.internal("traps/kunai.png"));
     public static final Texture TRAPPOWER = new Texture(Gdx.files.internal("traps/powerseal.png"));
+    public static final Texture DETECTIONTEXTURE = new Texture(Gdx.files.internal("detection.png"));
+    private TextureRegion[] detectionFrames;
     private TextureRegion[] kunaiFrames;
     private TextureRegion[] powerFrames;
     private Array<TextureRegion> laserFrames;
@@ -28,7 +30,7 @@ public class TextureLoader {
     public static Animation skillTwo;
     public static Animation kunaiTrap;
     public static Animation powerTrap;
-    
+    public static Animation detectionSkill;
     private static final int FRAME_COLS = 5;
     private static final int FRAME_ROWS = 4;
     
@@ -75,9 +77,19 @@ public class TextureLoader {
             }
         }
         powerTrap = new Animation(0.05f, powerFrames);
+    
+     //Detection
+        TextureRegion[][] tmp3 = TextureRegion.split(TextureLoader.DETECTIONTEXTURE, TextureLoader.DETECTIONTEXTURE.getWidth() / FRAME_COLS, TextureLoader.DETECTIONTEXTURE.getHeight() / FRAME_COLS);
+        detectionFrames = new TextureRegion[FRAME_COLS * FRAME_COLS];
+        int index3 = 0;
+        for (int i = 0; i < FRAME_COLS; i++) {
+            for (int j = 0; j < FRAME_COLS; j++) {
+                detectionFrames[index3++] = tmp3[i][j];
+            }
+        }
+        detectionSkill = new Animation(0.05f, detectionFrames);
     }
-    
-    
+
     public void dispose()
     {
         FLOORTILETEXTURE.dispose();
@@ -88,6 +100,7 @@ public class TextureLoader {
         TRAPTEXTURE2.dispose();
         TRAPKUNAI.dispose();
         TRAPPOWER.dispose();
+        DETECTIONTEXTURE.dispose();
         REDLASERTEXTURE.dispose();
         SKILLONETEXTURE.dispose();
     }

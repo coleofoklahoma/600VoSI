@@ -23,8 +23,10 @@ public class TrapType1 extends Entity implements Observer {
         activateKunai = false;
         elapsedKunai = 0f;
         this.damage = 25;
+        this.setVisible(false);
+        this.state = 0;
     }
-	
+
     @Override
     public void draw(Batch batch, float alpha) {
         super.draw(batch, alpha);
@@ -40,12 +42,11 @@ public class TrapType1 extends Entity implements Observer {
             }
         }
     }
-    
+
     @Override
-    public void collision(Entity entity){
-        //this.setHealth(0);
+    public void collision(Entity entity) {
         entity.setHealth(entity.getHealth() - this.damage);
-        if (entity.getHealth() < 1){
+        if (entity.getHealth() < 1) {
             entity.setHealth(0);
         }
     }
@@ -53,10 +54,14 @@ public class TrapType1 extends Entity implements Observer {
     public void observerUpdate(Object o) {
         if (o instanceof Protagonist) {
             Protagonist bernard = (Protagonist) o;
-            Integer xCoordinate = bernard.getCX();
-            Integer yCoordinate = bernard.getCY();
+            Integer xCoordinate = bernard.getDCX();
+            Integer yCoordinate = bernard.getDCY();
             if (xCoordinate == this.getCX() && yCoordinate == this.getCY() && this.state == 0) {
+                this.setVisible(true);
                 this.activateKunai = true;
+            }
+            if (bernard.getExecuteDetection() == true && bernard.getDetectionCollisionBox().intersects(this.getCX(), this.getCY(), 3, 3)) {
+                this.setVisible(true);
             }
         }
     }
