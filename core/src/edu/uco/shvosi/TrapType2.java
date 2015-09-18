@@ -41,7 +41,7 @@ public class TrapType2 extends Entity implements Observer {
     
     @Override
     public void collision(Entity entity){
-//        this.setHealth(0);
+        this.activatePower = true;
         entity.setHealth(entity.getHealth() - this.damage);
         if (entity.getHealth() < 1){
             entity.setHealth(0);
@@ -53,7 +53,7 @@ public class TrapType2 extends Entity implements Observer {
             Integer xCoordinate = bernard.getDCY();
             Integer yCoordinate = bernard.getDCX();
             if (xCoordinate == this.getCX() && yCoordinate == this.getCY() && this.state == 0) {
-                this.activatePower = true;
+//                this.activatePower = true;
             }
         }
     }
