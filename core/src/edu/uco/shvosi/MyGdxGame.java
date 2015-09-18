@@ -24,6 +24,8 @@ public class MyGdxGame extends ApplicationAdapter {
         private ItemHeart health2;
         private TrapType1 trap;
         private TrapType2 trap2;
+        private TrapType1 trap3;
+        private TrapType2 trap4;
         private Map map;
         private EntityGrid entityGrid;
         private int tileDimension;
@@ -94,8 +96,17 @@ public class MyGdxGame extends ApplicationAdapter {
             trap2 = new TrapType2(TextureLoader.TRAPTEXTURE2, 3, 2);
             entityList.add(trap2);
             
+            trap3 = new TrapType1(TextureLoader.TRAPTEXTURE, 2, 4);
+            entityList.add(trap3);
+            
+            trap4 = new TrapType2(TextureLoader.TRAPTEXTURE2, 3, 3);
+            entityList.add(trap4);
+            
             bernard.addObserver(trap);
             bernard.addObserver(trap2);
+            bernard.addObserver(trap3);
+            bernard.addObserver(trap4);
+            
             //Initialize Camera
             camera = new OrthographicCamera();
             camera.setToOrtho(false, Constants.SCREENWIDTH, Constants.SCREENHEIGHT);

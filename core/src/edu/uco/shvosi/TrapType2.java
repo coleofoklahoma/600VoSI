@@ -47,11 +47,12 @@ public class TrapType2 extends Entity implements Observer {
             entity.setHealth(0);
         }
     }
+    @Override
     public void observerUpdate(Object o) {
         if (o instanceof Protagonist) {
             Protagonist bernard = (Protagonist) o;
-            Integer xCoordinate = bernard.getDCY();
-            Integer yCoordinate = bernard.getDCX();
+            Integer xCoordinate = bernard.getCX();
+            Integer yCoordinate = bernard.getCY();
             if (xCoordinate == this.getCX() && yCoordinate == this.getCY() && this.state == 0) {
                 this.activatePower = true;
             }

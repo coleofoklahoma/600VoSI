@@ -53,8 +53,8 @@ public class TrapType1 extends Entity implements Observer {
     public void observerUpdate(Object o) {
         if (o instanceof Protagonist) {
             Protagonist bernard = (Protagonist) o;
-            Integer xCoordinate = bernard.getDCY();
-            Integer yCoordinate = bernard.getDCX();
+            Integer xCoordinate = bernard.getCX();
+            Integer yCoordinate = bernard.getCY();
             if (xCoordinate == this.getCX() && yCoordinate == this.getCY() && this.state == 0) {
                 this.activateKunai = true;
             }
