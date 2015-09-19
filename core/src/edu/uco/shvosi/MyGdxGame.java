@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +30,6 @@ public class MyGdxGame extends ApplicationAdapter {
     private TrapType2 trap4;
     private Map map;
     private EntityGrid entityGrid;
-    private int tileDimension;
     private TextureLoader tl; // Creating this variable so that I can get some animations made and then they can be disposed of properly. --Cody
     private List<Entity> entityList;
     private Stage stage;
@@ -41,20 +42,19 @@ public class MyGdxGame extends ApplicationAdapter {
     private Texture startT;
     private Sprite quitBut;
     private Texture quitT;
+    private Skin skin;
+    private Label healthLabel;
     //Ignore this variable
     int toggle = 1;
-
-    //Temporary Level Grid Creation Var
-    private int[][] levelGrid;
 
     @Override
     public void create() {
         Gdx.input.setInputProcessor(stage);
         entityList = new ArrayList<Entity>();
         tl = new TextureLoader();
-        tileDimension = Constants.TILEDIMENSION;
         batch = new SpriteBatch();
-
+        skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
+        
         // Create and add entities to the list
         bernard = new Protagonist(TextureLoader.BERNARDTEXTURE, 1, 1);
         wanderer = new Antagonist(TextureLoader.WANDERTEXTURE, 2, 4);
@@ -118,44 +118,26 @@ public class MyGdxGame extends ApplicationAdapter {
             stage.addActor(entityList.get(i));
             switch (entityList.get(i).getEntityType()) {
                 case EntityGridCode.PLAYER:
-                    stage.getActors().get(i).setZIndex(2);
+                    stage.getActors().get(i).setZIndex(3);
                     break;
                 case EntityGridCode.ENEMY:
-                    stage.getActors().get(i).setZIndex(1);
+                    stage.getActors().get(i).setZIndex(2);
                     break;
                 case EntityGridCode.TRAP:
                 case EntityGridCode.ITEM:
                 default:
-                    stage.getActors().get(i).setZIndex(0);
+                    stage.getActors().get(i).setZIndex(1);
                     break;
             }
         }
 
         //Test Level Grid Creation
-        levelGrid = createMap();
-        for (int i = 0; i < levelGrid.length; i++) {
-            for (int j = 0; j < levelGrid[i].length; j++) {
-                if (j > 0 && j < levelGrid[i].length - 1 && i != 0 && i != levelGrid.length - 1) {
-                    levelGrid[i][j] = MapGridCode.FLOOR;
-                } else {
-                    levelGrid[i][j] = MapGridCode.WALL;
-                }
-            }
-        }
-
-        levelGrid[4][4] = MapGridCode.WALL;
-        levelGrid[5][4] = MapGridCode.WALL;
-        levelGrid[6][4] = MapGridCode.WALL;
-        levelGrid[7][4] = MapGridCode.WALL;
-        levelGrid[8][4] = MapGridCode.WALL;
-        levelGrid[9][4] = MapGridCode.WALL;
-        levelGrid[9][3] = MapGridCode.WALL;
-        levelGrid[9][2] = MapGridCode.WALL;
-        levelGrid[9][1] = MapGridCode.WALL;
-
-        //Map Grid and Entity Grid Creation
-        map = new Map(levelGrid, tileDimension);
+        map = new Map("maps/testmap.tmx");
         entityGrid = new EntityGrid(map.getMapGrid(), entityList);
+        
+        //Health Display
+        healthLabel = new Label("HP: ", skin);
+        stage.addActor(healthLabel);
     }
 
     @Override
@@ -176,15 +158,6 @@ public class MyGdxGame extends ApplicationAdapter {
     public void dispose() {
         batch.dispose();
         tl.dispose();
-    }
-
-    public int[][] createMap() {
-        //Will parse txt files to create maps in the future
-        int[][] map;
-//            FileHandle file = Gdx.files.internal("testmap.txt");
-//            String fileString = file.readString();
-        map = new int[32][18];
-        return map;
     }
 
     public void centerCameraOn(Entity entity) {
@@ -213,36 +186,23 @@ public class MyGdxGame extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        map.render(batch);
-        healthpoints = "HP: " + bernard.getHealth();
-        healthDisplay.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-        healthDisplay.draw(batch, healthpoints, bernard.getX() + 25, bernard.getY() + 250);
+        map.render(camera);
         batch.end();
-
+        
+        //temporary health display
+        healthpoints = "HP: " + bernard.getHealth();
+        healthLabel.setX(bernard.getX() + 25);
+        healthLabel.setY(bernard.getY() + 250);
+        healthLabel.setText(healthpoints);
+        
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
 
         centerCameraOn(bernard);
         camera.update();
 
-        if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
-            bernard.setFiring(true);
-        }
-
-        if (Gdx.input.isKeyJustPressed(Keys.NUM_1)) {
-            bernard.setExecuteSkillOne(true);
-        }
-
-        if (Gdx.input.isKeyJustPressed(Keys.NUM_2)) {
-            bernard.setExecuteSkillTwo(true);
-        }
-
-        if (Gdx.input.isKeyJustPressed(Keys.NUM_3)) {
-            bernard.setExecuteDetection(true);
-            bernard.notifyObservers();
-        }
-
         //Bernard Controls
+            //Movement
         if (Gdx.input.isKeyJustPressed(Keys.W) && entityGrid.canMove(bernard, Direction.UP)) {
             bernard.setPlayTurn(true);
             bernard.notifyObservers();
@@ -270,7 +230,30 @@ public class MyGdxGame extends ApplicationAdapter {
             bernard.setDirection(Direction.RIGHT);
             Gdx.app.log("MOVING", "RIGHT");
         }
+        
+            //Skills
+        if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
+            bernard.setPlayTurn(true);
+            bernard.setFiring(true);
+        }
 
+        if (Gdx.input.isKeyJustPressed(Keys.NUM_1)) {
+            bernard.setPlayTurn(true);
+            bernard.setExecuteSkillOne(true);
+        }
+
+        if (Gdx.input.isKeyJustPressed(Keys.NUM_2)) {
+            bernard.setPlayTurn(true);
+            bernard.setExecuteSkillTwo(true);
+        }
+
+        if (Gdx.input.isKeyJustPressed(Keys.NUM_3)) {
+            bernard.setPlayTurn(true);
+            bernard.setExecuteDetection(true);
+            bernard.notifyObservers();
+        }
+        
+        //Remove dead entities, temporary handler?
         for (int i = 0; i < entityList.size(); i++) {
             Entity entity = entityList.get(i);
             if (!entityGrid.isAlive(entity)) {
@@ -278,7 +261,8 @@ public class MyGdxGame extends ApplicationAdapter {
                 entity.remove();
             }
         }
-
+        
+        //Complete the turn
         if (bernard.getPlayTurn()) {
             for (int i = 0; i < entityList.size(); i++) {
                 Entity entity = entityList.get(i);

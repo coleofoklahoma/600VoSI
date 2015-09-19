@@ -8,8 +8,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
 public class TextureLoader {
-    public static final Texture FLOORTILETEXTURE = new Texture(Gdx.files.internal("tiles/floor_tile.png"));
-    public static final Texture WALLTILETEXTURE = new Texture(Gdx.files.internal("tiles/wall_tile.png"));
     public static final Texture WANDERTEXTURE = new Texture (Gdx.files.internal("characters/Wanderer.png"));
     public static final Texture BERNARDTEXTURE = new Texture(Gdx.files.internal("characters/bernard.png"));
     public static final Texture HEALTHTEXTURE = new Texture (Gdx.files.internal("items/health.png"));
@@ -92,8 +90,6 @@ public class TextureLoader {
 
     public void dispose()
     {
-        FLOORTILETEXTURE.dispose();
-        WALLTILETEXTURE.dispose();
         BERNARDTEXTURE.dispose();
         HEALTHTEXTURE.dispose();
         TRAPTEXTURE.dispose();
