@@ -46,6 +46,11 @@ public class LevelZero extends ApplicationAdapter {
     private Label healthLabel;
     //Ignore this variable
     int toggle = 1;
+    
+     public void LevelZero ()
+    {
+        create();
+    }
 
     @Override
     public void create() {
@@ -59,7 +64,7 @@ public class LevelZero extends ApplicationAdapter {
         bernard = new Protagonist(TextureLoader.BERNARDTEXTURE, 1, 1);
         wanderer = new Antagonist(TextureLoader.WANDERTEXTURE, 2, 4);
         entityList.add(bernard);
-        entityList.add(wanderer);
+        entityList.add(bernard);
         bernard.setHealth(bernard.getHealth());
         healthDisplay = new BitmapFont();
         splashT = new Texture(Gdx.files.internal("splash.png"));
@@ -142,45 +147,6 @@ public class LevelZero extends ApplicationAdapter {
 
     @Override
     public void render() {
-
-        switch (gameState) {
-            case 1:
-                StartScreen();
-                break;
-
-            case 2:
-                GamePlay();
-                break;
-        }
-    }
-
-    @Override
-    public void dispose() {
-        batch.dispose();
-        tl.dispose();
-    }
-
-    public void centerCameraOn(Entity entity) {
-        camera.position.x = entity.getX() + entity.getWidth() / 2;
-        camera.position.y = entity.getY() + entity.getHeight() / 2;
-    }
-
-    public void StartScreen() {
-        Gdx.gl.glClearColor(1, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
-        splash.draw(batch);
-        startBut.draw(batch);
-        quitBut.draw(batch);
-        batch.end();
-
-        if (Gdx.input.isTouched()) {
-            gameState = 2;
-        }
-    }
-
-    public void GamePlay() {
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -275,4 +241,17 @@ public class LevelZero extends ApplicationAdapter {
         }
 
     }
+
+    @Override
+    public void dispose() {
+        batch.dispose();
+        tl.dispose();
+    }
+
+    public void centerCameraOn(Entity entity) {
+        camera.position.x = entity.getX() + entity.getWidth() / 2;
+        camera.position.y = entity.getY() + entity.getHeight() / 2;
+    }
+
+    
 }

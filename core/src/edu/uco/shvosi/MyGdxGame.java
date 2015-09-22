@@ -6,9 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -35,13 +33,7 @@ public class MyGdxGame extends ApplicationAdapter {
     private Stage stage;
     private String healthpoints;
     BitmapFont healthDisplay;
-    private int gameState = 1;
-    private Sprite splash;
-    private Texture splashT;
-    private Sprite startBut;
-    private Texture startT;
-    private Sprite quitBut;
-    private Texture quitT;
+    public static int gameState = -1;
     private Skin skin;
     private Label healthLabel;
     //Ignore this variable
@@ -62,17 +54,7 @@ public class MyGdxGame extends ApplicationAdapter {
         entityList.add(wanderer);
         bernard.setHealth(bernard.getHealth());
         healthDisplay = new BitmapFont();
-        splashT = new Texture(Gdx.files.internal("splash.png"));
-        splash = new Sprite(splashT, 800, 450);
-        splash.setPosition(0, 0);
-        startT = new Texture(Gdx.files.internal("startButtonS.png"));
-        startBut = new Sprite(startT, 100, 50);
-        startBut.setPosition(550, 15);
-        quitT = new Texture(Gdx.files.internal("quitButton.png"));
-        quitBut = new Sprite(quitT, 100, 50);
-        quitBut.setPosition(650, 15);
-
-        //Some Random Enemies for testing, currently bernard texture
+        
         entityList.add(new Antagonist(TextureLoader.WANDERTEXTURE, 6, 6));
         entityList.add(new Antagonist(TextureLoader.WANDERTEXTURE, 6, 7));
         entityList.add(new Antagonist(TextureLoader.WANDERTEXTURE, 6, 8));
@@ -144,12 +126,20 @@ public class MyGdxGame extends ApplicationAdapter {
     public void render() {
 
         switch (gameState) {
-            case 1:
-                StartScreen();
+                   
+            case -1:
+                StartScreen sc = new StartScreen();
+                sc.create();
                 break;
-
-            case 2:
+         case 0:
                 GamePlay();
+                break;        
+                
+        
+            case 1:
+                LevelOne l1 = new LevelOne();
+                System.out.println("l1");
+                l1.create();
                 break;
         }
     }
@@ -163,21 +153,6 @@ public class MyGdxGame extends ApplicationAdapter {
     public void centerCameraOn(Entity entity) {
         camera.position.x = entity.getX() + entity.getWidth() / 2;
         camera.position.y = entity.getY() + entity.getHeight() / 2;
-    }
-
-    public void StartScreen() {
-        Gdx.gl.glClearColor(1, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
-        splash.draw(batch);
-        startBut.draw(batch);
-        quitBut.draw(batch);
-        batch.end();
-
-        if (Gdx.input.isTouched()) {
-            gameState = 2;
-        }
     }
 
     public void GamePlay() {

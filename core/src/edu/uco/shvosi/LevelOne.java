@@ -35,7 +35,7 @@ public class LevelOne extends ApplicationAdapter {
     private Stage stage;
     private String healthpoints;
     BitmapFont healthDisplay;
-    private int gameState = 1;
+    public static int gameState = -1;
     private Sprite splash;
     private Texture splashT;
     private Sprite startBut;
@@ -49,6 +49,7 @@ public class LevelOne extends ApplicationAdapter {
 
     @Override
     public void create() {
+        System.out.println("l1 create");
         Gdx.input.setInputProcessor(stage);
         entityList = new ArrayList<Entity>();
         tl = new TextureLoader();
@@ -138,20 +139,14 @@ public class LevelOne extends ApplicationAdapter {
         //Health Display
         healthLabel = new Label("HP: ", skin);
         stage.addActor(healthLabel);
+         System.out.println("l1 create");
+        render();
     }
 
     @Override
     public void render() {
-
-        switch (gameState) {
-            case 1:
-                StartScreen();
-                break;
-
-            case 2:
-                GamePlay();
-                break;
-        }
+         System.out.println("l1 render");
+        GamePlay();
     }
 
     @Override
@@ -182,6 +177,7 @@ public class LevelOne extends ApplicationAdapter {
 
     public void GamePlay() {
 
+         System.out.println("l1 gamePlay");
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camera.combined);

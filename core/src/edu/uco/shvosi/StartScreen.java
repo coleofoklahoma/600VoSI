@@ -5,16 +5,13 @@
  */
 package edu.uco.shvosi;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+
 
 /**
  *
@@ -49,8 +46,7 @@ public void TestScreen ()
         quitT = new Texture(Gdx.files.internal("quitButton.png"));
         quitBut = new Sprite(quitT, 100, 50);
         quitBut.setPosition(650, 15);
-   
-        System.out.println("create");
+  
         render();
         
     }
@@ -64,38 +60,17 @@ public void TestScreen ()
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         //batch.setProjectionMatrix(camera.combined);
-        System.out.println("render");
         batch.begin();
         splash.draw(batch);
         startBut.draw(batch);
         quitBut.draw(batch);
         batch.end();
-        System.out.println("render");
-
+        
         if (Gdx.input.isTouched()) {
-            MyGdxGame.gameState = 2;
-            System.out.println(""+MyGdxGame.gameState);
+            MyGdxGame.gameState = 0;
         }
     }
     
 }
 
-/*changes in MyGdxGame
-public static int gameState = -1;
 
-
-in rendor
-        switch (gameState) {
-            case 1:
-                StartScreen();
-                break;
-
-            case 2:
-                GamePlay();
-                break;
-            case -1:
-                TestScreen ts = new TestScreen();
-                ts.create();
-                break;
-                
-        }*/
