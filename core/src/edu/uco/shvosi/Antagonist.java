@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Antagonist extends Entity{
+    private int enemyType;
 
     public Antagonist(Texture texture, int cX, int cY) {
         super(EntityGridCode.ENEMY, texture, cX, cY);

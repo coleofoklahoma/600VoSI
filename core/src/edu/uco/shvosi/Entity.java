@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-public class Entity extends Image {
+public class Entity extends Image implements Observer{
 
     private int cX; // Coordinate X
     private int cY; // Coordinate Y
@@ -108,5 +108,10 @@ public class Entity extends Image {
     @Override
     public void draw(Batch batch, float alpha){
         batch.draw(textureRegion,this.getX(),this.getY());
+    }
+
+    @Override
+    public void observerUpdate(Object o) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

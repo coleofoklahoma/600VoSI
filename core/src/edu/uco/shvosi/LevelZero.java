@@ -137,7 +137,7 @@ public class LevelZero extends ApplicationAdapter {
         }
 
         //Test Level Grid Creation
-        map = new Map("maps/testmap.tmx");
+        map = new Map(bernard, "maps/testmap.tmx");
         entityGrid = new EntityGrid(map.getMapGrid(), entityList);
         
         //Health Display

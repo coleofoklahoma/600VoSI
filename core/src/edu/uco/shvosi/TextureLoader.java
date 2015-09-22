@@ -91,6 +91,7 @@ public class TextureLoader {
     public void dispose()
     {
         BERNARDTEXTURE.dispose();
+        WANDERTEXTURE.dispose();
         HEALTHTEXTURE.dispose();
         TRAPTEXTURE.dispose();
         TRAPTEXTURE2.dispose();

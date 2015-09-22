@@ -36,90 +36,24 @@ public class MyGdxGame extends ApplicationAdapter {
     public static int gameState = -1;
     private Skin skin;
     private Label healthLabel;
-    //Ignore this variable
-    int toggle = 1;
+    private boolean init;
 
     @Override
     public void create() {
+        init = false;
         Gdx.input.setInputProcessor(stage);
         entityList = new ArrayList<Entity>();
         tl = new TextureLoader();
         batch = new SpriteBatch();
         skin = new Skin(Gdx.files.internal("ui/uiskin.json"));
         
-        // Create and add entities to the list
-        bernard = new Protagonist(TextureLoader.BERNARDTEXTURE, 1, 1);
-        wanderer = new Antagonist(TextureLoader.WANDERTEXTURE, 2, 4);
-        entityList.add(bernard);
-        entityList.add(wanderer);
-        bernard.setHealth(bernard.getHealth());
-        healthDisplay = new BitmapFont();
-        
-        entityList.add(new Antagonist(TextureLoader.WANDERTEXTURE, 6, 6));
-        entityList.add(new Antagonist(TextureLoader.WANDERTEXTURE, 6, 7));
-        entityList.add(new Antagonist(TextureLoader.WANDERTEXTURE, 6, 8));
-        entityList.add(new Antagonist(TextureLoader.WANDERTEXTURE, 6, 9));
-        entityList.add(new Antagonist(TextureLoader.WANDERTEXTURE, 6, 10));
-        entityList.add(new Antagonist(TextureLoader.WANDERTEXTURE, 6, 11));
-        entityList.add(new Antagonist(TextureLoader.WANDERTEXTURE, 6, 12));
-        entityList.add(new Antagonist(TextureLoader.WANDERTEXTURE, 6, 13));
-        entityList.add(new Antagonist(TextureLoader.WANDERTEXTURE, 6, 14));
-
-        health = new ItemHeart(TextureLoader.HEALTHTEXTURE, 5, 3);
-        entityList.add(health);
-
-        health2 = new ItemHeart(TextureLoader.HEALTHTEXTURE, 6, 3);
-        entityList.add(health2);
-
-        trap = new TrapType1(TextureLoader.TRAPTEXTURE, 2, 2);
-        entityList.add(trap);
-
-        trap2 = new TrapType2(TextureLoader.TRAPTEXTURE2, 3, 2);
-        entityList.add(trap2);
-
-        trap3 = new TrapType1(TextureLoader.TRAPTEXTURE, 2, 4);
-        entityList.add(trap3);
-
-        trap4 = new TrapType2(TextureLoader.TRAPTEXTURE2, 3, 3);
-        entityList.add(trap4);
-
-        bernard.addObserver(trap);
-        bernard.addObserver(trap2);
-        bernard.addObserver(trap3);
-        bernard.addObserver(trap4);
-
         //Initialize Camera
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Constants.SCREENWIDTH, Constants.SCREENHEIGHT);
         FitViewport fv = new FitViewport(Constants.SCREENWIDTH, Constants.SCREENHEIGHT, camera);
         stage = new Stage(fv, batch);
-        centerCameraOn(bernard);
-
-        // Add the entities to the stage
-        for (int i = 0; i < entityList.size(); i++) {
-            stage.addActor(entityList.get(i));
-            switch (entityList.get(i).getEntityType()) {
-                case EntityGridCode.PLAYER:
-                    stage.getActors().get(i).setZIndex(3);
-                    break;
-                case EntityGridCode.ENEMY:
-                    stage.getActors().get(i).setZIndex(2);
-                    break;
-                case EntityGridCode.TRAP:
-                case EntityGridCode.ITEM:
-                default:
-                    stage.getActors().get(i).setZIndex(1);
-                    break;
-            }
-        }
-
-        //Test Level Grid Creation
-        map = new Map("maps/testmap.tmx");
-        entityGrid = new EntityGrid(map.getMapGrid(), entityList);
-        
-        //Health Display
+        bernard = new Protagonist(TextureLoader.BERNARDTEXTURE, 1, 1);
         healthLabel = new Label("HP: ", skin);
-        stage.addActor(healthLabel);
     }
 
     @Override
@@ -131,7 +65,9 @@ public class MyGdxGame extends ApplicationAdapter {
                 StartScreen sc = new StartScreen();
                 sc.create();
                 break;
-         case 0:
+            case 0:
+                if(!init)
+                    initNewLevel();
                 GamePlay();
                 break;        
                 
@@ -148,6 +84,8 @@ public class MyGdxGame extends ApplicationAdapter {
     public void dispose() {
         batch.dispose();
         tl.dispose();
+        stage.dispose();
+        skin.dispose();
     }
 
     public void centerCameraOn(Entity entity) {
@@ -157,38 +95,21 @@ public class MyGdxGame extends ApplicationAdapter {
 
     public void GamePlay() {
 
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
-        map.render(camera);
-        batch.end();
-        
-        //temporary health display
-        healthpoints = "HP: " + bernard.getHealth();
-        healthLabel.setX(bernard.getX() + 25);
-        healthLabel.setY(bernard.getY() + 250);
-        healthLabel.setText(healthpoints);
-        
-        stage.act(Gdx.graphics.getDeltaTime());
-        stage.draw();
-
-        centerCameraOn(bernard);
-        camera.update();
-
+        // UPDATE
+		
         //Bernard Controls
             //Movement
-        if (Gdx.input.isKeyJustPressed(Keys.W) && entityGrid.canMove(bernard, Direction.UP)) {
+        if (Gdx.input.isKeyJustPressed(Keys.W) && map.bernardCanMove(Direction.UP)) {
             bernard.setPlayTurn(true);
             bernard.notifyObservers();
             bernard.setDirection(Direction.UP);
             Gdx.app.log("MOVING", "UP");
-        } else if (Gdx.input.isKeyJustPressed(Keys.S) && entityGrid.canMove(bernard, Direction.DOWN)) {
+        } else if (Gdx.input.isKeyJustPressed(Keys.S) && map.bernardCanMove(Direction.DOWN)) {
             bernard.setPlayTurn(true);
             bernard.notifyObservers();
             bernard.setDirection(Direction.DOWN);
             Gdx.app.log("MOVING", "DOWN");
-        } else if (Gdx.input.isKeyJustPressed(Keys.A) && entityGrid.canMove(bernard, Direction.LEFT)) {
+        } else if (Gdx.input.isKeyJustPressed(Keys.A) && map.bernardCanMove(Direction.LEFT)) {
             bernard.setPlayTurn(true);
             bernard.notifyObservers();
             if (bernard.getDirection() != Direction.LEFT) {
@@ -196,7 +117,7 @@ public class MyGdxGame extends ApplicationAdapter {
             }
             bernard.setDirection(Direction.LEFT);
             Gdx.app.log("MOVING", "LEFT");
-        } else if (Gdx.input.isKeyJustPressed(Keys.D) && entityGrid.canMove(bernard, Direction.RIGHT)) {
+        } else if (Gdx.input.isKeyJustPressed(Keys.D) && map.bernardCanMove(Direction.RIGHT)) {
             bernard.setPlayTurn(true);
             bernard.notifyObservers();
             if (bernard.getDirection() != Direction.RIGHT) {
@@ -227,27 +148,95 @@ public class MyGdxGame extends ApplicationAdapter {
             bernard.setExecuteDetection(true);
             bernard.notifyObservers();
         }
+		
+		//temporary health display
+        healthpoints = "HP: " + bernard.getHealth();
+        healthLabel.setX(bernard.getX() + 25);
+        healthLabel.setY(bernard.getY() + 250);
+        healthLabel.setText(healthpoints);
         
         //Remove dead entities, temporary handler?
-        for (int i = 0; i < entityList.size(); i++) {
-            Entity entity = entityList.get(i);
-            if (!entityGrid.isAlive(entity)) {
-                entityList.remove(i);
+        for (int i = 0; i < map.getEntityList().size(); i++) {
+            Entity entity = map.getEntityList().get(i);
+            if (!map.isAlive(entity)) {
+                map.getEntityList().remove(i);
                 entity.remove();
             }
         }
         
         //Complete the turn
         if (bernard.getPlayTurn()) {
-            for (int i = 0; i < entityList.size(); i++) {
-                Entity entity = entityList.get(i);
-                entityGrid.calculateAITurn(entity);
-                entityGrid.moveEntity(entity);
-                entityGrid.collision(entity);
-                entity.update();
+            for (int i = 0; i < map.getEntityList().size(); i++) {
+                Entity aggressor = map.getEntityList().get(i);
+
+                for(int j = 0; j < map.getEntityList().size(); j++) {
+                        if(i != j){
+                            Entity receiver = map.getEntityList().get(j);
+
+                            map.collision(aggressor, receiver);
+                        }
+                }
+                map.calculateAITurn(aggressor);
+                map.moveEntity(aggressor);
+                aggressor.update();
             }
             bernard.setPlayTurn(false);
+            if(map.exitReached()){
+                    //Load the next level
+                    stage.clear();
+                    map.dispose();
+                    initNewLevel();
+            }
         }
+		
+		// RENDER
 
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        batch.setProjectionMatrix(camera.combined);
+        batch.begin();
+        map.render(camera);
+        batch.end();
+        
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
+
+        centerCameraOn(bernard);
+        camera.update();
+
+    }
+    
+    public void initNewLevel(){
+        //Test Level
+        map = new Map(bernard, "maps/testmap.tmx");
+		
+        initStage();
+		
+        init = true;
+    }
+	
+    public void initStage(){
+        // Add the entities to the stage
+        for (int i = 0; i < map.getEntityList().size(); i++) {
+            stage.addActor(map.getEntityList().get(i));
+            switch (map.getEntityList().get(i).getEntityType()) {
+                case EntityGridCode.PLAYER:
+					//bernard = (Protagonist)map.getEntityList().get(i);
+                    stage.getActors().get(i).setZIndex(3);
+                    break;
+                case EntityGridCode.ENEMY:
+                    stage.getActors().get(i).setZIndex(2);
+                    break;
+                case EntityGridCode.TRAP:
+                    bernard.addObserver(map.getEntityList().get(i));
+                case EntityGridCode.ITEM:
+                default:
+                    stage.getActors().get(i).setZIndex(1);
+                    break;
+            }
+        }
+        
+        //Health Display
+        stage.addActor(healthLabel);
     }
 }
