@@ -80,7 +80,7 @@ public void TestScreen ()
     
 }
 
-changes in MyGdxGame
+/*changes in MyGdxGame
 public static int gameState = -1;
 
 
@@ -98,4 +98,4 @@ in rendor
                 ts.create();
                 break;
                 
-        }
+        }*/
