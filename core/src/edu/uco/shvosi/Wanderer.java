@@ -18,6 +18,7 @@ public class Wanderer extends Antagonist {
     public void calculateTurn(int[][] mapGrid, int[][] entityGrid) {
         //Random movement
         int random = 0;
+        int tries = 0;
         Direction d = Direction.NONE;
 
         while (!canMove(d, mapGrid, entityGrid)) {
@@ -36,6 +37,9 @@ public class Wanderer extends Antagonist {
                     d = Direction.RIGHT;
                     break;
             }
+            tries++;
+            if(tries > 5)
+                break;
         }
 
         this.setTurnAction(TurnAction.MOVE);

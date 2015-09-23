@@ -97,7 +97,9 @@ public class Map {
     private void populateMapForTesting() {
         //Initialize Bernard's position and add him
         bernard.setCX(1);
+        bernard.setDCX(1);
         bernard.setCY(1);
+        bernard.setDCY(1);
         bernard.setX(bernard.getCX() * Constants.TILEDIMENSION);
         bernard.setY(bernard.getCY() * Constants.TILEDIMENSION);
         entityList.add(bernard);
@@ -116,12 +118,12 @@ public class Map {
         entityList.add(new Wanderer(TextureLoader.WANDERTEXTURE, 6, 6));
         entityList.add(new Wanderer(TextureLoader.WANDERTEXTURE, 6, 7));
         entityList.add(new Wanderer(TextureLoader.WANDERTEXTURE, 6, 8));
-        entityList.add(new Wanderer(TextureLoader.WANDERTEXTURE, 6, 9));
-        entityList.add(new Wanderer(TextureLoader.WANDERTEXTURE, 6, 10));
-        entityList.add(new Wanderer(TextureLoader.WANDERTEXTURE, 6, 11));
-        entityList.add(new Wanderer(TextureLoader.WANDERTEXTURE, 6, 12));
-        entityList.add(new Wanderer(TextureLoader.WANDERTEXTURE, 6, 13));
-        entityList.add(new Wanderer(TextureLoader.WANDERTEXTURE, 6, 14));
+        entityList.add(new Wanderer(TextureLoader.WANDERTEXTURE, 7, 6));
+        entityList.add(new Wanderer(TextureLoader.WANDERTEXTURE, 7, 7));
+        entityList.add(new Wanderer(TextureLoader.WANDERTEXTURE, 7, 8));
+        entityList.add(new Wanderer(TextureLoader.WANDERTEXTURE, 8, 6));
+        entityList.add(new Wanderer(TextureLoader.WANDERTEXTURE, 8, 7));
+        entityList.add(new Wanderer(TextureLoader.WANDERTEXTURE, 8, 8));
 
         // Populate the cells from the entity list
         for (int i = 0; i < this.entityList.size(); i++) {

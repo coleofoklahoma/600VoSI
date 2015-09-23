@@ -24,6 +24,8 @@ public class GameScreen implements Screen {
     private Skin skin;
     private Label healthLabel;
     private TextureLoader textureLoader = new TextureLoader();
+    
+    private int level = 0;
 
     public GameScreen(MyGdxGame game) {
         this.game = game;
@@ -197,7 +199,14 @@ public class GameScreen implements Screen {
 
     public void initNewLevel() {
         //Test Level
-        map = new Map(bernard, "maps/testmap.tmx");
+        if(level == 0){
+            map = new Map(bernard, "maps/testmap.tmx");
+            level = 1;
+        }
+        else if(level == 1){
+            map = new Map(bernard, "maps/testmap2.tmx");
+            level = 0;
+        }
 
         initStage();
     }
@@ -225,5 +234,7 @@ public class GameScreen implements Screen {
 
         //Health Display
         stage.addActor(healthLabel);
+        
+        bernard.clearActions();
     }
 }
