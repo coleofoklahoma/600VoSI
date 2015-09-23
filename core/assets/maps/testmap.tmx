@@ -17,10 +17,15 @@
     <property name="WALL" value="1"/>
    </properties>
   </tile>
+  <tile id="17">
+   <properties>
+    <property name="EXIT" value="3"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="Tile Layer 1" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJzt2TEKgDAQBdGY0vsf2MZKEoiLsLNximnE4j9RCNhba2fx+t1RPB2sdLDSwUoHKx2sdLDSwUoHKx2sdLDSwUoHKx2sdLDSwWo3R6Ts7SPHyv+e57Xs7ZH3ivb8deRv/cJB+x6iDnp/c9CtOliNHBXOISuO2bkke+tbx+y+7K066jl26AJKmQzJ
+   eJzt2bEKgDAMANHa0dH//1gXp1KhBCGXesMt0iFPKgTsrbWzeP3pKJ4OVjpY6WClg5UOVjpY6WClg5UOVjpY6WClg5UOVjpY6WC1myNS9uwzx8r/nvFZ9uyRe0V7/zryZ/3CQfseog56f3PQrTpYzRwV9pAVx7h/XEUdb+eyZ9VRz7FDN2jZDNE=
   </data>
  </layer>
 </map>

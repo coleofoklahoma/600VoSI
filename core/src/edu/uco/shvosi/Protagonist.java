@@ -1,19 +1,17 @@
 package edu.uco.shvosi;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Protagonist extends Entity implements Observable {
-	
+
     private boolean playTurn;
     private Direction direction;
 
@@ -37,8 +35,8 @@ public class Protagonist extends Entity implements Observable {
         super(EntityGridCode.PLAYER, texture, cX, cY);
         this.playTurn = false;
         this.setHealth(100);
-		
-        this.observers=new ArrayList();
+
+        this.observers = new ArrayList();
         // Laser stuffs --Cody
         redLaser = TextureLoader.redLaser;
         firing = false;
@@ -48,19 +46,19 @@ public class Protagonist extends Entity implements Observable {
         detection = TextureLoader.detectionSkill;
         executeDetection = false;
         elapsedDetection = 0f;
-        
+
         // Skill one
         skillOne = TextureLoader.skillOne;
         executeSkillOne = false;
         elapsedSkillOne = 0f;
-        
+
         // Skill two
         elapsedSkillTwo = 0f;
         skillTwoRotation = 0f;
     }
-  
+
     @Override
-    public void draw(Batch batch, float alpha){
+    public void draw(Batch batch, float alpha) {
         super.draw(batch, alpha);
         if (firing) {
             firingTime += Gdx.graphics.getDeltaTime();
@@ -78,7 +76,7 @@ public class Protagonist extends Entity implements Observable {
             }
         }
 
-         if (executeDetection) {
+        if (executeDetection) {
             elapsedDetection += Gdx.graphics.getDeltaTime();
             temp = detection.getKeyFrame(elapsedDetection);
             batch.draw(detection.getKeyFrame(elapsedDetection), this.getX() - 205, this.getY() - 205, Constants.TILEDIMENSION * 5, Constants.TILEDIMENSION * 5);
@@ -87,7 +85,7 @@ public class Protagonist extends Entity implements Observable {
                 elapsedDetection = 0f;
             }
         }
-        
+
         if (executeSkillOne) {
             elapsedSkillOne += Gdx.graphics.getDeltaTime();
             if (this.getDirection() == Direction.LEFT) {
@@ -108,7 +106,7 @@ public class Protagonist extends Entity implements Observable {
             elapsedSkillTwo += Gdx.graphics.getDeltaTime();
             skillTwoRotation += 200 * Gdx.graphics.getDeltaTime();
             temp = TextureLoader.skillTwo.getKeyFrame(elapsedSkillTwo);
-            batch.draw(temp, this.getX(), this.getY(), this.getWidth() / 2,this.getHeight() / 2, Constants.TILEDIMENSION * 2, Constants.TILEDIMENSION, 1, 1, skillTwoRotation);
+            batch.draw(temp, this.getX(), this.getY(), this.getWidth() / 2, this.getHeight() / 2, Constants.TILEDIMENSION * 2, Constants.TILEDIMENSION, 1, 1, skillTwoRotation);
             if (skillOne.isAnimationFinished(elapsedSkillTwo / 6)) {
                 executeSkillTwo = false;
                 elapsedSkillTwo = 0f;
@@ -116,24 +114,34 @@ public class Protagonist extends Entity implements Observable {
             }
         }
     }
-	
+
     @Override
     public void update() {
-        super.update();
+        switch (getTurnAction()) {
+            case MOVE:
+                moveAction();
+                break;
+            case ATTACK:
+                attackAction();
+                break;
+            default:
+                //Do Nothing
+                break;
+        }
     }
-	
+
     public boolean getPlayTurn() {
-            return this.playTurn;
+        return this.playTurn;
     }
 
     public void setPlayTurn(boolean playTurn) {
-            this.playTurn = playTurn;
+        this.playTurn = playTurn;
     }
-    
+
     public Direction getDirection() {
         return this.direction;
     }
-    
+
     public void setDirection(Direction direction) {
         this.direction = direction;
     }
@@ -149,8 +157,8 @@ public class Protagonist extends Entity implements Observable {
     public void setExecuteSkillTwo(boolean executeSkillTwo) {
         this.executeSkillTwo = executeSkillTwo;
     }
-    
-     public void setExecuteDetection(boolean executeDetection) {
+
+    public void setExecuteDetection(boolean executeDetection) {
         this.executeDetection = executeDetection;
     }
 
@@ -161,18 +169,30 @@ public class Protagonist extends Entity implements Observable {
     public Rectangle2D.Double getDetectionCollisionBox() {
         return new Rectangle2D.Double(this.getCX(), this.getCY(), 2, 2);
     }
-    
+
     public void notifyObservers() {
-        for(Observer o:observers){
+        for (Observer o : observers) {
             o.observerUpdate(this);
         }
     }
-    
+
     public void addObserver(Observer o) {
         this.observers.add(o);
     }
-    
+
     public void removeObserver(Observer o) {
         this.observers.remove(o);
+    }
+
+    public void moveAction() {
+        MoveToAction moveAction = new MoveToAction();
+        moveAction.setPosition((float) (this.getCX() * Constants.TILEDIMENSION),
+                (float) (this.getCY() * Constants.TILEDIMENSION));
+        moveAction.setDuration(Constants.MOVEACTIONDURATION);
+        this.addAction(moveAction);
+    }
+
+    public void attackAction() {
+        //Do Stuffs
     }
 }

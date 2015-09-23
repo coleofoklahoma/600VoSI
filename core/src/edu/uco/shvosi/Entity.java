@@ -1,10 +1,8 @@
 package edu.uco.shvosi;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
@@ -17,6 +15,7 @@ public class Entity extends Image implements Observer{
     private int entityType; // EntityGridCode
     private int health;
     private TextureRegion textureRegion;
+    private TurnAction turnAction;
 
     public Entity(int entityType, Texture texture, int cX, int cY) {
         this.cX = cX;
@@ -29,6 +28,7 @@ public class Entity extends Image implements Observer{
         this.entityType = entityType;
         this.health = 1;
         textureRegion = new TextureRegion(texture);
+        turnAction = TurnAction.NONE;
     }
 
     public int getCX() {
@@ -75,6 +75,14 @@ public class Entity extends Image implements Observer{
         this.health = health;
     }
     
+    public TurnAction getTurnAction(){
+		return this.turnAction;
+	}
+	
+    public void setTurnAction(TurnAction turnAction){
+            this.turnAction = turnAction;
+    }
+    
     public void flipTexture(Direction direction){
         switch(direction){
             case LEFT:
@@ -94,11 +102,6 @@ public class Entity extends Image implements Observer{
     }
 	
     public void update() {
-        MoveToAction moveAction = new MoveToAction();
-        moveAction.setPosition((float)(this.getCX() * Constants.TILEDIMENSION),
-                               (float)(this.getCY() * Constants.TILEDIMENSION));
-        moveAction.setDuration(Constants.MOVEACTIONDURATION);
-        this.addAction(moveAction);
     }
     
     public void collision(Entity entity) {
