@@ -9,10 +9,12 @@ import com.badlogic.gdx.utils.Array;
 
 public class TextureLoader {
     public static final Texture WANDERTEXTURE = new Texture (Gdx.files.internal("characters/Wanderer.png"));
+    public static final Texture DRUNKTEXTURE = new Texture (Gdx.files.internal("characters/Drunk.png"));
     public static final Texture BERNARDTEXTURE = new Texture(Gdx.files.internal("characters/bernard.png"));
     public static final Texture HEALTHTEXTURE = new Texture (Gdx.files.internal("items/health.png"));
     public static final Texture SKILLONETEXTURE = new Texture(Gdx.files.internal("skillOne.png"));
     public static final Texture REDLASERTEXTURE = new Texture(Gdx.files.internal("RedLaserAnimation.png"));
+    public static final Texture DRUNKENTEXTURE = new Texture(Gdx.files.internal("characters/drunk_sheet.png"));
     public static final Texture TRAPTEXTURE = new Texture(Gdx.files.internal("traps/trap.png"));
     public static final Texture TRAPTEXTURE2 = new Texture(Gdx.files.internal("traps/trap2.png"));
     public static final Texture TRAPKUNAI = new Texture(Gdx.files.internal("traps/kunai.png"));
@@ -23,7 +25,9 @@ public class TextureLoader {
     private TextureRegion[] powerFrames;
     private Array<TextureRegion> laserFrames;
     private Array<TextureRegion> skillOneFrames;
+    private Array<TextureRegion> drunkFrames;
     public static Animation redLaser;
+    public static Animation drunkWalk;
     public static Animation skillOne;
     public static Animation skillTwo;
     public static Animation kunaiTrap;
@@ -42,6 +46,15 @@ public class TextureLoader {
         }
         
         redLaser = new Animation(0.05f, laserFrames, PlayMode.NORMAL);
+        
+        //Antagonist Drunk
+        drunkFrames = new Array<TextureRegion>(15); 
+        for(int i = 0; i < 15; i++)
+        {
+            drunkFrames.add(new TextureRegion(DRUNKENTEXTURE, 0, i * 100, 100, 100));
+        }
+        
+        drunkWalk = new Animation(0.05f, drunkFrames, PlayMode.LOOP);
         
         //Skill One
         skillOneFrames = new Array<TextureRegion>(6);
@@ -92,6 +105,8 @@ public class TextureLoader {
     {
         BERNARDTEXTURE.dispose();
         WANDERTEXTURE.dispose();
+        DRUNKTEXTURE.dispose();
+        DRUNKENTEXTURE.dispose();
         HEALTHTEXTURE.dispose();
         TRAPTEXTURE.dispose();
         TRAPTEXTURE2.dispose();
