@@ -22,6 +22,7 @@ public class Map {
     private int width;
     private int height;
     private Protagonist bernard;
+    private Inventory invent;
 
     public Map(Protagonist bernard, String tmxFileName) {
         this.bernard = bernard;
@@ -103,6 +104,10 @@ public class Map {
         bernard.setX(bernard.getCX() * Constants.TILEDIMENSION);
         bernard.setY(bernard.getCY() * Constants.TILEDIMENSION);
         entityList.add(bernard);
+        
+        //Add Inventory Box
+        invent = new Inventory(TextureLoader.INVENTORYTEXTURE, 4, 0);
+        entityList.add(invent);
 
         //Add Traps
         entityList.add(new TrapType1(TextureLoader.TRAPTEXTURE, 2, 2));
@@ -140,6 +145,7 @@ public class Map {
             if (mapGrid[bernard.getCX()][bernard.getCY() + 1] == MapGridCode.EXIT || (mapGrid[bernard.getCX()][bernard.getCY() + 1] == MapGridCode.FLOOR
                     && entityGrid[bernard.getCX()][bernard.getCY() + 1] != EntityGridCode.ENEMY)) {
                 bernard.setDCY(bernard.getCY() + 1);
+                invent.setY(invent.getY() + Constants.TILEDIMENSION);
                 return true;
             }
         } else if (direction == Direction.DOWN) {
@@ -149,6 +155,7 @@ public class Map {
             if (mapGrid[bernard.getCX()][bernard.getCY() - 1] == MapGridCode.EXIT || (mapGrid[bernard.getCX()][bernard.getCY() - 1] == MapGridCode.FLOOR
                     && entityGrid[bernard.getCX()][bernard.getCY() - 1] != EntityGridCode.ENEMY)) {
                 bernard.setDCY(bernard.getCY() - 1);
+                invent.setY(invent.getY() - Constants.TILEDIMENSION);
                 return true;
             }
         } else if (direction == Direction.LEFT) {
@@ -158,6 +165,7 @@ public class Map {
             if (mapGrid[bernard.getCX() - 1][bernard.getCY()] == MapGridCode.EXIT || (mapGrid[bernard.getCX() - 1][bernard.getCY()] == MapGridCode.FLOOR
                     && entityGrid[bernard.getCX() - 1][bernard.getCY()] != EntityGridCode.ENEMY)) {
                 bernard.setDCX(bernard.getCX() - 1);
+                invent.setX(invent.getX() - Constants.TILEDIMENSION);
                 return true;
             }
         } else if (direction == Direction.RIGHT) {
@@ -167,6 +175,7 @@ public class Map {
             if (mapGrid[bernard.getCX() + 1][bernard.getCY()] == MapGridCode.EXIT || (mapGrid[bernard.getCX() + 1][bernard.getCY()] == MapGridCode.FLOOR
                     && entityGrid[bernard.getCX() + 1][bernard.getCY()] != EntityGridCode.ENEMY)) {
                 bernard.setDCX(bernard.getCX() + 1);
+                invent.setX(invent.getX() + Constants.TILEDIMENSION);
                 return true;
             }
         } else {

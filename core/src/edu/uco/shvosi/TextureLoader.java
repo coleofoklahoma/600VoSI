@@ -20,6 +20,7 @@ public class TextureLoader {
     public static final Texture TRAPKUNAI = new Texture(Gdx.files.internal("traps/kunai.png"));
     public static final Texture TRAPPOWER = new Texture(Gdx.files.internal("traps/powerseal.png"));
     public static final Texture DETECTIONTEXTURE = new Texture(Gdx.files.internal("detection.png"));
+    public static final Texture INVENTORYTEXTURE = new Texture(Gdx.files.internal("inventory.png"));
     private TextureRegion[] detectionFrames;
     private TextureRegion[] kunaiFrames;
     private TextureRegion[] powerFrames;

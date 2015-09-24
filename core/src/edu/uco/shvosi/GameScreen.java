@@ -102,6 +102,9 @@ public class GameScreen implements Screen {
         healthLabel.setY(bernard.getY() + 250);
         healthLabel.setText(healthpoints);
         
+        //temporary inventory display
+        
+        
         //Remove dead entities, temporary handler?
         for (int i = 0; i < map.getEntityList().size(); i++) {
             Entity entity = map.getEntityList().get(i);
@@ -225,6 +228,7 @@ public class GameScreen implements Screen {
                     break;
                 case EntityGridCode.TRAP:
                     bernard.addObserver(map.getEntityList().get(i));
+                case EntityGridCode.INVENTORY:
                 case EntityGridCode.ITEM:
                 default:
                     stage.getActors().get(i).setZIndex(1);
