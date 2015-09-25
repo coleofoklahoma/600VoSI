@@ -7,4 +7,5 @@ public class EntityGridCode {
     public static final int ITEM = 3;
     public static final int TRAP = 4;
     public static final int INVENTORY = 5;
+    public static final int SKILL = 6;
 }

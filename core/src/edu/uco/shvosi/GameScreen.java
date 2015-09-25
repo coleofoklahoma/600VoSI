@@ -25,7 +25,7 @@ public class GameScreen implements Screen {
     private Label healthLabel;
     public static Inventory invent;
     private TextureLoader textureLoader = new TextureLoader();
-    
+
     private int level = 0;
 
     public GameScreen(MyGdxGame game) {
@@ -36,9 +36,8 @@ public class GameScreen implements Screen {
     public void render(float delta) {
 
         // UPDATE
-        
         //Bernard Controls
-            //Movement
+        //Movement
         if (Gdx.input.isKeyJustPressed(Keys.W) && map.bernardCanMove(Direction.UP)) {
             bernard.setPlayTurn(true);
             bernard.notifyObservers();
@@ -102,12 +101,11 @@ public class GameScreen implements Screen {
         healthLabel.setX(bernard.getX() + 25);
         healthLabel.setY(bernard.getY() + 250);
         healthLabel.setText(healthpoints);
-        
+
         //temporary inventory display
         invent.setX(bernard.getX() - 325);
         invent.setY(bernard.getY() + 175);
 
-        
         //Remove dead entities, temporary handler?
         for (int i = 0; i < map.getEntityList().size(); i++) {
             Entity entity = map.getEntityList().get(i);
@@ -124,7 +122,11 @@ public class GameScreen implements Screen {
 
                 for (int j = 0; j < map.getEntityList().size(); j++) {
                     if (i != j) {
-                        map.collision(aggressor, map.getEntityList().get(j));
+                        if (aggressor.getEntityType() == EntityGridCode.SKILL) {
+                           map.getEntityList().get(j).setHealth(map.getEntityList().get(j).getHealth() - ((Skill) aggressor).getDamage());
+                        } else {
+                            map.collision(aggressor, map.getEntityList().get(j));
+                        }
                     }
                 }
                 map.playTurn(aggressor);
@@ -139,7 +141,7 @@ public class GameScreen implements Screen {
             }
         }
 
-		// RENDER
+        // RENDER
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camera.combined);
@@ -173,7 +175,7 @@ public class GameScreen implements Screen {
         bernard = new Protagonist(TextureLoader.BERNARDTEXTURE, 1, 1);
         invent = new Inventory(TextureLoader.INVENTORYTEXTURE, 5, 0);
         healthLabel = new Label("HP: ", skin);
-        
+
         initNewLevel();
     }
 
@@ -206,11 +208,10 @@ public class GameScreen implements Screen {
 
     public void initNewLevel() {
         //Test Level
-        if(level == 0){
+        if (level == 0) {
             map = new Map(bernard, "maps/testmap.tmx");
             level = 1;
-        }
-        else if(level == 1){
+        } else if (level == 1) {
             map = new Map(bernard, "maps/testmap2.tmx");
             level = 0;
         }
@@ -232,7 +233,9 @@ public class GameScreen implements Screen {
                     break;
                 case EntityGridCode.TRAP:
                     bernard.addObserver(map.getEntityList().get(i));
+                    break;
                 case EntityGridCode.ITEM:
+                    break;
                 default:
                     stage.getActors().get(i).setZIndex(1);
                     break;

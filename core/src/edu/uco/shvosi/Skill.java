@@ -5,36 +5,45 @@
  */
 package edu.uco.shvosi;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.Batch;
 
 /**
  *
  * @author cody
  */
-public class Skill extends Sprite implements GameEntity {
-    
-    private float skillRunTime;
-    private Animation mainAnimation;
-    
-    public Skill(Animation mainAnimation) {
+public class Skill extends Entity {
+
+    protected float skillRunTime;
+    protected Animation mainAnimation;
+    protected int damage;
+
+    public Skill(int x, int y, Animation mainAnimation) {
+        super(EntityGridCode.SKILL, TextureLoader.BERNARDTEXTURE, x, y);
         this.mainAnimation = mainAnimation;
         skillRunTime = 0f;
     }
-    
-
 
     @Override
     public void update() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        skillRunTime += Gdx.graphics.getDeltaTime();
     }
 
-    @Override
-    public void render(SpriteBatch batch) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean isAnimationFinished() {
+        if (mainAnimation.isAnimationFinished(skillRunTime)) {
+            skillRunTime = 0f;
+            return true;
+        } else {
+            return false;
+        }
     }
     
+    public void draw(Batch batch, float alpha, Protagonist bernard) {
+    }
     
-    
+    public int getDamage() {
+        return damage;
+    }
+
 }

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Protagonist extends Entity implements Observable {
@@ -16,101 +17,71 @@ public class Protagonist extends Entity implements Observable {
     private Direction direction;
 
     // Sorry to just throw all this in here lol --Cody
-    private Animation redLaser;
-    private Animation skillOne;
-    private Animation detection;
     private boolean executeDetection;
     private boolean executeSkillTwo;
     private boolean executeSkillOne;
     private boolean firing;
-    private float elapsedDetection;
-    private float firingTime;
-    private float elapsedSkillOne;
-    private float elapsedSkillTwo;
-    private float skillTwoRotation;
     private TextureRegion temp;
     private List<Observer> observers;
+    private HashMap<String, Skill> skills;
 
     public Protagonist(Texture texture, int cX, int cY) {
         super(EntityGridCode.PLAYER, texture, cX, cY);
         this.playTurn = false;
         this.setHealth(100);
 
+        this.skills = new HashMap<String, Skill>();
+
         this.observers = new ArrayList();
         // Laser stuffs --Cody
-        redLaser = TextureLoader.redLaser;
         firing = false;
-        firingTime = 0f;
+
+        skills.put("RedLaser", new RedLaserSkill(0, 0, TextureLoader.redLaser, 25));
 
         // Detection
-        detection = TextureLoader.detectionSkill;
         executeDetection = false;
-        elapsedDetection = 0f;
+
+        skills.put("Detection", new DetectionSkill(0, 0, TextureLoader.detectionSkill, 0));
 
         // Skill one
-        skillOne = TextureLoader.skillOne;
         executeSkillOne = false;
-        elapsedSkillOne = 0f;
+
+        skills.put("SkillOne", new SkillOne(0, 0, TextureLoader.skillOne, 5));
 
         // Skill two
-        elapsedSkillTwo = 0f;
-        skillTwoRotation = 0f;
+        executeSkillTwo = false;
+
+        skills.put("SkillTwo", new SkillTwo(0, 0, TextureLoader.skillTwo, 5));
     }
 
     @Override
     public void draw(Batch batch, float alpha) {
         super.draw(batch, alpha);
         if (firing) {
-            firingTime += Gdx.graphics.getDeltaTime();
-            if (this.getDirection() == Direction.LEFT) {
-                temp = redLaser.getKeyFrame(firingTime);
-                temp.flip(true, false);
-                batch.draw(temp, this.getX() - Constants.TILEDIMENSION * 3, this.getY(), Constants.TILEDIMENSION * 3, Constants.TILEDIMENSION);
-                temp.flip(true, false);
-            } else {
-                batch.draw(redLaser.getKeyFrame(firingTime), this.getX() + Constants.TILEDIMENSION, this.getY(), Constants.TILEDIMENSION * 3, Constants.TILEDIMENSION);
-            }
-            if (redLaser.isAnimationFinished(firingTime)) {
+            skills.get("RedLaser").draw(batch, alpha, this);
+            if (skills.get("RedLaser").isAnimationFinished()) {
                 firing = false;
-                firingTime = 0f;
             }
         }
 
         if (executeDetection) {
-            elapsedDetection += Gdx.graphics.getDeltaTime();
-            temp = detection.getKeyFrame(elapsedDetection);
-            batch.draw(detection.getKeyFrame(elapsedDetection), this.getX() - 205, this.getY() - 205, Constants.TILEDIMENSION * 5, Constants.TILEDIMENSION * 5);
-            if (detection.isAnimationFinished(elapsedDetection)) {
+            skills.get("Detection").draw(batch, alpha, this);
+            if (skills.get("Detection").isAnimationFinished()) {
                 executeDetection = false;
-                elapsedDetection = 0f;
             }
         }
 
         if (executeSkillOne) {
-            elapsedSkillOne += Gdx.graphics.getDeltaTime();
-            if (this.getDirection() == Direction.LEFT) {
-                temp = skillOne.getKeyFrame(elapsedSkillOne);
-                temp.flip(true, false);
-                batch.draw(temp, this.getX() - Constants.TILEDIMENSION * 2, this.getY(), Constants.TILEDIMENSION * 2, Constants.TILEDIMENSION);
-                temp.flip(true, false);
-            } else {
-                batch.draw(skillOne.getKeyFrame(elapsedSkillOne), this.getX() + Constants.TILEDIMENSION, this.getY(), Constants.TILEDIMENSION * 2, Constants.TILEDIMENSION);
-            }
-            if (skillOne.isAnimationFinished(elapsedSkillOne)) {
+            skills.get("SkillOne").draw(batch, alpha, this);
+            if (skills.get("SkillOne").isAnimationFinished()) {
                 executeSkillOne = false;
-                elapsedSkillOne = 0f;
             }
         }
 
         if (executeSkillTwo) {
-            elapsedSkillTwo += Gdx.graphics.getDeltaTime();
-            skillTwoRotation += 200 * Gdx.graphics.getDeltaTime();
-            temp = TextureLoader.skillTwo.getKeyFrame(elapsedSkillTwo);
-            batch.draw(temp, this.getX(), this.getY(), this.getWidth() / 2, this.getHeight() / 2, Constants.TILEDIMENSION * 2, Constants.TILEDIMENSION, 1, 1, skillTwoRotation);
-            if (skillOne.isAnimationFinished(elapsedSkillTwo / 6)) {
+            skills.get("SkillTwo").draw(batch, alpha, this);
+            if (skills.get("SkillTwo").isAnimationFinished()) {
                 executeSkillTwo = false;
-                elapsedSkillTwo = 0f;
-                skillTwoRotation = 0f;
             }
         }
     }
