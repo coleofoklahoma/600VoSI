@@ -75,6 +75,9 @@ public class Entity extends Image implements Observer{
         this.health = health;
     }
     
+    public void setImage(Texture texture){
+        textureRegion = new TextureRegion(texture);
+    }
     public TurnAction getTurnAction(){
 		return this.turnAction;
 	}

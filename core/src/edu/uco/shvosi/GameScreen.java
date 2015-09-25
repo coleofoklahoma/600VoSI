@@ -23,6 +23,7 @@ public class GameScreen implements Screen {
     private String healthpoints;
     private Skin skin;
     private Label healthLabel;
+    public static Inventory invent;
     private TextureLoader textureLoader = new TextureLoader();
     
     private int level = 0;
@@ -103,7 +104,9 @@ public class GameScreen implements Screen {
         healthLabel.setText(healthpoints);
         
         //temporary inventory display
-        
+        invent.setX(bernard.getX() - 325);
+        invent.setY(bernard.getY() + 175);
+
         
         //Remove dead entities, temporary handler?
         for (int i = 0; i < map.getEntityList().size(); i++) {
@@ -168,6 +171,7 @@ public class GameScreen implements Screen {
         FitViewport fv = new FitViewport(Constants.SCREENWIDTH, Constants.SCREENHEIGHT, camera);
         stage = new Stage(fv, batch);
         bernard = new Protagonist(TextureLoader.BERNARDTEXTURE, 1, 1);
+        invent = new Inventory(TextureLoader.INVENTORYTEXTURE, 5, 0);
         healthLabel = new Label("HP: ", skin);
         
         initNewLevel();
@@ -228,7 +232,6 @@ public class GameScreen implements Screen {
                     break;
                 case EntityGridCode.TRAP:
                     bernard.addObserver(map.getEntityList().get(i));
-                case EntityGridCode.INVENTORY:
                 case EntityGridCode.ITEM:
                 default:
                     stage.getActors().get(i).setZIndex(1);
@@ -238,7 +241,7 @@ public class GameScreen implements Screen {
 
         //Health Display
         stage.addActor(healthLabel);
-        
+        stage.addActor(invent);
         bernard.clearActions();
     }
 }
