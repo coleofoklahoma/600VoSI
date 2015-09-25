@@ -1,13 +1,20 @@
 package edu.uco.shvosi;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 
 public class Drunk extends Antagonist {
     
     private Animation drunkWalk;
-
+    private boolean moving = false;
+    private boolean flip = false;
+    private float elapsedTime;
+    private TextureRegion temp;
+    
     public Drunk(Texture texture, int cX, int cY) {
         super(texture, cX, cY);
         this.setEnemyType(EnemyType.DRUNK);
@@ -23,6 +30,21 @@ public class Drunk extends Antagonist {
     public void draw(Batch batch, float alpha) {
         super.draw(batch, alpha);
     
+                
+                elapsedTime += Gdx.graphics.getDeltaTime();
+                
+            if (flip) {
+                temp = drunkWalk.getKeyFrame(elapsedTime);
+                temp.flip(true, false);
+                batch.draw(temp, this.getX(),getY(), Constants.TILEDIMENSION, Constants.TILEDIMENSION);
+                temp.flip(true, false);
+            } else {
+                batch.draw(drunkWalk.getKeyFrame(elapsedTime), this.getX(), this.getY(), Constants.TILEDIMENSION *3, Constants.TILEDIMENSION);
+            }
+            if (drunkWalk.isAnimationFinished(elapsedTime)) {
+                moving = false;
+                elapsedTime = 0f;
+            }
         
     }
 
@@ -56,6 +78,20 @@ public class Drunk extends Antagonist {
 
         this.setTurnAction(TurnAction.MOVE);
     }
+    
+    @Override
+    public void moveAction() {
+        MoveToAction moveAction = new MoveToAction();
+        moveAction.setPosition((float) (this.getCX() * Constants.TILEDIMENSION),
+                               (float) (this.getCY() * Constants.TILEDIMENSION));
+        moveAction.setDuration(Constants.MOVEACTIONDURATION);
+        this.addAction(moveAction);
+        moving= true;
+                 
+
+        }
+        
+    
 
     private boolean canMove(Direction direction, int[][] mapGrid, int[][] entityGrid) {
         

@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.Array;
 
 public class TextureLoader {
     public static final Texture WANDERTEXTURE = new Texture (Gdx.files.internal("characters/Wanderer.png"));
-    public static final Texture DRUNKTEXTURE = new Texture (Gdx.files.internal("characters/Drunk.png"));
+    public static final Texture DRUNKTEXTURE = new Texture (Gdx.files.internal("characters/blank.png"));
     public static final Texture BERNARDTEXTURE = new Texture(Gdx.files.internal("characters/bernard.png"));
     public static final Texture HEALTHTEXTURE = new Texture (Gdx.files.internal("items/health.png"));
     public static final Texture SKILLONETEXTURE = new Texture(Gdx.files.internal("skillOne.png"));
@@ -23,6 +23,8 @@ public class TextureLoader {
     public static final Texture INVENTORYTEXTURE = new Texture(Gdx.files.internal("Inventory.png"));
     public static final Texture INVENTORYSHIELDTEXTURE = new Texture(Gdx.files.internal("InventoryShield.png"));
     public static final Texture SHIELDTEXTURE = new Texture(Gdx.files.internal("items/shield.png"));
+    public static final Texture BLANKTEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
+
     private TextureRegion[] detectionFrames;
     private TextureRegion[] kunaiFrames;
     private TextureRegion[] powerFrames;
@@ -50,14 +52,14 @@ public class TextureLoader {
         
         redLaser = new Animation(0.05f, laserFrames, PlayMode.NORMAL);
         
-        //Antagonist Drunk
-        drunkFrames = new Array<TextureRegion>(15); 
-        for(int i = 0; i < 15; i++)
+	//Antagonist Drunk
+        drunkFrames = new Array<TextureRegion>(6); 
+        for(int i = 0; i < 6; i++)
         {
-            drunkFrames.add(new TextureRegion(DRUNKENTEXTURE, 0, i * 100, 100, 100));
+            drunkFrames.add(new TextureRegion(DRUNKENTEXTURE, 25, i * 100, 300, 100));
         }
         
-        drunkWalk = new Animation(0.05f, drunkFrames, PlayMode.LOOP);
+        drunkWalk = new Animation(0.50f, drunkFrames, PlayMode.LOOP);
         
         //Skill One
         skillOneFrames = new Array<TextureRegion>(6);
@@ -118,5 +120,7 @@ public class TextureLoader {
         DETECTIONTEXTURE.dispose();
         REDLASERTEXTURE.dispose();
         SKILLONETEXTURE.dispose();
+        BLANKTEXTURE.dispose();
+
     }
 }
