@@ -25,14 +25,22 @@ class RedLaserSkill extends Skill {
     @Override
     public void draw(Batch batch, float alpha, Protagonist bernard) {
         update();
-
-        if (bernard.getDirection() == Direction.LEFT) {
+        
+        
+        
+        if (((Entity) bernard).getTextureRegion().isFlipX()) {
+            setX(bernard.getX() - Constants.TILEDIMENSION * 3);
+            setY(bernard.getY());
             temp = mainAnimation.getKeyFrame(skillRunTime);
+            boundingBox.set(getX() - Constants.TILEDIMENSION * 4, getY(), temp.getRegionWidth(), temp.getRegionHeight());
             temp.flip(true, false);
-            batch.draw(temp, bernard.getX() - Constants.TILEDIMENSION * 3, bernard.getY(), Constants.TILEDIMENSION * 3, Constants.TILEDIMENSION);
+            batch.draw(temp, getX(), getY(), Constants.TILEDIMENSION * 3, Constants.TILEDIMENSION);
             temp.flip(true, false);
         } else {
-            batch.draw(mainAnimation.getKeyFrame(skillRunTime), bernard.getX() + Constants.TILEDIMENSION, bernard.getY(), Constants.TILEDIMENSION * 3, Constants.TILEDIMENSION);
+            setX(bernard.getX() + Constants.TILEDIMENSION);
+            setY(bernard.getY());
+            boundingBox.set(getX(), getY(), Constants.TILEDIMENSION * 3, Constants.TILEDIMENSION);
+            batch.draw(mainAnimation.getKeyFrame(skillRunTime), getX(), getY(), Constants.TILEDIMENSION * 3, Constants.TILEDIMENSION);
         }
 
     }

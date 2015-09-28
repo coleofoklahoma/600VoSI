@@ -16,7 +16,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 class SkillOne extends Skill {
 
     private TextureRegion temp;
-    
+
     public SkillOne(int x, int y, Animation mainAnimation, int damage) {
         super(x, y, mainAnimation);
         this.damage = damage;
@@ -26,13 +26,21 @@ class SkillOne extends Skill {
     public void draw(Batch batch, float alpha, Protagonist bernard) {
         update();
 
-        if (bernard.getDirection() == Direction.LEFT) {
+        
+
+        if (((Entity) bernard).getTextureRegion().isFlipX()) {
+            setX(bernard.getX() - Constants.TILEDIMENSION * 2);
+            setY(bernard.getY());
+            boundingBox.set(this.getX(), this.getY(), Constants.TILEDIMENSION * 2, Constants.TILEDIMENSION);
             temp = mainAnimation.getKeyFrame(skillRunTime);
             temp.flip(true, false);
-            batch.draw(temp, bernard.getX() - Constants.TILEDIMENSION * 2, bernard.getY(), Constants.TILEDIMENSION * 2, Constants.TILEDIMENSION);
+            batch.draw(temp, getX(), getY(), Constants.TILEDIMENSION * 2, Constants.TILEDIMENSION);
             temp.flip(true, false);
         } else {
-            batch.draw(mainAnimation.getKeyFrame(skillRunTime), bernard.getX() + Constants.TILEDIMENSION, bernard.getY(), Constants.TILEDIMENSION * 2, Constants.TILEDIMENSION);
+            setX(bernard.getX() + Constants.TILEDIMENSION);
+            setY(bernard.getY());
+            boundingBox.set(this.getX(), this.getY(), Constants.TILEDIMENSION * 2, Constants.TILEDIMENSION);
+            batch.draw(mainAnimation.getKeyFrame(skillRunTime), getX(), getY(), Constants.TILEDIMENSION * 2, Constants.TILEDIMENSION);
         }
 
     }

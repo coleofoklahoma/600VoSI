@@ -1,5 +1,6 @@
 package edu.uco.shvosi;
 
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -14,6 +15,10 @@ public class Entity extends Image implements Observer{
     private int entityType; // EntityGridCode
     private int health;
     private TextureRegion textureRegion;
+
+    public TextureRegion getTextureRegion() {
+        return textureRegion;
+    }
     private TurnAction turnAction;
 
     public Entity(int entityType, Texture texture, int cX, int cY) {
@@ -28,6 +33,10 @@ public class Entity extends Image implements Observer{
         this.health = 1;
         textureRegion = new TextureRegion(texture);
         turnAction = TurnAction.NONE;
+        
+        if(texture.getTextureData().getFormat() == Pixmap.Format.Alpha) {
+            texture.dispose();
+        }
     }
 
     public int getCX() {

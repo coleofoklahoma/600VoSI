@@ -43,7 +43,9 @@ class SkillTwo extends Skill {
     @Override
     public void draw(Batch batch, float alpha, Protagonist bernard) {
         update();
-
+        
+        boundingBox.set(this.getX(), this.getY(), Constants.TILEDIMENSION * 2, Constants.TILEDIMENSION);
+        
         batch.draw(mainAnimation.getKeyFrame(skillRunTime), bernard.getX(), bernard.getY(), bernard.getWidth() / 2, bernard.getHeight() / 2, Constants.TILEDIMENSION * 2, Constants.TILEDIMENSION, 1, 1, rotation);
 
     }

@@ -6,23 +6,38 @@
 package edu.uco.shvosi;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
+import java.util.ArrayList;
 
 /**
  *
  * @author cody
  */
-public class Skill extends Entity {
+public class Skill extends Entity implements Observable {
 
     protected float skillRunTime;
     protected Animation mainAnimation;
     protected int damage;
+    private ArrayList<Observer> observers;
+    protected Rectangle boundingBox;
 
+    public Rectangle getBoundingBox() {
+        return boundingBox;
+    }
+    
     public Skill(int x, int y, Animation mainAnimation) {
-        super(EntityGridCode.SKILL, TextureLoader.BERNARDTEXTURE, x, y);
+        super(EntityGridCode.SKILL, new Texture(mainAnimation.getKeyFrame(0).getRegionWidth(), mainAnimation.getKeyFrame(0).getRegionHeight(), Pixmap.Format.Alpha), x, y);
+        
         this.mainAnimation = mainAnimation;
         skillRunTime = 0f;
+        
+        boundingBox = new Rectangle();
+        observers = new ArrayList<Observer>();
     }
 
     @Override
@@ -44,6 +59,23 @@ public class Skill extends Entity {
     
     public int getDamage() {
         return damage;
+    }
+
+    @Override
+    public void notifyObservers() {
+        for(Observer o : observers) {
+            o.observerUpdate(this);
+        }
+    }
+
+    @Override
+    public void addObserver(Observer o) {
+        observers.add(o);
+    }
+
+    @Override
+    public void removeObserver(Observer o) {
+        observers.remove(o);
     }
 
 }

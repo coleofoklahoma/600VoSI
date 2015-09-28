@@ -21,9 +21,12 @@ public class Protagonist extends Entity implements Observable {
     private boolean executeSkillTwo;
     private boolean executeSkillOne;
     private boolean firing;
-    private TextureRegion temp;
     private List<Observer> observers;
     private HashMap<String, Skill> skills;
+
+    public HashMap<String, Skill> getSkills() {
+        return skills;
+    }
 
     public Protagonist(Texture texture, int cX, int cY) {
         super(EntityGridCode.PLAYER, texture, cX, cY);
@@ -59,6 +62,7 @@ public class Protagonist extends Entity implements Observable {
         super.draw(batch, alpha);
         if (firing) {
             skills.get("RedLaser").draw(batch, alpha, this);
+            skills.get("RedLaser").notifyObservers();
             if (skills.get("RedLaser").isAnimationFinished()) {
                 firing = false;
             }
@@ -73,6 +77,7 @@ public class Protagonist extends Entity implements Observable {
 
         if (executeSkillOne) {
             skills.get("SkillOne").draw(batch, alpha, this);
+            skills.get("SkillOne").notifyObservers();
             if (skills.get("SkillOne").isAnimationFinished()) {
                 executeSkillOne = false;
             }
@@ -80,6 +85,7 @@ public class Protagonist extends Entity implements Observable {
 
         if (executeSkillTwo) {
             skills.get("SkillTwo").draw(batch, alpha, this);
+            skills.get("SkillTwo").notifyObservers();
             if (skills.get("SkillTwo").isAnimationFinished()) {
                 executeSkillTwo = false;
             }

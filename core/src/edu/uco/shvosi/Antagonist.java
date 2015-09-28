@@ -1,15 +1,13 @@
 package edu.uco.shvosi;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
+import static com.badlogic.gdx.math.Rectangle.tmp;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 
-public class Antagonist extends Entity {
-
+public class Antagonist extends Entity implements Observer {
     private EnemyType enemyType;
 
     public Antagonist(Texture texture, int cX, int cY) {
@@ -55,8 +53,20 @@ public class Antagonist extends Entity {
         //Do AI Stuff
 
         //If you want to move it, set turn action to move and set its dx and dy
-        
         //If you want to attack, set turn action to attack and i don't know
         // what to do yet from here
+    }
+
+    @Override
+    public void observerUpdate(Object o) {
+       Gdx.app.log("ObserverUpdate", "Reached");
+       
+       
+       Rectangle.tmp.set(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+       Gdx.app.log("tmp", Rectangle.tmp.toString());
+       Gdx.app.log("Skill box", ((Skill) o).getBoundingBox().toString());
+       if(Intersector.overlaps(((Skill) o).getBoundingBox(), Rectangle.tmp)) {
+           this.setHealth(this.getHealth() - ((Skill) o).getDamage());
+       }
     }
 }

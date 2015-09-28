@@ -112,6 +112,7 @@ public class GameScreen implements Screen {
             if (!map.isAlive(entity)) {
                 map.getEntityList().remove(i);
                 entity.remove();
+                map.getEntityGrid()[entity.getCX()][entity.getCY()] = EntityGridCode.EMPTY;
             }
         }
 
@@ -122,11 +123,9 @@ public class GameScreen implements Screen {
 
                 for (int j = 0; j < map.getEntityList().size(); j++) {
                     if (i != j) {
-                        if (aggressor.getEntityType() == EntityGridCode.SKILL) {
-                           map.getEntityList().get(j).setHealth(map.getEntityList().get(j).getHealth() - ((Skill) aggressor).getDamage());
-                        } else {
-                            map.collision(aggressor, map.getEntityList().get(j));
-                        }
+
+                        map.collision(aggressor, map.getEntityList().get(j));
+
                     }
                 }
                 map.playTurn(aggressor);
@@ -230,6 +229,9 @@ public class GameScreen implements Screen {
                     break;
                 case EntityGridCode.ENEMY:
                     stage.getActors().get(i).setZIndex(2);
+                    for(Skill s : bernard.getSkills().values()) {
+                        s.addObserver(map.getEntityList().get(i));
+                    }
                     break;
                 case EntityGridCode.TRAP:
                     bernard.addObserver(map.getEntityList().get(i));
