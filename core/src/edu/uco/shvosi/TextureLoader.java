@@ -8,41 +8,56 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
 public class TextureLoader {
-    public static final Texture WANDERTEXTURE = new Texture (Gdx.files.internal("characters/Wanderer.png"));
-    public static final Texture DRUNKTEXTURE = new Texture (Gdx.files.internal("characters/blank.png"));
+    //bernard and his powers
     public static final Texture BERNARDTEXTURE = new Texture(Gdx.files.internal("characters/bernard.png"));
     public static final Texture HEALTHTEXTURE = new Texture (Gdx.files.internal("items/health.png"));
-    public static final Texture SKILLONETEXTURE = new Texture(Gdx.files.internal("skillOne.png"));
     public static final Texture REDLASERTEXTURE = new Texture(Gdx.files.internal("RedLaserAnimation.png"));
+    public static final Texture DETECTIONTEXTURE = new Texture(Gdx.files.internal("detection.png"));
+    public static final Texture SKILLONETEXTURE = new Texture(Gdx.files.internal("skillOne.png"));
+    private TextureRegion[] detectionFrames;
+    private Array<TextureRegion> laserFrames;
+    private Array<TextureRegion> skillOneFrames;
+    public static Animation redLaser;
+    public static Animation skillOne;
+    public static Animation skillTwo;
+    public static Animation detectionSkill;
+
+    
+    //antagonist
+    public static final Texture WANDERTEXTURE = new Texture (Gdx.files.internal("characters/blank.png"));
+    public static final Texture DRUNKTEXTURE = new Texture (Gdx.files.internal("characters/blank.png"));
     public static final Texture DRUNKENTEXTURE = new Texture(Gdx.files.internal("characters/drunk_sheet.png"));
+    public static final Texture WANDTEXTURE = new Texture(Gdx.files.internal("characters/wander_sheet.png"));
+    public static final Texture BLANKTEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
+    public static final Texture CATLADYTEXTURE = new Texture (Gdx.files.internal("characters/blank.png"));
+    public static final Texture CATTYTEXTURE = new Texture(Gdx.files.internal("characters/catLady_sheet.png"));
+    private Array<TextureRegion> drunkFrames;
+    private Array<TextureRegion> wanderFrames;
+    private Array<TextureRegion> catLadyFrames;
+    public static Animation catLadyWalk;
+    public static Animation drunkWalk;
+    public static Animation wanderWalk;
+    
+    //traps and items
     public static final Texture TRAPTEXTURE = new Texture(Gdx.files.internal("traps/trap.png"));
     public static final Texture TRAPTEXTURE2 = new Texture(Gdx.files.internal("traps/trap2.png"));
     public static final Texture TRAPKUNAI = new Texture(Gdx.files.internal("traps/kunai.png"));
     public static final Texture TRAPPOWER = new Texture(Gdx.files.internal("traps/powerseal.png"));
-    public static final Texture DETECTIONTEXTURE = new Texture(Gdx.files.internal("detection.png"));
     public static final Texture INVENTORYTEXTURE = new Texture(Gdx.files.internal("Inventory.png"));
     public static final Texture INVENTORYSHIELDTEXTURE = new Texture(Gdx.files.internal("InventoryShield.png"));
     public static final Texture SHIELDTEXTURE = new Texture(Gdx.files.internal("items/shield.png"));
-    public static final Texture BLANKTEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
-
-    private TextureRegion[] detectionFrames;
     private TextureRegion[] kunaiFrames;
     private TextureRegion[] powerFrames;
-    private Array<TextureRegion> laserFrames;
-    private Array<TextureRegion> skillOneFrames;
-    private Array<TextureRegion> drunkFrames;
-    public static Animation redLaser;
-    public static Animation drunkWalk;
-    public static Animation skillOne;
-    public static Animation skillTwo;
     public static Animation kunaiTrap;
     public static Animation powerTrap;
-    public static Animation detectionSkill;
+    
+    
     private static final int FRAME_COLS = 5;
     private static final int FRAME_ROWS = 4;
     
     TextureLoader()
     {
+        //bernard
         //Big Ass Laser
         laserFrames = new Array<TextureRegion>(15); 
         for(int i = 0; i < 15; i++)
@@ -51,17 +66,7 @@ public class TextureLoader {
         }
         
         redLaser = new Animation(0.05f, laserFrames, PlayMode.NORMAL);
-        
-	//Antagonist Drunk
-        drunkFrames = new Array<TextureRegion>(6); 
-        for(int i = 0; i < 6; i++)
-        {
-            drunkFrames.add(new TextureRegion(DRUNKENTEXTURE, 25, i * 100, 300, 100));
-        }
-        
-        drunkWalk = new Animation(0.50f, drunkFrames, PlayMode.LOOP);
-        
-        //Skill One
+                //Skill One
         skillOneFrames = new Array<TextureRegion>(6);
          for(int i = 0; i < 6; i++)
         {
@@ -72,6 +77,48 @@ public class TextureLoader {
         //Skill Two
         skillTwo = new Animation(0.05f, skillOneFrames, PlayMode.LOOP);
         
+             //Detection
+        TextureRegion[][] tmp3 = TextureRegion.split(TextureLoader.DETECTIONTEXTURE, TextureLoader.DETECTIONTEXTURE.getWidth() / FRAME_COLS, TextureLoader.DETECTIONTEXTURE.getHeight() / FRAME_COLS);
+        detectionFrames = new TextureRegion[FRAME_COLS * FRAME_COLS];
+        int index3 = 0;
+        for (int i = 0; i < FRAME_COLS; i++) {
+            for (int j = 0; j < FRAME_COLS; j++) {
+                detectionFrames[index3++] = tmp3[i][j];
+            }
+        }
+        detectionSkill = new Animation(0.05f, detectionFrames);
+        
+        
+        //antagonist
+	//Antagonist Drunk
+        drunkFrames = new Array<TextureRegion>(6); 
+        for(int i = 0; i < 6; i++)
+        {
+            drunkFrames.add(new TextureRegion(DRUNKENTEXTURE, 25, i * 100, 300, 100));
+        }
+        
+        drunkWalk = new Animation(0.50f, drunkFrames, PlayMode.LOOP);
+        
+        //Antagonist wnaderer
+        wanderFrames = new Array<TextureRegion>(2); 
+        for(int i = 0; i < 2; i++)
+        {
+            wanderFrames.add(new TextureRegion(WANDTEXTURE, 25, i * 100, 300, 100));
+        }
+        
+        wanderWalk = new Animation(0.50f, wanderFrames, PlayMode.LOOP);
+        
+                //Antagonist catlady
+        catLadyFrames = new Array<TextureRegion>(3); 
+        for(int i = 0; i < 3; i++)
+        {
+            catLadyFrames.add(new TextureRegion(CATTYTEXTURE, 25, i * 100, 300, 100));
+        }
+        
+        catLadyWalk = new Animation(0.50f, catLadyFrames, PlayMode.LOOP);
+        
+
+        //traps and items
         //Kunai Trap
         TextureRegion[][] tmp = TextureRegion.split(TextureLoader.TRAPKUNAI, TextureLoader.TRAPKUNAI.getWidth() / FRAME_COLS, TextureLoader.TRAPKUNAI.getHeight() / FRAME_ROWS);
         kunaiFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
@@ -94,16 +141,7 @@ public class TextureLoader {
         }
         powerTrap = new Animation(0.05f, powerFrames);
     
-     //Detection
-        TextureRegion[][] tmp3 = TextureRegion.split(TextureLoader.DETECTIONTEXTURE, TextureLoader.DETECTIONTEXTURE.getWidth() / FRAME_COLS, TextureLoader.DETECTIONTEXTURE.getHeight() / FRAME_COLS);
-        detectionFrames = new TextureRegion[FRAME_COLS * FRAME_COLS];
-        int index3 = 0;
-        for (int i = 0; i < FRAME_COLS; i++) {
-            for (int j = 0; j < FRAME_COLS; j++) {
-                detectionFrames[index3++] = tmp3[i][j];
-            }
-        }
-        detectionSkill = new Animation(0.05f, detectionFrames);
+
     }
 
     public void dispose()

@@ -6,18 +6,18 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class Wanderer extends Antagonist {
+public class CatLady extends Antagonist {
     
-    private Animation wanderWalk;
+    private Animation catLadyWalk;
     private boolean moving = false;
     private boolean flip = false;
     private float elapsedTime;
     private TextureRegion temp;
 
-    public Wanderer(Texture texture, int cX, int cY) {
+    public CatLady(Texture texture, int cX, int cY) {
         super(texture, cX, cY);
-        this.setEnemyType(EnemyType.WANDERER);
-        wanderWalk = TextureLoader.wanderWalk;
+        this.setEnemyType(EnemyType.CATLADY);
+        catLadyWalk = TextureLoader.catLadyWalk;
 
     }
 
@@ -34,14 +34,14 @@ public class Wanderer extends Antagonist {
                 elapsedTime += Gdx.graphics.getDeltaTime();
                 
             if (flip) {
-                temp = wanderWalk.getKeyFrame(elapsedTime);
+                temp = catLadyWalk.getKeyFrame(elapsedTime);
                 temp.flip(true, false);
                 batch.draw(temp, this.getX(),getY(), Constants.TILEDIMENSION, Constants.TILEDIMENSION);
                 temp.flip(true, false);
             } else {
-                batch.draw(wanderWalk.getKeyFrame(elapsedTime), this.getX(), this.getY(), Constants.TILEDIMENSION *3, Constants.TILEDIMENSION);
+                batch.draw(catLadyWalk.getKeyFrame(elapsedTime), this.getX(), this.getY(), Constants.TILEDIMENSION *3, Constants.TILEDIMENSION);
             }
-            if (wanderWalk.isAnimationFinished(elapsedTime)) {
+            if (catLadyWalk.isAnimationFinished(elapsedTime)) {
                 moving = false;
                 elapsedTime = 0f;
             }

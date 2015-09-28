@@ -115,13 +115,13 @@ public class Map {
         entityList.add(new ItemHeart(TextureLoader.HEALTHTEXTURE, 6, 3));
         entityList.add(new ItemShield(TextureLoader.SHIELDTEXTURE, 6, 2));
 
-        //Some Random Enemies for testing, currently bernard texture
+        //Some Random Enemies for testing
         entityList.add(new Drunk(TextureLoader.DRUNKTEXTURE, 6, 6));
         entityList.add(new Drunk(TextureLoader.DRUNKTEXTURE, 6, 7));
         entityList.add(new Drunk(TextureLoader.DRUNKTEXTURE, 6, 8));
-        entityList.add(new Drunk(TextureLoader.DRUNKTEXTURE, 7, 6));
-        entityList.add(new Drunk(TextureLoader.DRUNKTEXTURE, 7, 7));
-        entityList.add(new Drunk(TextureLoader.DRUNKTEXTURE, 7, 8));
+        entityList.add(new Drunk(TextureLoader.CATLADYTEXTURE, 7, 6));
+        entityList.add(new Drunk(TextureLoader.CATLADYTEXTURE, 7, 7));
+        entityList.add(new Drunk(TextureLoader.CATLADYTEXTURE, 7, 8));
         entityList.add(new Wanderer(TextureLoader.WANDERTEXTURE, 8, 6));
         entityList.add(new Wanderer(TextureLoader.WANDERTEXTURE, 8, 7));
         entityList.add(new Wanderer(TextureLoader.WANDERTEXTURE, 8, 8));
