@@ -17,6 +17,9 @@ public class Wanderer extends Antagonist {
     private int bernardX;
     private int bernardY;
     private String XorY;
+    private int xdis;
+    private int ydis;
+    
 
     public Wanderer(Texture texture, int cX, int cY) {
         super(texture, cX, cY);
@@ -67,20 +70,48 @@ public class Wanderer extends Antagonist {
             bernardY = entityList.get(i).getCY();
             break;
         }
-            
         
-
-
+        xdis = this.getCX() - bernardX;
+        ydis = this.getCY() - bernardY;
+        
+        while (!canMove(d, mapGrid, entityGrid)) {
+        
+        if(Math.abs(xdis) > Math.abs(ydis))
+        {
+            XorY="X";
+        }
+        else
+        {
+            XorY="Y";
+        }
+        
+        if("X".equals(XorY) && xdis >= 0)
+        {
+            d = Direction.LEFT;
+        }
+        
+        if("X".equals(XorY) && xdis < 0)
+        {
+            d = Direction.RIGHT;
+        }
+        if("Y".equals(XorY) && ydis >= 0)
+        {
+            d = Direction.DOWN;        }
+        
+        if("Y".equals(XorY) && ydis < 0)
+        {
+            d = Direction.UP;
+        }
+        
+                    tries++;
+            if(tries > 5)
+                break;
+        }
+         
         this.setTurnAction(TurnAction.MOVE);
     }
     
-        public void observerUpdate(Object o) {
-        if (o instanceof Protagonist) {
-            Protagonist bernard = (Protagonist) o;
-            
-            
-        }
-    }
+
 
     private boolean canMove(Direction direction, int[][] mapGrid, int[][] entityGrid) {
         if (direction == Direction.UP) {
