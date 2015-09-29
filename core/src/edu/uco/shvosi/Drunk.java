@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import java.util.List;
 
 public class Drunk extends Antagonist {
     
@@ -49,7 +50,7 @@ public class Drunk extends Antagonist {
     }
 
     @Override
-    public void calculateTurn(int[][] mapGrid, int[][] entityGrid) {
+    public void calculateTurn(int[][] mapGrid, int[][] entityGrid, List<Entity> entityList) {
         //Random movement
         int random = 0;
         int tries = 0;

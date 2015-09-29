@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import static com.badlogic.gdx.math.Rectangle.tmp;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import java.util.List;
 
 public class Antagonist extends Entity implements Observer {
     private EnemyType enemyType;
@@ -49,7 +50,7 @@ public class Antagonist extends Entity implements Observer {
         //Do Attack Stuffs?
     }
 
-    public void calculateTurn(int[][] mapGrid, int[][] entityGrid) {
+    public void calculateTurn(int[][] mapGrid, int[][] entityGrid, List<Entity> entityList) {
         //Do AI Stuff
 
         //If you want to move it, set turn action to move and set its dx and dy

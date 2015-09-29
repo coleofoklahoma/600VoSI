@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import java.util.List;
 
 public class Wanderer extends Antagonist {
     
@@ -13,6 +14,9 @@ public class Wanderer extends Antagonist {
     private boolean flip = false;
     private float elapsedTime;
     private TextureRegion temp;
+    private int bernardX;
+    private int bernardY;
+    private String XorY;
 
     public Wanderer(Texture texture, int cX, int cY) {
         super(texture, cX, cY);
@@ -50,34 +54,32 @@ public class Wanderer extends Antagonist {
 
     
     @Override
-    public void calculateTurn(int[][] mapGrid, int[][] entityGrid) {
+    public void calculateTurn(int[][] mapGrid, int[][] entityGrid, List<Entity> entityList) {
         //Random movement
         int random = 0;
         int tries = 0;
         Direction d = Direction.NONE;
-
-        while (!canMove(d, mapGrid, entityGrid)) {
-            random = (int) (Math.random() * entityGrid.length);
-            switch (random % 4) {
-                case 1:
-                    d = Direction.UP;
-                    break;
-                case 2:
-                    d = Direction.DOWN;
-                    break;
-                case 3:
-                    d = Direction.LEFT;
-                    break;
-                default:
-                    d = Direction.RIGHT;
-                    break;
-            }
-            tries++;
-            if(tries > 5)
-                break;
+        
+        for(int i = 0; i < entityList.size(); i++)
+        {
+            if(entityList.get(i).getEntityType() == EntityGridCode.PLAYER);
+            bernardX = entityList.get(i).getCX();
+            bernardY = entityList.get(i).getCY();
+            break;
         }
+            
+        
+
 
         this.setTurnAction(TurnAction.MOVE);
+    }
+    
+        public void observerUpdate(Object o) {
+        if (o instanceof Protagonist) {
+            Protagonist bernard = (Protagonist) o;
+            
+            
+        }
     }
 
     private boolean canMove(Direction direction, int[][] mapGrid, int[][] entityGrid) {

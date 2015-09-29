@@ -232,6 +232,7 @@ public class GameScreen implements Screen {
                     for(Skill s : bernard.getSkills().values()) {
                         s.addObserver(map.getEntityList().get(i));
                     }
+                   // bernard.addObserver(map.getEntityList().get(i));
                     break;
                 case EntityGridCode.TRAP:
                     bernard.addObserver(map.getEntityList().get(i));

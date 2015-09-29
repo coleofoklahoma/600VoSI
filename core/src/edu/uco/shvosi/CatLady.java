@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import java.util.List;
 
 public class CatLady extends Antagonist {
     
@@ -50,7 +51,7 @@ public class CatLady extends Antagonist {
 
     
     @Override
-    public void calculateTurn(int[][] mapGrid, int[][] entityGrid) {
+    public void calculateTurn(int[][] mapGrid, int[][] entityGrid, List<Entity> entityList) {
         //Random movement
         int random = 0;
         int tries = 0;

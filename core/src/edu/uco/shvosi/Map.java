@@ -256,7 +256,7 @@ public class Map {
             Antagonist enemy = (Antagonist) entity;
 
             //Change this method to however you want enemies to behave
-            enemy.calculateTurn(mapGrid, entityGrid);
+            enemy.calculateTurn(mapGrid, entityGrid,entityList);
         }
     }
 
