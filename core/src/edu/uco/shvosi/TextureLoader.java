@@ -159,6 +159,8 @@ public class TextureLoader {
         REDLASERTEXTURE.dispose();
         SKILLONETEXTURE.dispose();
         BLANKTEXTURE.dispose();
+        CATTYTEXTURE.dispose();
+        CATLADYTEXTURE.dispose();
 
     }
 }
