@@ -50,24 +50,29 @@ public class GameScreen implements Screen {
             bernard.setDirection(Direction.DOWN);
             bernard.setTurnAction(TurnAction.MOVE);
             Gdx.app.log("MOVING", "DOWN");
-        } else if (Gdx.input.isKeyJustPressed(Keys.A) && map.bernardCanMove(Direction.LEFT)) {
-            bernard.setPlayTurn(true);
-            bernard.notifyObservers();
+        } else if (Gdx.input.isKeyJustPressed(Keys.A)) {
             if (bernard.getDirection() != Direction.LEFT) {
                 bernard.flipTexture(Direction.LEFT);
+                bernard.setDirection(Direction.LEFT);
             }
-            bernard.setDirection(Direction.LEFT);
-            bernard.setTurnAction(TurnAction.MOVE);
-            Gdx.app.log("MOVING", "LEFT");
-        } else if (Gdx.input.isKeyJustPressed(Keys.D) && map.bernardCanMove(Direction.RIGHT)) {
-            bernard.setPlayTurn(true);
-            bernard.notifyObservers();
+            if (map.bernardCanMove(Direction.LEFT)) {
+                bernard.setPlayTurn(true);
+                bernard.notifyObservers();
+                bernard.setTurnAction(TurnAction.MOVE);
+                Gdx.app.log("MOVING", "LEFT");
+            }
+        } else if (Gdx.input.isKeyJustPressed(Keys.D)) {
             if (bernard.getDirection() != Direction.RIGHT) {
                 bernard.flipTexture(Direction.RIGHT);
+                bernard.setDirection(Direction.RIGHT);
             }
-            bernard.setDirection(Direction.RIGHT);
-            bernard.setTurnAction(TurnAction.MOVE);
-            Gdx.app.log("MOVING", "RIGHT");
+
+            if (map.bernardCanMove(Direction.RIGHT)) {
+                bernard.setPlayTurn(true);
+                bernard.notifyObservers();
+                bernard.setTurnAction(TurnAction.MOVE);
+                Gdx.app.log("MOVING", "RIGHT");
+            }
         }
 
         //Skills
@@ -229,10 +234,10 @@ public class GameScreen implements Screen {
                     break;
                 case EntityGridCode.ENEMY:
                     stage.getActors().get(i).setZIndex(2);
-                    for(Skill s : bernard.getSkills().values()) {
+                    for (Skill s : bernard.getSkills().values()) {
                         s.addObserver(map.getEntityList().get(i));
                     }
-                   // bernard.addObserver(map.getEntityList().get(i));
+                    // bernard.addObserver(map.getEntityList().get(i));
                     break;
                 case EntityGridCode.TRAP:
                     bernard.addObserver(map.getEntityList().get(i));
