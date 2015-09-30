@@ -19,6 +19,7 @@ public class Wanderer extends Antagonist {
     private String XorY;
     private int xdis;
     private int ydis;
+    private int damage = 50;
     
 
     public Wanderer(Texture texture, int cX, int cY) {
@@ -59,7 +60,6 @@ public class Wanderer extends Antagonist {
     @Override
     public void calculateTurn(int[][] mapGrid, int[][] entityGrid, List<Entity> entityList) {
         //Random movement
-        int random = 0;
         int tries = 0;
         Direction d = Direction.NONE;
         
@@ -111,6 +111,13 @@ public class Wanderer extends Antagonist {
         this.setTurnAction(TurnAction.MOVE);
     }
     
+    @Override
+    public void collision(Entity entity) {
+        entity.setHealth(entity.getHealth() - this.damage);
+        if (entity.getHealth() < 1) {
+            entity.setHealth(0);
+        }
+    }
 
 
     private boolean canMove(Direction direction, int[][] mapGrid, int[][] entityGrid) {

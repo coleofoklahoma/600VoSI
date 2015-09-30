@@ -14,6 +14,12 @@ public class CatLady extends Antagonist {
     private boolean flip = false;
     private float elapsedTime;
     private TextureRegion temp;
+    private int bernardX;
+    private int bernardY;
+    private String XorY;
+    private int xdis;
+    private int ydis;
+    private int damage = 50;
 
     public CatLady(Texture texture, int cX, int cY) {
         super(texture, cX, cY);
@@ -53,31 +59,54 @@ public class CatLady extends Antagonist {
     @Override
     public void calculateTurn(int[][] mapGrid, int[][] entityGrid, List<Entity> entityList) {
         //Random movement
-        int random = 0;
-        int tries = 0;
+              int tries = 0;
         Direction d = Direction.NONE;
-
+        
+        for(int i = 0; i < entityList.size(); i++)
+        {
+            if(entityList.get(i).getEntityType() == EntityGridCode.PLAYER);
+            bernardX = entityList.get(i).getCX();
+            bernardY = entityList.get(i).getCY();
+            break;
+        }
+        
+        xdis = this.getCX() - bernardX;
+        ydis = this.getCY() - bernardY;
+        
         while (!canMove(d, mapGrid, entityGrid)) {
-            random = (int) (Math.random() * entityGrid.length);
-            switch (random % 4) {
-                case 1:
-                    d = Direction.UP;
-                    break;
-                case 2:
-                    d = Direction.DOWN;
-                    break;
-                case 3:
-                    d = Direction.LEFT;
-                    break;
-                default:
-                    d = Direction.RIGHT;
-                    break;
-            }
-            tries++;
+        
+        if(Math.abs(xdis) > Math.abs(ydis))
+        {
+            XorY="X";
+        }
+        else
+        {
+            XorY="Y";
+        }
+        
+        if("X".equals(XorY) && xdis >= 0)
+        {
+            d = Direction.LEFT;
+        }
+        
+        if("X".equals(XorY) && xdis < 0)
+        {
+            d = Direction.RIGHT;
+        }
+        if("Y".equals(XorY) && ydis >= 0)
+        {
+            d = Direction.DOWN;        }
+        
+        if("Y".equals(XorY) && ydis < 0)
+        {
+            d = Direction.UP;
+        }
+        
+                    tries++;
             if(tries > 5)
                 break;
         }
-
+         
         this.setTurnAction(TurnAction.MOVE);
     }
 
