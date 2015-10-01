@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import static edu.uco.shvosi.GameScreen.invent;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +22,11 @@ public class Protagonist extends Entity implements Observable {
     private boolean executeSkillTwo;
     private boolean executeSkillOne;
     private boolean firing;
+    
+    private int itemHeld = 0;
+    private int shieldFlag = 0;
+    
+    
     private List<Observer> observers;
     private HashMap<String, Skill> skills;
 
@@ -142,7 +148,31 @@ public class Protagonist extends Entity implements Observable {
     public boolean getExecuteDetection() {
         return executeDetection;
     }
+    
+    @Override
+    public void setItemHeld(int x){
+        itemHeld = x;
+    } 
+    
+     public void useItem() {
+        if (itemHeld== 0){
+        }
+        else if (itemHeld == 1){
+            this.setImage(TextureLoader.BERNARDSHIELDTEXTURE);
+            itemHeld = 0;
+            invent.setImage(TextureLoader.INVENTORYTEXTURE);
+            shieldFlag = 1;
+        }
+    }
 
+    public int getShieldFlag(){
+        return shieldFlag;
+    } 
+    
+    public void setShieldFlag(int x){
+        shieldFlag = x;
+    } 
+     
     public Rectangle2D.Double getDetectionCollisionBox() {
         return new Rectangle2D.Double(this.getCX(), this.getCY(), 2, 2);
     }

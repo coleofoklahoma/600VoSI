@@ -75,6 +75,11 @@ public class GameScreen implements Screen {
             }
         }
 
+        //Use Item
+         if (Gdx.input.isKeyJustPressed(Keys.Q)) {
+            bernard.useItem();
+        }
+        
         //Skills
         if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
             bernard.setPlayTurn(true);

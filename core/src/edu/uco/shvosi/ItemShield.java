@@ -13,6 +13,7 @@ public class ItemShield extends Entity{
     
     @Override
     public void collision(Entity entity){
+        entity.setItemHeld(1);
         GameScreen.invent.setImage(TextureLoader.INVENTORYSHIELDTEXTURE);
         this.setHealth(0);
         }

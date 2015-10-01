@@ -10,6 +10,7 @@ import com.badlogic.gdx.utils.Array;
 public class TextureLoader {
     //bernard and his powers
     public static final Texture BERNARDTEXTURE = new Texture(Gdx.files.internal("characters/bernard.png"));
+    public static final Texture BERNARDSHIELDTEXTURE = new Texture(Gdx.files.internal("characters/bernard_shield.png"));
     public static final Texture HEALTHTEXTURE = new Texture (Gdx.files.internal("items/health.png"));
     public static final Texture REDLASERTEXTURE = new Texture(Gdx.files.internal("RedLaserAnimation.png"));
     public static final Texture DETECTIONTEXTURE = new Texture(Gdx.files.internal("detection.png"));
