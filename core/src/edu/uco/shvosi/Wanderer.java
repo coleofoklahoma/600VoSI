@@ -65,10 +65,11 @@ public class Wanderer extends Antagonist {
         
         for(int i = 0; i < entityList.size(); i++)
         {
-            if(entityList.get(i).getEntityType() == EntityGridCode.PLAYER);
-            bernardX = entityList.get(i).getCX();
-            bernardY = entityList.get(i).getCY();
-            break;
+            if(entityList.get(i).getEntityType() == EntityGridCode.PLAYER){
+                bernardX = entityList.get(i).getCX();
+                bernardY = entityList.get(i).getCY();
+                break;
+            }
         }
         
         xdis = this.getCX() - bernardX;

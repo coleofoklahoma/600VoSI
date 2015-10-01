@@ -218,9 +218,11 @@ public class GameScreen implements Screen {
     public void initNewLevel() {
         //Test Level
         if (level == 0) {
+            this.bernard.removeAllObservers();
             map = new Map(bernard, "maps/testmap.tmx");
             level = 1;
         } else if (level == 1) {
+            this.bernard.removeAllObservers();
             map = new Map(bernard, "maps/testmap2.tmx");
             level = 0;
         }

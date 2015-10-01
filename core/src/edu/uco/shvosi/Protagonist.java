@@ -190,6 +190,10 @@ public class Protagonist extends Entity implements Observable {
     public void removeObserver(Observer o) {
         this.observers.remove(o);
     }
+    
+    public void removeAllObservers() {
+        this.observers.clear();
+    }
 
     public void moveAction() {
         MoveToAction moveAction = new MoveToAction();
