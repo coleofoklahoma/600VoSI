@@ -14,12 +14,11 @@ public class CatLady extends Antagonist {
     private boolean flip = false;
     private float elapsedTime;
     private TextureRegion temp;
-    private int bernardX;
-    private int bernardY;
-    private String XorY;
-    private int xdis;
-    private int ydis;
-    private int damage = 50;
+    private int bernardX; 
+    private int bernardY; 
+    private String XorY; 
+    private int xdis; 
+    private int ydis; 
 
     public CatLady(Texture texture, int cX, int cY) {
         super(texture, cX, cY);
@@ -59,10 +58,11 @@ public class CatLady extends Antagonist {
     @Override
     public void calculateTurn(int[][] mapGrid, int[][] entityGrid, List<Entity> entityList) {
         //Random movement
-              int tries = 0;
+        int random = 0;
+        int tries = 0;
         Direction d = Direction.NONE;
         
-        for(int i = 0; i < entityList.size(); i++)
+         for(int i = 0; i < entityList.size(); i++)
         {
             if(entityList.get(i).getEntityType() == EntityGridCode.PLAYER);
             bernardX = entityList.get(i).getCX();
@@ -106,7 +106,7 @@ public class CatLady extends Antagonist {
             if(tries > 5)
                 break;
         }
-         
+
         this.setTurnAction(TurnAction.MOVE);
     }
 
