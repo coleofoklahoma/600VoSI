@@ -125,6 +125,8 @@ public class Map {
         entityList.add(new Wanderer(TextureLoader.WANDERTEXTURE, 8, 6));
         entityList.add(new Wanderer(TextureLoader.WANDERTEXTURE, 8, 7));
         entityList.add(new Wanderer(TextureLoader.WANDERTEXTURE, 4, 1));
+        
+        
 
         // Populate the cells from the entity list
         for (int i = 0; i < this.entityList.size(); i++) {

@@ -154,6 +154,11 @@ public class Protagonist extends Entity implements Observable {
         itemHeld = x;
     } 
     
+    @Override
+    public int getItemHeld(){
+        return itemHeld;
+    }
+    
      public void useItem() {
         if (itemHeld== 0){
         }

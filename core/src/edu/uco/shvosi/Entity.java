@@ -132,4 +132,8 @@ public class Entity extends Image implements Observer{
     void setItemHeld(int i) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    int getItemHeld() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

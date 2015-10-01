@@ -2,7 +2,7 @@ package edu.uco.shvosi;
 
 import com.badlogic.gdx.graphics.Texture;
 
-public class ItemHeart extends Entity{
+public class ItemHeart extends Entity implements Observer{
     private int type;
     private int healAmount;
     
@@ -13,10 +13,22 @@ public class ItemHeart extends Entity{
     
     @Override
     public void collision(Entity entity){
-        entity.setHealth(entity.getHealth() + this.healAmount);
-        this.setHealth(0);
-        if (entity.getHealth() > 100){
-            entity.setHealth(100);
+    }
+    
+    @Override
+    public void observerUpdate(Object o) {
+        if (o instanceof Protagonist) {
+            Protagonist bernard = (Protagonist) o;
+            Integer xCoordinate = bernard.getDCX();
+            Integer yCoordinate = bernard.getDCY();
+            if (xCoordinate == this.getCX() && yCoordinate == this.getCY()) {
+                bernard.setHealth(bernard.getHealth() + this.healAmount);
+                this.setHealth(0);
+                if (bernard.getHealth() > 100){
+                    bernard.setHealth(100);
+                }
+            }
         }
+
     }
 }

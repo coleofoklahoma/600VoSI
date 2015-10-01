@@ -232,15 +232,15 @@ public class GameScreen implements Screen {
 
     public void initStage() {
         // Add the entities to the stage
-        for (int i = 0; i < map.getEntityList().size(); i++) {
+        for (int i = map.getEntityList().size() -1; i > -1; i--) {
             stage.addActor(map.getEntityList().get(i));
             switch (map.getEntityList().get(i).getEntityType()) {
                 case EntityGridCode.PLAYER:
                     //bernard = (Protagonist)map.getEntityList().get(i);
-                    stage.getActors().get(i).setZIndex(3);
+               //     stage.getActors().get(i).setZIndex(3);
                     break;
                 case EntityGridCode.ENEMY:
-                    stage.getActors().get(i).setZIndex(2);
+               //     stage.getActors().get(i).setZIndex(2);
                     for (Skill s : bernard.getSkills().values()) {
                         s.addObserver(map.getEntityList().get(i));
                     }
@@ -250,9 +250,10 @@ public class GameScreen implements Screen {
                     bernard.addObserver(map.getEntityList().get(i));
                     break;
                 case EntityGridCode.ITEM:
+                    bernard.addObserver(map.getEntityList().get(i));
                     break;
                 default:
-                    stage.getActors().get(i).setZIndex(1);
+              //      stage.getActors().get(i).setZIndex(1);
                     break;
             }
         }

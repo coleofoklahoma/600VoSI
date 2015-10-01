@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 
 public class Inventory extends Entity{
     private Direction direction;
-    private ItemType heldItem;
 
 
     public Inventory(Texture texture, int X, int Y) {
