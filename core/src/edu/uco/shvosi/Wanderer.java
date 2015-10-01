@@ -39,7 +39,15 @@ public class Wanderer extends Antagonist {
         super.draw(batch, alpha);
     
                 
-                elapsedTime += Gdx.graphics.getDeltaTime();
+            elapsedTime += Gdx.graphics.getDeltaTime();
+            if(xdis >=0)
+            {
+                flip = true;
+            }
+            else
+            {
+                flip = false;
+            }
                 
             if (flip) {
                 temp = wanderWalk.getKeyFrame(elapsedTime);
@@ -47,7 +55,7 @@ public class Wanderer extends Antagonist {
                 batch.draw(temp, this.getX(),getY(), Constants.TILEDIMENSION, Constants.TILEDIMENSION);
                 temp.flip(true, false);
             } else {
-                batch.draw(wanderWalk.getKeyFrame(elapsedTime), this.getX(), this.getY(), Constants.TILEDIMENSION *3, Constants.TILEDIMENSION);
+                batch.draw(wanderWalk.getKeyFrame(elapsedTime), this.getX(), this.getY(), Constants.TILEDIMENSION, Constants.TILEDIMENSION);
             }
             if (wanderWalk.isAnimationFinished(elapsedTime)) {
                 moving = false;

@@ -121,7 +121,7 @@ public class TextureLoader {
         //Antagonist Drunk
         drunkFrames = new Array<TextureRegion>(6);
         for (int i = 0; i < 6; i++) {
-            drunkFrames.add(new TextureRegion(DRUNKENTEXTURE, 25, i * 100, 300, 100));
+            drunkFrames.add(new TextureRegion(DRUNKENTEXTURE, 25, i * 100, 100, 100));
         }
 
         drunkWalk = new Animation(0.50f, drunkFrames, PlayMode.LOOP);
@@ -129,7 +129,7 @@ public class TextureLoader {
         //Antagonist wnaderer
         wanderFrames = new Array<TextureRegion>(2);
         for (int i = 0; i < 2; i++) {
-            wanderFrames.add(new TextureRegion(WANDTEXTURE, 25, i * 100, 300, 100));
+            wanderFrames.add(new TextureRegion(WANDTEXTURE, 25, i * 100, 100, 100));
         }
 
         wanderWalk = new Animation(0.50f, wanderFrames, PlayMode.LOOP);
@@ -137,7 +137,7 @@ public class TextureLoader {
         //Antagonist catlady
         catLadyFrames = new Array<TextureRegion>(3);
         for (int i = 0; i < 3; i++) {
-            catLadyFrames.add(new TextureRegion(CATTYTEXTURE, 25, i * 100, 300, 100));
+            catLadyFrames.add(new TextureRegion(CATTYTEXTURE, 25, i * 100, 100, 100));
         }
 
         catLadyWalk = new Animation(0.50f, catLadyFrames, PlayMode.LOOP);

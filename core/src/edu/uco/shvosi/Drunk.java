@@ -40,7 +40,7 @@ public class Drunk extends Antagonist {
                 batch.draw(temp, this.getX(),getY(), Constants.TILEDIMENSION, Constants.TILEDIMENSION);
                 temp.flip(true, false);
             } else {
-                batch.draw(drunkWalk.getKeyFrame(elapsedTime), this.getX(), this.getY(), Constants.TILEDIMENSION *3, Constants.TILEDIMENSION);
+                batch.draw(drunkWalk.getKeyFrame(elapsedTime), this.getX(), this.getY(), Constants.TILEDIMENSION , Constants.TILEDIMENSION);
             }
             if (drunkWalk.isAnimationFinished(elapsedTime)) {
                 moving = false;
@@ -67,9 +67,11 @@ public class Drunk extends Antagonist {
                     break;
                 case 3:
                     d = Direction.LEFT;
+                    flip = true;
                     break;
                 default:
                     d = Direction.RIGHT;
+                    flip = false;
                     break;
             }
             tries++;

@@ -37,7 +37,16 @@ public class CatLady extends Antagonist {
         super.draw(batch, alpha);
     
                 
-                elapsedTime += Gdx.graphics.getDeltaTime();
+            elapsedTime += Gdx.graphics.getDeltaTime();
+            
+            if(xdis >=0)
+            {
+                flip = true;
+            }
+            else
+            {
+                flip = false;
+            }
                 
             if (flip) {
                 temp = catLadyWalk.getKeyFrame(elapsedTime);
@@ -45,7 +54,7 @@ public class CatLady extends Antagonist {
                 batch.draw(temp, this.getX(),getY(), Constants.TILEDIMENSION, Constants.TILEDIMENSION);
                 temp.flip(true, false);
             } else {
-                batch.draw(catLadyWalk.getKeyFrame(elapsedTime), this.getX(), this.getY(), Constants.TILEDIMENSION *3, Constants.TILEDIMENSION);
+                batch.draw(catLadyWalk.getKeyFrame(elapsedTime), this.getX(), this.getY(), Constants.TILEDIMENSION , Constants.TILEDIMENSION);
             }
             if (catLadyWalk.isAnimationFinished(elapsedTime)) {
                 moving = false;
