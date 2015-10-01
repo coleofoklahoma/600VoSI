@@ -76,10 +76,10 @@ public class GameScreen implements Screen {
         }
 
         //Use Item
-         if (Gdx.input.isKeyJustPressed(Keys.Q)) {
+        if (Gdx.input.isKeyJustPressed(Keys.Q)) {
             bernard.useItem();
         }
-        
+
         //Skills
         if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
             bernard.setPlayTurn(true);
@@ -104,6 +104,17 @@ public class GameScreen implements Screen {
             bernard.setExecuteDetection(true);
             bernard.notifyObservers();
             bernard.setTurnAction(TurnAction.ATTACK);
+        }
+
+        if (Gdx.input.isKeyJustPressed(Keys.NUM_4)) {
+            bernard.setPlayTurn(true);
+            bernard.setExecuteBarrier(true);
+            bernard.setBarrierLimit(2);
+            bernard.notifyObservers();
+            bernard.setTurnAction(TurnAction.ATTACK);
+        }
+        if (bernard.getBarrierLimit() == 0) {
+            bernard.setHeal(true);
         }
 
         //temporary health display
@@ -232,15 +243,15 @@ public class GameScreen implements Screen {
 
     public void initStage() {
         // Add the entities to the stage
-        for (int i = map.getEntityList().size() -1; i > -1; i--) {
+        for (int i = map.getEntityList().size() - 1; i > -1; i--) {
             stage.addActor(map.getEntityList().get(i));
             switch (map.getEntityList().get(i).getEntityType()) {
                 case EntityGridCode.PLAYER:
                     //bernard = (Protagonist)map.getEntityList().get(i);
-               //     stage.getActors().get(i).setZIndex(3);
+                    //     stage.getActors().get(i).setZIndex(3);
                     break;
                 case EntityGridCode.ENEMY:
-               //     stage.getActors().get(i).setZIndex(2);
+                    //     stage.getActors().get(i).setZIndex(2);
                     for (Skill s : bernard.getSkills().values()) {
                         s.addObserver(map.getEntityList().get(i));
                     }
@@ -253,7 +264,7 @@ public class GameScreen implements Screen {
                     bernard.addObserver(map.getEntityList().get(i));
                     break;
                 default:
-              //      stage.getActors().get(i).setZIndex(1);
+                    //      stage.getActors().get(i).setZIndex(1);
                     break;
             }
         }

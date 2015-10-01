@@ -44,7 +44,7 @@ public class TrapType1 extends Entity implements Observer {
     }
 
     @Override
-    public void collision(Entity entity) {     
+    public void collision(Entity entity) {
     }
 
     public void observerUpdate(Object o) {
@@ -52,16 +52,22 @@ public class TrapType1 extends Entity implements Observer {
             Protagonist bernard = (Protagonist) o;
             Integer xCoordinate = bernard.getDCX();
             Integer yCoordinate = bernard.getDCY();
-                      
+
             if (xCoordinate == this.getCX() && yCoordinate == this.getCY() && this.state == 0) {
                 this.setVisible(true);
                 this.activateKunai = true;
-                if (bernard.getShieldFlag() == 1){
+                if (bernard.getShieldFlag() == 1) {
                     bernard.setImage(TextureLoader.BERNARDTEXTURE);
                     bernard.setShieldFlag(0);
-                }
-                else {
-                    bernard.setHealth(bernard.getHealth() - this.damage);
+                } else {
+                    if (bernard.getExecuteBarrier() == true) {
+                        bernard.setHealth(bernard.getHealth() - this.damage / 2);
+                        bernard.setBarrierDamage(this.damage / 2);
+                        bernard.setBarrierLimit(bernard.getBarrierLimit() - 1);
+                    } else {
+                        bernard.setHealth(bernard.getHealth() - this.damage);
+                    }
+                    
                     if (bernard.getHealth() < 1) {
                         bernard.setHealth(0);
                     }

@@ -19,13 +19,17 @@ public class Protagonist extends Entity implements Observable {
 
     // Sorry to just throw all this in here lol --Cody
     private boolean executeDetection;
+    private boolean executeBarrier;
     private boolean executeSkillTwo;
     private boolean executeSkillOne;
     private boolean firing;
+    private boolean heal;
     
     private int itemHeld = 0;
     private int shieldFlag = 0;
     
+    private int barrierLimit = 2;
+    private int barrierDamage = 0;
     
     private List<Observer> observers;
     private HashMap<String, Skill> skills;
@@ -51,6 +55,11 @@ public class Protagonist extends Entity implements Observable {
         executeDetection = false;
 
         skills.put("Detection", new DetectionSkill(0, 0, TextureLoader.detectionSkill, 0));
+        
+          // Barrier
+        executeBarrier = false;
+
+        skills.put("Barrier", new BarrierSkill(0, 0, TextureLoader.barrierSkill, 0));
 
         // Skill one
         executeSkillOne = false;
@@ -74,6 +83,10 @@ public class Protagonist extends Entity implements Observable {
             }
         }
 
+         if (executeBarrier) {
+            skills.get("Barrier").draw(batch, alpha, this);
+        }
+        
         if (executeDetection) {
             skills.get("Detection").draw(batch, alpha, this);
             if (skills.get("Detection").isAnimationFinished()) {
@@ -148,6 +161,42 @@ public class Protagonist extends Entity implements Observable {
     public boolean getExecuteDetection() {
         return executeDetection;
     }
+    
+      public void setExecuteBarrier(boolean executeBarrier) {
+        this.executeBarrier = executeBarrier;
+    }
+    
+     public boolean getExecuteBarrier() {
+        return executeBarrier;
+    }
+     
+    public boolean getHeal() {
+        return heal;
+    }
+
+    public void setHeal(boolean heal) {
+        this.heal = heal;
+    }
+
+    public void setBarrierLimit(int b) {
+        barrierLimit = b;
+    }
+
+    public int getBarrierLimit() {
+        return barrierLimit;
+    }
+
+    public void setBarrierDamage(int b) {
+        barrierDamage += b;
+    }
+
+    public int getBarrierDamage() {
+        return barrierDamage;
+    }
+    
+    public void resetBarrierDamage(){
+        barrierDamage = 0;
+    } 
     
     @Override
     public void setItemHeld(int x){
