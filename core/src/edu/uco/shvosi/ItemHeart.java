@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 public class ItemHeart extends Entity implements Observer{
     private int type;
     private int healAmount;
+    private int state = 0;
     
     public ItemHeart(Texture texture, int cX, int cY){
         super(EntityGridCode.ITEM, texture, cX, cY);
@@ -21,9 +22,10 @@ public class ItemHeart extends Entity implements Observer{
             Protagonist bernard = (Protagonist) o;
             Integer xCoordinate = bernard.getDCX();
             Integer yCoordinate = bernard.getDCY();
-            if (xCoordinate == this.getCX() && yCoordinate == this.getCY()) {
+            if (xCoordinate == this.getCX() && yCoordinate == this.getCY() && this.state == 0) {
                 bernard.setHealth(bernard.getHealth() + this.healAmount);
                 this.setHealth(0);
+                this.state = 1;
                 if (bernard.getHealth() > 100){
                     bernard.setHealth(100);
                 }
