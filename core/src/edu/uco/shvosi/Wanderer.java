@@ -20,6 +20,7 @@ public class Wanderer extends Antagonist {
     private int xdis;
     private int ydis;
     private int damage = 50;
+    private boolean active = false;
     
 
     public Wanderer(Texture texture, int cX, int cY) {
@@ -70,54 +71,65 @@ public class Wanderer extends Antagonist {
         //Random movement
         int tries = 0;
         Direction d = Direction.NONE;
+
+            for(int i = 0; i < entityList.size(); i++)
+            {
+                if(entityList.get(i).getEntityType() == EntityGridCode.PLAYER){
+                    bernardX = entityList.get(i).getCX();
+                    bernardY = entityList.get(i).getCY();
+                    break;
+                }
+            }
         
-        for(int i = 0; i < entityList.size(); i++)
-        {
-            if(entityList.get(i).getEntityType() == EntityGridCode.PLAYER){
-                bernardX = entityList.get(i).getCX();
-                bernardY = entityList.get(i).getCY();
+            xdis = this.getCX() - bernardX;
+            ydis = this.getCY() - bernardY;
+            if(xdis < 5 && ydis < 5)
+            {
+                active = true;
+            }
+        
+            if (active)
+             {
+            
+            while (!canMove(d, mapGrid, entityGrid)) {
+        
+                if(Math.abs(xdis) > Math.abs(ydis))
+                {
+                    XorY="X";
+                }
+                else
+                {
+                    XorY="Y";
+                }
+        
+                if("X".equals(XorY) && xdis >= 0)
+                {
+                    d = Direction.LEFT;
+                }
+        
+            if("X".equals(XorY) && xdis < 0)
+            {
+                d = Direction.RIGHT;
+            }
+            if("Y".equals(XorY) && ydis >= 0)
+            {
+                d = Direction.DOWN;
+            }
+        
+            if("Y".equals(XorY) && ydis < 0)
+            {
+                d = Direction.UP;
+            }
+        
+            tries++;
+            if(tries > 5)
+            {
                 break;
             }
-        }
-        
-        xdis = this.getCX() - bernardX;
-        ydis = this.getCY() - bernardY;
-        
-        while (!canMove(d, mapGrid, entityGrid)) {
-        
-        if(Math.abs(xdis) > Math.abs(ydis))
-        {
-            XorY="X";
-        }
-        else
-        {
-            XorY="Y";
-        }
-        
-        if("X".equals(XorY) && xdis >= 0)
-        {
-            d = Direction.LEFT;
-        }
-        
-        if("X".equals(XorY) && xdis < 0)
-        {
-            d = Direction.RIGHT;
-        }
-        if("Y".equals(XorY) && ydis >= 0)
-        {
-            d = Direction.DOWN;        }
-        
-        if("Y".equals(XorY) && ydis < 0)
-        {
-            d = Direction.UP;
-        }
-        
-                    tries++;
-            if(tries > 5)
-                break;
-        }
-         
+        }//end while
+   
         this.setTurnAction(TurnAction.MOVE);
+             }//end if active
     }
     
     @Override
