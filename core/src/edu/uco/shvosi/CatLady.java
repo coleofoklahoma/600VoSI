@@ -19,7 +19,7 @@ public class CatLady extends Antagonist {
     private String XorY; 
     private int xdis; 
     private int ydis; 
-    private boolean active;
+    private boolean active = false;
 
     public CatLady(Texture texture, int cX, int cY) {
         super(texture, cX, cY);
