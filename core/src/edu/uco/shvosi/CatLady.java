@@ -19,6 +19,7 @@ public class CatLady extends Antagonist {
     private String XorY; 
     private int xdis; 
     private int ydis; 
+    private boolean active;
 
     public CatLady(Texture texture, int cX, int cY) {
         super(texture, cX, cY);
@@ -82,6 +83,14 @@ public class CatLady extends Antagonist {
         xdis = this.getCX() - bernardX;
         ydis = this.getCY() - bernardY;
         
+        if(xdis < 5 && ydis < 5)
+        {
+        active = true;
+        }
+        
+        if (active)
+        {
+        
         while (!canMove(d, mapGrid, entityGrid)) {
         
         if(Math.abs(xdis) > Math.abs(ydis))
@@ -117,6 +126,7 @@ public class CatLady extends Antagonist {
         }
 
         this.setTurnAction(TurnAction.MOVE);
+        }//end if active
     }
 
     private boolean canMove(Direction direction, int[][] mapGrid, int[][] entityGrid) {
