@@ -23,9 +23,9 @@ public class Wanderer extends Antagonist {
     private boolean active = false;
     
 
-    public Wanderer(Texture texture, int cX, int cY) {
-        super(texture, cX, cY);
-        this.setEnemyType(EnemyType.WANDERER);
+    public Wanderer(int cX, int cY) {
+        super(TextureLoader.WANDERTEXTURE, cX, cY);
+        this.setEnemyType(Constants.EnemyType.WANDERER);
         wanderWalk = TextureLoader.wanderWalk;
 
     }
@@ -67,14 +67,14 @@ public class Wanderer extends Antagonist {
 
     
     @Override
-    public void calculateTurn(int[][] mapGrid, int[][] entityGrid, List<Entity> entityList) {
+    public void calculateTurn(Constants.MapGridCode[][] mapGrid, Constants.EntityGridCode[][] entityGrid, List<Entity> entityList) {
         //Random movement
         int tries = 0;
-        Direction d = Direction.NONE;
+        Constants.Direction d = Constants.Direction.NONE;
 
             for(int i = 0; i < entityList.size(); i++)
             {
-                if(entityList.get(i).getEntityType() == EntityGridCode.PLAYER){
+                if(entityList.get(i).getGridCode() == Constants.EntityGridCode.PLAYER){
                     bernardX = entityList.get(i).getCX();
                     bernardY = entityList.get(i).getCY();
                     break;
@@ -104,21 +104,21 @@ public class Wanderer extends Antagonist {
         
                 if("X".equals(XorY) && xdis >= 0)
                 {
-                    d = Direction.LEFT;
+                    d = Constants.Direction.LEFT;
                 }
         
             if("X".equals(XorY) && xdis < 0)
             {
-                d = Direction.RIGHT;
+                d = Constants.Direction.RIGHT;
             }
             if("Y".equals(XorY) && ydis >= 0)
             {
-                d = Direction.DOWN;
+                d = Constants.Direction.DOWN;
             }
         
             if("Y".equals(XorY) && ydis < 0)
             {
-                d = Direction.UP;
+                d = Constants.Direction.UP;
             }
         
             tries++;
@@ -128,7 +128,7 @@ public class Wanderer extends Antagonist {
             }
         }//end while
    
-        this.setTurnAction(TurnAction.MOVE);
+        this.setTurnAction(Constants.TurnAction.MOVE);
              }//end if active
     }
     
@@ -141,40 +141,40 @@ public class Wanderer extends Antagonist {
     }
 
 
-    private boolean canMove(Direction direction, int[][] mapGrid, int[][] entityGrid) {
-        if (direction == Direction.UP) {
+    private boolean canMove(Constants.Direction direction, Constants.MapGridCode[][] mapGrid, Constants.EntityGridCode[][] entityGrid) {
+        if (direction == Constants.Direction.UP) {
             if (this.getCY() == mapGrid[0].length - 1) {
                 return false;
             }
-            if (mapGrid[this.getCX()][this.getCY() + 1] == MapGridCode.FLOOR
-                    && entityGrid[this.getCX()][this.getCY() + 1] == EntityGridCode.EMPTY) {
+            if (mapGrid[this.getCX()][this.getCY() + 1] == Constants.MapGridCode.FLOOR
+                    && entityGrid[this.getCX()][this.getCY() + 1] == Constants.EntityGridCode.NONE) {
                 this.setDCY(this.getCY() + 1);
                 return true;
             }
-        } else if (direction == Direction.DOWN) {
+        } else if (direction == Constants.Direction.DOWN) {
             if (this.getCY() == 0) {
                 return false;
             }
-            if (mapGrid[this.getCX()][this.getCY() - 1] == MapGridCode.FLOOR
-                    && entityGrid[this.getCX()][this.getCY() - 1] == EntityGridCode.EMPTY) {
+            if (mapGrid[this.getCX()][this.getCY() - 1] == Constants.MapGridCode.FLOOR
+                    && entityGrid[this.getCX()][this.getCY() - 1] == Constants.EntityGridCode.NONE) {
                 this.setDCY(this.getCY() - 1);
                 return true;
             }
-        } else if (direction == Direction.LEFT) {
+        } else if (direction == Constants.Direction.LEFT) {
             if (this.getCX() == 0) {
                 return false;
             }
-            if (mapGrid[this.getCX() - 1][this.getCY()] == MapGridCode.FLOOR
-                    && entityGrid[this.getCX() - 1][this.getCY()] == EntityGridCode.EMPTY) {
+            if (mapGrid[this.getCX() - 1][this.getCY()] == Constants.MapGridCode.FLOOR
+                    && entityGrid[this.getCX() - 1][this.getCY()] == Constants.EntityGridCode.NONE) {
                 this.setDCX(this.getCX() - 1);
                 return true;
             }
-        } else if (direction == Direction.RIGHT) {
+        } else if (direction == Constants.Direction.RIGHT) {
             if (this.getCX() == mapGrid.length - 1) {
                 return false;
             }
-            if (mapGrid[this.getCX() + 1][this.getCY()] == MapGridCode.FLOOR
-                    && entityGrid[this.getCX() + 1][this.getCY()] == EntityGridCode.EMPTY) {
+            if (mapGrid[this.getCX() + 1][this.getCY()] == Constants.MapGridCode.FLOOR
+                    && entityGrid[this.getCX() + 1][this.getCY()] == Constants.EntityGridCode.NONE) {
                 this.setDCX(this.getCX() + 1);
                 return true;
             }

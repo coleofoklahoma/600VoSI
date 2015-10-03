@@ -31,7 +31,7 @@ public class Skill extends Entity implements Observable {
     }
     
     public Skill(int x, int y, Animation mainAnimation) {
-        super(EntityGridCode.SKILL, new Texture(mainAnimation.getKeyFrame(0).getRegionWidth(), mainAnimation.getKeyFrame(0).getRegionHeight(), Pixmap.Format.Alpha), x, y);
+        super(Constants.EntityGridCode.NONE, new Texture(mainAnimation.getKeyFrame(0).getRegionWidth(), mainAnimation.getKeyFrame(0).getRegionHeight(), Pixmap.Format.Alpha), x, y);
         
         this.mainAnimation = mainAnimation;
         skillRunTime = 0f;

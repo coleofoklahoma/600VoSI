@@ -16,9 +16,9 @@ public class Drunk extends Antagonist {
     private float elapsedTime;
     private TextureRegion temp;
     
-    public Drunk(Texture texture, int cX, int cY) {
-        super(texture, cX, cY);
-        this.setEnemyType(EnemyType.DRUNK);
+    public Drunk(int cX, int cY) {
+        super(TextureLoader.DRUNKTEXTURE, cX, cY);
+        this.setEnemyType(Constants.EnemyType.DRUNK);
         drunkWalk = TextureLoader.drunkWalk;
     }
 
@@ -50,27 +50,27 @@ public class Drunk extends Antagonist {
     }
 
     @Override
-    public void calculateTurn(int[][] mapGrid, int[][] entityGrid, List<Entity> entityList) {
+    public void calculateTurn(Constants.MapGridCode[][] mapGrid, Constants.EntityGridCode[][] entityGrid, List<Entity> entityList) {
         //Random movement
         int random = 0;
         int tries = 0;
-        Direction d = Direction.NONE;
+        Constants.Direction d = Constants.Direction.NONE;
 
         while (!canMove(d, mapGrid, entityGrid)) {
             random = (int) (Math.random() * entityGrid.length);
             switch (random % 4) {
                 case 1:
-                    d = Direction.UP;
+                    d = Constants.Direction.UP;
                     break;
                 case 2:
-                    d = Direction.DOWN;
+                    d = Constants.Direction.DOWN;
                     break;
                 case 3:
-                    d = Direction.LEFT;
+                    d = Constants.Direction.LEFT;
                     flip = true;
                     break;
                 default:
-                    d = Direction.RIGHT;
+                    d = Constants.Direction.RIGHT;
                     flip = false;
                     break;
             }
@@ -79,7 +79,7 @@ public class Drunk extends Antagonist {
                 break;
         }
 
-        this.setTurnAction(TurnAction.MOVE);
+        this.setTurnAction(Constants.TurnAction.MOVE);
     }
     
     @Override
@@ -96,41 +96,41 @@ public class Drunk extends Antagonist {
         
     
 
-    private boolean canMove(Direction direction, int[][] mapGrid, int[][] entityGrid) {
+    private boolean canMove(Constants.Direction direction, Constants.MapGridCode[][] mapGrid, Constants.EntityGridCode[][] entityGrid) {
         
-        if (direction == Direction.UP) {
+        if (direction == Constants.Direction.UP) {
             if (this.getCY() == mapGrid[0].length - 1) {
                 return false;
             }
-            if (mapGrid[this.getCX()][this.getCY() + 1] == MapGridCode.FLOOR
-                    && entityGrid[this.getCX()][this.getCY() + 1] == EntityGridCode.EMPTY) {
+            if (mapGrid[this.getCX()][this.getCY() + 1] == Constants.MapGridCode.FLOOR
+                    && entityGrid[this.getCX()][this.getCY() + 1] == Constants.EntityGridCode.NONE) {
                 this.setDCY(this.getCY() + 1);
                 return true;
             }
-        } else if (direction == Direction.DOWN) {
+        } else if (direction == Constants.Direction.DOWN) {
             if (this.getCY() == 0) {
                 return false;
             }
-            if (mapGrid[this.getCX()][this.getCY() - 1] == MapGridCode.FLOOR
-                    && entityGrid[this.getCX()][this.getCY() - 1] == EntityGridCode.EMPTY) {
+            if (mapGrid[this.getCX()][this.getCY() - 1] == Constants.MapGridCode.FLOOR
+                    && entityGrid[this.getCX()][this.getCY() - 1] == Constants.EntityGridCode.NONE) {
                 this.setDCY(this.getCY() - 1);
                 return true;
             }
-        } else if (direction == Direction.LEFT) {
+        } else if (direction == Constants.Direction.LEFT) {
             if (this.getCX() == 0) {
                 return false;
             }
-            if (mapGrid[this.getCX() - 1][this.getCY()] == MapGridCode.FLOOR
-                    && entityGrid[this.getCX() - 1][this.getCY()] == EntityGridCode.EMPTY) {
+            if (mapGrid[this.getCX() - 1][this.getCY()] == Constants.MapGridCode.FLOOR
+                    && entityGrid[this.getCX() - 1][this.getCY()] == Constants.EntityGridCode.NONE) {
                 this.setDCX(this.getCX() - 1);
                 return true;
             }
-        } else if (direction == Direction.RIGHT) {
+        } else if (direction == Constants.Direction.RIGHT) {
             if (this.getCX() == mapGrid.length - 1) {
                 return false;
             }
-            if (mapGrid[this.getCX() + 1][this.getCY()] == MapGridCode.FLOOR
-                    && entityGrid[this.getCX() + 1][this.getCY()] == EntityGridCode.EMPTY) {
+            if (mapGrid[this.getCX() + 1][this.getCY()] == Constants.MapGridCode.FLOOR
+                    && entityGrid[this.getCX() + 1][this.getCY()] == Constants.EntityGridCode.NONE) {
                 this.setDCX(this.getCX() + 1);
                 return true;
             }

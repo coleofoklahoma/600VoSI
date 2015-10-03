@@ -15,7 +15,7 @@ import java.util.List;
 public class Protagonist extends Entity implements Observable {
 
     private boolean playTurn;
-    private Direction direction;
+    private Constants.Direction direction;
 
     // Sorry to just throw all this in here lol --Cody
     private boolean executeDetection;
@@ -39,7 +39,7 @@ public class Protagonist extends Entity implements Observable {
     }
 
     public Protagonist(Texture texture, int cX, int cY) {
-        super(EntityGridCode.PLAYER, texture, cX, cY);
+        super(Constants.EntityGridCode.PLAYER, texture, cX, cY);
         this.playTurn = true;
         this.setHealth(100);
 
@@ -134,11 +134,11 @@ public class Protagonist extends Entity implements Observable {
         this.playTurn = playTurn;
     }
 
-    public Direction getDirection() {
+    public Constants.Direction getDirection() {
         return this.direction;
     }
 
-    public void setDirection(Direction direction) {
+    public void setDirection(Constants.Direction direction) {
         this.direction = direction;
     }
 

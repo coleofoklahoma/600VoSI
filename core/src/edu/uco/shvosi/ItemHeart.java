@@ -7,8 +7,8 @@ public class ItemHeart extends Entity implements Observer{
     private int healAmount;
     private int state = 0;
     
-    public ItemHeart(Texture texture, int cX, int cY){
-        super(EntityGridCode.ITEM, texture, cX, cY);
+    public ItemHeart(int cX, int cY){
+        super(Constants.EntityGridCode.ITEM, TextureLoader.HEALTHTEXTURE, cX, cY);
         this.healAmount = 25;
     }
     

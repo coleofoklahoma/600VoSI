@@ -38,39 +38,39 @@ public class GameScreen implements Screen {
         // UPDATE
         //Bernard Controls
         //Movement
-        if (Gdx.input.isKeyJustPressed(Keys.W) && map.bernardCanMove(Direction.UP)) {
+        if (Gdx.input.isKeyJustPressed(Keys.W) && map.bernardCanMove(Constants.Direction.UP)) {
             bernard.setPlayTurn(true);
             bernard.notifyObservers();
-            bernard.setDirection(Direction.UP);
-            bernard.setTurnAction(TurnAction.MOVE);
+            bernard.setDirection(Constants.Direction.UP);
+            bernard.setTurnAction(Constants.TurnAction.MOVE);
             Gdx.app.log("MOVING", "UP");
-        } else if (Gdx.input.isKeyJustPressed(Keys.S) && map.bernardCanMove(Direction.DOWN)) {
+        } else if (Gdx.input.isKeyJustPressed(Keys.S) && map.bernardCanMove(Constants.Direction.DOWN)) {
             bernard.setPlayTurn(true);
             bernard.notifyObservers();
-            bernard.setDirection(Direction.DOWN);
-            bernard.setTurnAction(TurnAction.MOVE);
+            bernard.setDirection(Constants.Direction.DOWN);
+            bernard.setTurnAction(Constants.TurnAction.MOVE);
             Gdx.app.log("MOVING", "DOWN");
         } else if (Gdx.input.isKeyJustPressed(Keys.A)) {
-            if (bernard.getDirection() != Direction.LEFT) {
-                bernard.flipTexture(Direction.LEFT);
-                bernard.setDirection(Direction.LEFT);
+            if (bernard.getDirection() != Constants.Direction.LEFT) {
+                bernard.flipTexture(Constants.Direction.LEFT);
+                bernard.setDirection(Constants.Direction.LEFT);
             }
-            if (map.bernardCanMove(Direction.LEFT)) {
+            if (map.bernardCanMove(Constants.Direction.LEFT)) {
                 bernard.setPlayTurn(true);
                 bernard.notifyObservers();
-                bernard.setTurnAction(TurnAction.MOVE);
+                bernard.setTurnAction(Constants.TurnAction.MOVE);
                 Gdx.app.log("MOVING", "LEFT");
             }
         } else if (Gdx.input.isKeyJustPressed(Keys.D)) {
-            if (bernard.getDirection() != Direction.RIGHT) {
-                bernard.flipTexture(Direction.RIGHT);
-                bernard.setDirection(Direction.RIGHT);
+            if (bernard.getDirection() != Constants.Direction.RIGHT) {
+                bernard.flipTexture(Constants.Direction.RIGHT);
+                bernard.setDirection(Constants.Direction.RIGHT);
             }
 
-            if (map.bernardCanMove(Direction.RIGHT)) {
+            if (map.bernardCanMove(Constants.Direction.RIGHT)) {
                 bernard.setPlayTurn(true);
                 bernard.notifyObservers();
-                bernard.setTurnAction(TurnAction.MOVE);
+                bernard.setTurnAction(Constants.TurnAction.MOVE);
                 Gdx.app.log("MOVING", "RIGHT");
             }
         }
@@ -84,26 +84,26 @@ public class GameScreen implements Screen {
         if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
             bernard.setPlayTurn(true);
             bernard.setFiring(true);
-            bernard.setTurnAction(TurnAction.ATTACK);
+            bernard.setTurnAction(Constants.TurnAction.ATTACK);
         }
 
         if (Gdx.input.isKeyJustPressed(Keys.NUM_1)) {
             bernard.setPlayTurn(true);
             bernard.setExecuteSkillOne(true);
-            bernard.setTurnAction(TurnAction.ATTACK);
+            bernard.setTurnAction(Constants.TurnAction.ATTACK);
         }
 
         if (Gdx.input.isKeyJustPressed(Keys.NUM_2)) {
             bernard.setPlayTurn(true);
             bernard.setExecuteSkillTwo(true);
-            bernard.setTurnAction(TurnAction.ATTACK);
+            bernard.setTurnAction(Constants.TurnAction.ATTACK);
         }
 
         if (Gdx.input.isKeyJustPressed(Keys.NUM_3)) {
             bernard.setPlayTurn(true);
             bernard.setExecuteDetection(true);
             bernard.notifyObservers();
-            bernard.setTurnAction(TurnAction.ATTACK);
+            bernard.setTurnAction(Constants.TurnAction.ATTACK);
         }
 
         if (Gdx.input.isKeyJustPressed(Keys.NUM_4)) {
@@ -111,7 +111,7 @@ public class GameScreen implements Screen {
             bernard.setExecuteBarrier(true);
             bernard.setBarrierLimit(2);
             bernard.notifyObservers();
-            bernard.setTurnAction(TurnAction.ATTACK);
+            bernard.setTurnAction(Constants.TurnAction.ATTACK);
         }
         if (bernard.getBarrierLimit() == 0) {
             bernard.setHeal(true);
@@ -133,16 +133,18 @@ public class GameScreen implements Screen {
             if (!map.isAlive(entity)) {
                 map.getEntityList().remove(i);
                 entity.remove();
-                if (entity.getEntityType() == 3 || entity.getEntityType() == 4) {
-                    map.getEntityGrid()[entity.getCX()][entity.getCY()] = EntityGridCode.PLAYER;
+                if (entity.getGridCode() == Constants.EntityGridCode.ITEM || entity.getGridCode() == Constants.EntityGridCode.TRAP) {
+                    map.getEntityGrid()[entity.getCX()][entity.getCY()] = Constants.EntityGridCode.PLAYER;
                 } else {
-                    map.getEntityGrid()[entity.getCX()][entity.getCY()] = EntityGridCode.EMPTY;
+                    map.getEntityGrid()[entity.getCX()][entity.getCY()] = Constants.EntityGridCode.NONE;
                 }
             }
         }
 
         //Complete the turn
         if (bernard.getPlayTurn()) {
+            if(bernard.getHealth() <= 0)
+                game.setScreen(game.startScreen);
             for (int i = 0; i < map.getEntityList().size(); i++) {
                 Entity aggressor = map.getEntityList().get(i);
 
@@ -250,22 +252,22 @@ public class GameScreen implements Screen {
         // Add the entities to the stage
         for (int i = map.getEntityList().size() - 1; i > -1; i--) {
             stage.addActor(map.getEntityList().get(i));
-            switch (map.getEntityList().get(i).getEntityType()) {
-                case EntityGridCode.PLAYER:
+            switch (map.getEntityList().get(i).getGridCode()) {
+                case PLAYER:
                     //bernard = (Protagonist)map.getEntityList().get(i);
                     //     stage.getActors().get(i).setZIndex(3);
                     break;
-                case EntityGridCode.ENEMY:
+                case ENEMY:
                     //     stage.getActors().get(i).setZIndex(2);
                     for (Skill s : bernard.getSkills().values()) {
                         s.addObserver(map.getEntityList().get(i));
                     }
                     // bernard.addObserver(map.getEntityList().get(i));
                     break;
-                case EntityGridCode.TRAP:
+                case TRAP:
                     bernard.addObserver(map.getEntityList().get(i));
                     break;
-                case EntityGridCode.ITEM:
+                case ITEM:
                     bernard.addObserver(map.getEntityList().get(i));
                     break;
                 default:
@@ -277,6 +279,6 @@ public class GameScreen implements Screen {
         //Health Display
         stage.addActor(healthLabel);
         stage.addActor(invent);
-        bernard.clearActions();
+        //bernard.clearActions();
     }
 }

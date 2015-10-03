@@ -7,11 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 
 
 public class Inventory extends Entity{
-    private Direction direction;
+    private Constants.Direction direction;
 
 
     public Inventory(Texture texture, int X, int Y) {
-        super(EntityGridCode.INVENTORY, texture, X, Y);
+        super(Constants.EntityGridCode.NONE, texture, X, Y);
     }
 
     @Override
@@ -30,11 +30,11 @@ public class Inventory extends Entity{
         }
     }
 
-    public Direction getDirection() {
+    public Constants.Direction getDirection() {
         return this.direction;
     }
     
-    public void setDirection(Direction direction) {
+    public void setDirection(Constants.Direction direction) {
         this.direction = direction;
     }
 

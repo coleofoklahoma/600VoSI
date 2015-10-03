@@ -9,17 +9,17 @@ import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import java.util.List;
 
 public class Antagonist extends Entity implements Observer {
-    private EnemyType enemyType;
+    private Constants.EnemyType enemyType;
 
     public Antagonist(Texture texture, int cX, int cY) {
-        super(EntityGridCode.ENEMY, texture, cX, cY);
+        super(Constants.EntityGridCode.ENEMY, texture, cX, cY);
     }
 
-    public EnemyType getEnemyType() {
+    public Constants.EnemyType getEnemyType() {
         return this.enemyType;
     }
 
-    public void setEnemyType(EnemyType enemyType) {
+    public void setEnemyType(Constants.EnemyType enemyType) {
         this.enemyType = enemyType;
     }
 
@@ -50,7 +50,7 @@ public class Antagonist extends Entity implements Observer {
         //Do Attack Stuffs?
     }
 
-    public void calculateTurn(int[][] mapGrid, int[][] entityGrid, List<Entity> entityList) {
+    public void calculateTurn(Constants.MapGridCode[][] mapGrid, Constants.EntityGridCode[][] entityGrid, List<Entity> entityList) {
         //Do AI Stuff
 
         //If you want to move it, set turn action to move and set its dx and dy

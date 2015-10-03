@@ -17,8 +17,8 @@ public class TrapType2 extends Entity implements Observer {
     private TextureRegion temp;
     private boolean activatePower;
 
-    public TrapType2(Texture texture, int cX, int cY) {
-        super(EntityGridCode.TRAP, texture, cX, cY);
+    public TrapType2(int cX, int cY) {
+        super(Constants.EntityGridCode.TRAP, TextureLoader.TRAPTEXTURE2, cX, cY);
         this.damage = 10;
         power = TextureLoader.powerTrap;
         activatePower = false;

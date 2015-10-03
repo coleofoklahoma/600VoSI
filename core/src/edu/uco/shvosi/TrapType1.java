@@ -17,8 +17,8 @@ public class TrapType1 extends Entity implements Observer {
     private Animation kunai;
     private int damage;
 
-    public TrapType1(Texture texture, int cX, int cY) {
-        super(EntityGridCode.TRAP, texture, cX, cY);
+    public TrapType1(int cX, int cY) {
+        super(Constants.EntityGridCode.TRAP, TextureLoader.TRAPTEXTURE, cX, cY);
         kunai = TextureLoader.kunaiTrap;
         activateKunai = false;
         elapsedKunai = 0f;

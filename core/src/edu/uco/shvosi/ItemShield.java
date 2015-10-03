@@ -6,8 +6,8 @@ public class ItemShield extends Entity implements Observer{
     private int type;
     private int state = 0;
     
-    public ItemShield(Texture texture, int cX, int cY){
-        super(EntityGridCode.ITEM, texture, cX, cY);
+    public ItemShield(int cX, int cY){
+        super(Constants.EntityGridCode.ITEM, TextureLoader.SHIELDTEXTURE, cX, cY);
     }
     
     @Override

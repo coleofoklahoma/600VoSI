@@ -12,16 +12,16 @@ public class Entity extends Image implements Observer{
     private int cY; // Coordinate Y
     private int dCX; // Destination Coordinate X
     private int dCY; // Destination Coordinate Y
-    private int entityType; // EntityGridCode
+    private Constants.EntityGridCode gridCode; //NONE if not on grid, has type otherwise
     private int health;
     private TextureRegion textureRegion;
 
     public TextureRegion getTextureRegion() {
         return textureRegion;
     }
-    private TurnAction turnAction;
+    private Constants.TurnAction turnAction;
 
-    public Entity(int entityType, Texture texture, int cX, int cY) {
+    public Entity(Constants.EntityGridCode gridCode, Texture texture, int cX, int cY) {
         this.cX = cX;
         this.cY = cY;
         this.dCX = this.cX;
@@ -29,10 +29,10 @@ public class Entity extends Image implements Observer{
         this.setX(this.cX * Constants.TILEDIMENSION);
         this.setY(this.cY * Constants.TILEDIMENSION);
         setBounds(getX(),getY(),texture.getWidth(),texture.getHeight());
-        this.entityType = entityType;
+        this.gridCode = gridCode;
         this.health = 1;
         textureRegion = new TextureRegion(texture);
-        turnAction = TurnAction.NONE;
+        this.turnAction = Constants.TurnAction.NONE;
         
         if(texture.getTextureData().getFormat() == Pixmap.Format.Alpha) {
             texture.dispose();
@@ -71,8 +71,8 @@ public class Entity extends Image implements Observer{
         this.dCY = dCY;
     }
 	
-    public int getEntityType(){
-        return this.entityType;
+    public Constants.EntityGridCode getGridCode(){
+        return this.gridCode;
     }
     
     public int getHealth(){
@@ -86,15 +86,15 @@ public class Entity extends Image implements Observer{
     public void setImage(Texture texture){
         textureRegion = new TextureRegion(texture);
     }
-    public TurnAction getTurnAction(){
+    public Constants.TurnAction getTurnAction(){
 		return this.turnAction;
 	}
 	
-    public void setTurnAction(TurnAction turnAction){
+    public void setTurnAction(Constants.TurnAction turnAction){
             this.turnAction = turnAction;
     }
     
-    public void flipTexture(Direction direction){
+    public void flipTexture(Constants.Direction direction){
         switch(direction){
             case LEFT:
                 if(!textureRegion.isFlipX()) {
