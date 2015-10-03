@@ -159,6 +159,7 @@ public class GameScreen implements Screen {
             bernard.setPlayTurn(false);
             if (map.exitReached()) {
                 //Load the next level
+                bernard.setPlayTurn(true);
                 stage.clear();
                 map.dispose();
                 initNewLevel();
