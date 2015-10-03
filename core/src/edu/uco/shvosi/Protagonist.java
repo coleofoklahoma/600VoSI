@@ -40,7 +40,7 @@ public class Protagonist extends Entity implements Observable {
 
     public Protagonist(Texture texture, int cX, int cY) {
         super(EntityGridCode.PLAYER, texture, cX, cY);
-        this.playTurn = false;
+        this.playTurn = true;
         this.setHealth(100);
 
         this.skills = new HashMap<String, Skill>();

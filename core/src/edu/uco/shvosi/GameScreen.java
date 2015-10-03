@@ -133,7 +133,11 @@ public class GameScreen implements Screen {
             if (!map.isAlive(entity)) {
                 map.getEntityList().remove(i);
                 entity.remove();
-                map.getEntityGrid()[entity.getCX()][entity.getCY()] = EntityGridCode.EMPTY;
+                if (entity.getEntityType() == 3 || entity.getEntityType() == 4) {
+                    map.getEntityGrid()[entity.getCX()][entity.getCY()] = EntityGridCode.PLAYER;
+                } else {
+                    map.getEntityGrid()[entity.getCX()][entity.getCY()] = EntityGridCode.EMPTY;
+                }
             }
         }
 
