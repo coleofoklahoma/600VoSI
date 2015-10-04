@@ -60,27 +60,32 @@ public class Map {
                 MapProperties properties = cell.getTile().getProperties();
                 if (properties.get("PLAYER") != null) {
                     entityGrid[x][y] = Constants.EntityGridCode.PLAYER;
-                    initBernard(x,y);
+                    initBernard(x, y);
                 } else if (properties.get("ENEMY") != null) {
                     entityGrid[x][y] = Constants.EntityGridCode.ENEMY;
-                    if (properties.get("CatLady") != null)
-                            initEnemy(x, y, Constants.EnemyType.CATLADY);
-                    else if (properties.get("Drunk") != null)
-                            initEnemy(x, y, Constants.EnemyType.DRUNK);
-                    else if (properties.get("Wanderer") != null)
-                            initEnemy(x, y, Constants.EnemyType.WANDERER);
+                    if (properties.get("CatLady") != null) {
+                        initEnemy(x, y, Constants.EnemyType.CATLADY);
+                    } else if (properties.get("Drunk") != null) {
+                        initEnemy(x, y, Constants.EnemyType.DRUNK);
+                    } else if (properties.get("Wanderer") != null) {
+                        initEnemy(x, y, Constants.EnemyType.WANDERER);
+                    }
                 } else if (properties.get("ITEM") != null) {
                     entityGrid[x][y] = Constants.EntityGridCode.ITEM;
-                    if (properties.get("Health") != null)
-                            initItem(x, y, Constants.ItemType.HEALTH);
-                    else if (properties.get("Shield") != null)
-                            initItem(x, y, Constants.ItemType.SHIELD);
+                    if (properties.get("Health") != null) {
+                        initItem(x, y, Constants.ItemType.HEALTH);
+                    } else if (properties.get("Shield") != null) {
+                        initItem(x, y, Constants.ItemType.SHIELD);
+                    }
                 } else if (properties.get("TRAP") != null) {
                     entityGrid[x][y] = Constants.EntityGridCode.TRAP;
-                    if (properties.get("Trap1") != null)
-                            initTrap(x, y, Constants.TrapType.TRAP1);
-                    else if (properties.get("Trap2") != null)
-                            initTrap(x, y, Constants.TrapType.TRAP2);
+                    if (properties.get("Trap1") != null) {
+                        initTrap(x, y, Constants.TrapType.TRAP1);
+                    } else if (properties.get("Trap2") != null) {
+                        initTrap(x, y, Constants.TrapType.TRAP2);
+                    }
+                } else if (properties.get("Trap3") != null) {
+                    initTrap(x, y, Constants.TrapType.TRAP3);
                 } else {
                     entityGrid[x][y] = Constants.EntityGridCode.NONE;
                 }
@@ -122,7 +127,7 @@ public class Map {
     public List<Entity> getEntityList() {
         return this.entityList;
     }
-    
+
     private void initBernard(int cX, int cY) {
         bernard.clearActions();
         bernard.setCX(cX);
@@ -133,9 +138,9 @@ public class Map {
         bernard.setY(bernard.getCY() * Constants.TILEDIMENSION);
         entityList.add(bernard);
     }
-	
-    private void initEnemy(int cX, int cY, Constants.EnemyType enemyType){
-        switch(enemyType){
+
+    private void initEnemy(int cX, int cY, Constants.EnemyType enemyType) {
+        switch (enemyType) {
             case CATLADY:
                 entityList.add(new CatLady(cX, cY));
                 break;
@@ -151,9 +156,9 @@ public class Map {
                 break;
         }
     }
-    
-    private void initItem(int cX, int cY, Constants.ItemType itemType){
-        switch(itemType){
+
+    private void initItem(int cX, int cY, Constants.ItemType itemType) {
+        switch (itemType) {
             case HEALTH:
                 entityList.add(new ItemHeart(cX, cY));
                 break;
@@ -166,14 +171,17 @@ public class Map {
                 break;
         }
     }
-    
-    private void initTrap(int cX, int cY, Constants.TrapType trapType){
-        switch(trapType){
+
+    private void initTrap(int cX, int cY, Constants.TrapType trapType) {
+        switch (trapType) {
             case TRAP1:
                 entityList.add(new TrapType1(cX, cY));
                 break;
             case TRAP2:
                 entityList.add(new TrapType2(cX, cY));
+                break;
+            case TRAP3:
+                entityList.add(new TrapType3(cX, cY));
                 break;
             default:
                 //ERROR
@@ -183,21 +191,20 @@ public class Map {
     }
 
     private void populateMapForTesting() {
-		List<Entity> tempList = new ArrayList<Entity>();
-		
+        List<Entity> tempList = new ArrayList<Entity>();
+
 		//Add entities to tempList below
 		/*	Be aware that entities placed on testmap.tmx will be overriden
-			on the mapGrid and will be placed on top of each other. Please
-			place them in an empty block
-		*/
-		
-		
+         on the mapGrid and will be placed on top of each other. Please
+         place them in an empty block
+         */
+        tempList.add(new TrapType3(2, 2));
 
         // Populate the cells from the temp list and add to entity list
         for (int i = 0; i < tempList.size(); i++) {
             Entity entity = tempList.get(i);
             this.entityGrid[entity.getCX()][entity.getCY()] = entity.getGridCode();
-			entityList.add(entity);
+            entityList.add(entity);
         }
     }
 
@@ -241,7 +248,6 @@ public class Map {
 //            this.entityGrid[entity.getCX()][entity.getCY()] = entity.getGridCode();
 //        }
 //    }
-
     public boolean bernardCanMove(Constants.Direction direction) {
         if (direction == Constants.Direction.UP) {
             if (bernard.getCY() == mapGrid[0].length - 1) {
@@ -365,7 +371,7 @@ public class Map {
             Antagonist enemy = (Antagonist) entity;
 
             //Change this method to however you want enemies to behave
-            enemy.calculateTurn(mapGrid, entityGrid,entityList);
+            enemy.calculateTurn(mapGrid, entityGrid, entityList);
         }
     }
 
@@ -376,9 +382,7 @@ public class Map {
                 //Do Bernard Stuff
                 if (action == Constants.TurnAction.MOVE) {
                     moveEntity(entity);
-                }
-                else if (action == Constants.TurnAction.ATTACK)
-                {
+                } else if (action == Constants.TurnAction.ATTACK) {
                     //Attack stuff?
                 }
                 break;
@@ -386,9 +390,7 @@ public class Map {
                 calculateAITurn(entity);
                 if (action == Constants.TurnAction.MOVE) {
                     moveEntity(entity);
-                }
-                else if (action == Constants.TurnAction.ATTACK)
-                {
+                } else if (action == Constants.TurnAction.ATTACK) {
                     //Attack stuff?
                 }
                 break;

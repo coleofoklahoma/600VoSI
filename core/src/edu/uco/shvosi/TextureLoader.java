@@ -10,7 +10,6 @@ import com.badlogic.gdx.utils.Array;
 public class TextureLoader {
 
     //bernard and his powers
-
     public static final Texture BERNARDTEXTURE = new Texture(Gdx.files.internal("characters/bernard.png"));
     public static final Texture BERNARDSHIELDTEXTURE = new Texture(Gdx.files.internal("characters/bernard_shield.png"));
     public static final Texture HEALTHTEXTURE = new Texture(Gdx.files.internal("items/health.png"));
@@ -50,19 +49,24 @@ public class TextureLoader {
     //traps and items
     public static final Texture TRAPTEXTURE = new Texture(Gdx.files.internal("traps/trap.png"));
     public static final Texture TRAPTEXTURE2 = new Texture(Gdx.files.internal("traps/trap2.png"));
+    public static final Texture TRAPTEXTURE3 = new Texture(Gdx.files.internal("traps/trap3.png"));
     public static final Texture TRAPKUNAI = new Texture(Gdx.files.internal("traps/kunai.png"));
     public static final Texture TRAPPOWER = new Texture(Gdx.files.internal("traps/powerseal.png"));
+    public static final Texture TRAPBLIND = new Texture(Gdx.files.internal("traps/smoke.png"));
     public static final Texture INVENTORYTEXTURE = new Texture(Gdx.files.internal("Inventory.png"));
     public static final Texture INVENTORYSHIELDTEXTURE = new Texture(Gdx.files.internal("InventoryShield.png"));
     public static final Texture SHIELDTEXTURE = new Texture(Gdx.files.internal("items/shield.png"));
     private TextureRegion[] kunaiFrames;
     private TextureRegion[] powerFrames;
+    private TextureRegion[] smokeFrames;
     public static Animation kunaiTrap;
     public static Animation powerTrap;
+    public static Animation smokeTrap;
 
     private static final int FRAME_COLS = 5;
     private static final int FRAME_ROWS = 4;
     private static final int FRAME_ROWS3 = 3;
+    private static final int FRAME_ROWS10 = 10;
 
     TextureLoader() {
         //bernard
@@ -107,15 +111,15 @@ public class TextureLoader {
         barrierSkill.setPlayMode(PlayMode.LOOP);
 
         //Heal
-        TextureRegion[][] tmp5 = TextureRegion.split(TextureLoader.HEALTEXTURE, TextureLoader.HEALTEXTURE.getWidth() / FRAME_COLS, TextureLoader.HEALTEXTURE.getHeight() / FRAME_ROWS3);
-        healFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS3];
+        TextureRegion[][] tmp5 = TextureRegion.split(TextureLoader.HEALTEXTURE, TextureLoader.HEALTEXTURE.getWidth() / FRAME_COLS, TextureLoader.HEALTEXTURE.getHeight() / FRAME_ROWS10);
+        healFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS10];
         int index5 = 0;
-        for (int i = 0; i < FRAME_ROWS3; i++) {
+        for (int i = 0; i < FRAME_ROWS10; i++) {
             for (int j = 0; j < FRAME_COLS; j++) {
                 healFrames[index5++] = tmp5[i][j];
             }
         }
-        heal = new Animation(0.05f, healFrames);
+        heal = new Animation(0.03f, healFrames);
 
         //antagonist
         //Antagonist Drunk
@@ -165,6 +169,16 @@ public class TextureLoader {
         }
         powerTrap = new Animation(0.05f, powerFrames);
 
+        //Blind Trap
+        TextureRegion[][] tmp6 = TextureRegion.split(TextureLoader.TRAPBLIND, TextureLoader.TRAPBLIND.getWidth() / 10, TextureLoader.TRAPBLIND.getHeight() / 1);
+        smokeFrames = new TextureRegion[10 * 1];
+        int index6 = 0;
+        for (int i = 0; i < 1; i++) {
+            for (int j = 0; j < 10; j++) {
+                smokeFrames[index6++] = tmp6[i][j];
+            }
+        }
+        smokeTrap = new Animation(0.05f, smokeFrames);
     }
 
     public void dispose() {
@@ -175,8 +189,10 @@ public class TextureLoader {
         HEALTHTEXTURE.dispose();
         TRAPTEXTURE.dispose();
         TRAPTEXTURE2.dispose();
+        TRAPTEXTURE3.dispose();
         TRAPKUNAI.dispose();
         TRAPPOWER.dispose();
+        TRAPBLIND.dispose();
         DETECTIONTEXTURE.dispose();
         BARRIERTEXTURE.dispose();
         HEALTEXTURE.dispose();

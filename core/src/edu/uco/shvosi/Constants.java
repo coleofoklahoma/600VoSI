@@ -30,7 +30,8 @@ public final class Constants {
     public static enum TrapType {
         NONE,
         TRAP1,
-        TRAP2;
+        TRAP2,
+        TRAP3;
     }
     
     public static enum Direction {

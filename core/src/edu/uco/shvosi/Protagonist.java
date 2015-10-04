@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import static edu.uco.shvosi.GameScreen.invent;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.List;
 
 public class Protagonist extends Entity implements Observable {
 
+    ParticleEffect smokeParticle;
     private boolean playTurn;
     private Constants.Direction direction;
 
@@ -24,13 +26,16 @@ public class Protagonist extends Entity implements Observable {
     private boolean executeSkillOne;
     private boolean firing;
     private boolean heal;
-    
+
     private int itemHeld = 0;
     private int shieldFlag = 0;
-    
+
     private int barrierLimit = 2;
     private int barrierDamage = 0;
-    
+
+    private boolean blind = false;
+    private int actionCounter = 0;
+
     private List<Observer> observers;
     private HashMap<String, Skill> skills;
 
@@ -55,8 +60,8 @@ public class Protagonist extends Entity implements Observable {
         executeDetection = false;
 
         skills.put("Detection", new DetectionSkill(0, 0, TextureLoader.detectionSkill, 0));
-        
-          // Barrier
+
+        // Barrier
         executeBarrier = false;
 
         skills.put("Barrier", new BarrierSkill(0, 0, TextureLoader.barrierSkill, 0));
@@ -70,6 +75,9 @@ public class Protagonist extends Entity implements Observable {
         executeSkillTwo = false;
 
         skills.put("SkillTwo", new SkillTwo(0, 0, TextureLoader.skillTwo, 5));
+
+        smokeParticle = new ParticleEffect();
+        smokeParticle.load(Gdx.files.internal("traps/smoke.p"), Gdx.files.internal("traps"));
     }
 
     @Override
@@ -83,10 +91,10 @@ public class Protagonist extends Entity implements Observable {
             }
         }
 
-         if (executeBarrier) {
+        if (executeBarrier) {
             skills.get("Barrier").draw(batch, alpha, this);
         }
-        
+
         if (executeDetection) {
             skills.get("Detection").draw(batch, alpha, this);
             if (skills.get("Detection").isAnimationFinished()) {
@@ -109,6 +117,16 @@ public class Protagonist extends Entity implements Observable {
                 executeSkillTwo = false;
             }
         }
+
+        if (actionCounter >= 2 && blind == true) {
+            smokeParticle.start();
+            smokeParticle.getEmitters().first().setPosition(this.getX() + 50, this.getY() + 35);
+            smokeParticle.draw(batch, Gdx.graphics.getDeltaTime());
+            if (actionCounter == 17) {
+                blind = false;
+                actionCounter = 0;
+            }
+        }
     }
 
     @Override
@@ -116,9 +134,15 @@ public class Protagonist extends Entity implements Observable {
         switch (getTurnAction()) {
             case MOVE:
                 moveAction();
+                if (blind == true) {
+                    actionCounter++;
+                }
                 break;
             case ATTACK:
                 attackAction();
+                if (blind == true) {
+                    actionCounter++;
+                }
                 break;
             default:
                 //Do Nothing
@@ -161,21 +185,29 @@ public class Protagonist extends Entity implements Observable {
     public boolean getExecuteDetection() {
         return executeDetection;
     }
-    
-      public void setExecuteBarrier(boolean executeBarrier) {
+
+    public void setExecuteBarrier(boolean executeBarrier) {
         this.executeBarrier = executeBarrier;
     }
-    
-     public boolean getExecuteBarrier() {
+
+    public boolean getExecuteBarrier() {
         return executeBarrier;
     }
-     
+
     public boolean getHeal() {
         return heal;
     }
 
     public void setHeal(boolean heal) {
         this.heal = heal;
+    }
+
+    public boolean getBlind() {
+        return blind;
+    }
+
+    public void setBlind(boolean blind) {
+        this.blind = blind;
     }
 
     public void setBarrierLimit(int b) {
@@ -193,25 +225,24 @@ public class Protagonist extends Entity implements Observable {
     public int getBarrierDamage() {
         return barrierDamage;
     }
-    
-    public void resetBarrierDamage(){
+
+    public void resetBarrierDamage() {
         barrierDamage = 0;
-    } 
-    
+    }
+
     @Override
-    public void setItemHeld(int x){
+    public void setItemHeld(int x) {
         itemHeld = x;
-    } 
-    
+    }
+
     @Override
-    public int getItemHeld(){
+    public int getItemHeld() {
         return itemHeld;
     }
-    
-     public void useItem() {
-        if (itemHeld== 0){
-        }
-        else if (itemHeld == 1){
+
+    public void useItem() {
+        if (itemHeld == 0) {
+        } else if (itemHeld == 1) {
             this.setImage(TextureLoader.BERNARDSHIELDTEXTURE);
             itemHeld = 0;
             invent.setImage(TextureLoader.INVENTORYTEXTURE);
@@ -219,14 +250,14 @@ public class Protagonist extends Entity implements Observable {
         }
     }
 
-    public int getShieldFlag(){
+    public int getShieldFlag() {
         return shieldFlag;
-    } 
-    
-    public void setShieldFlag(int x){
+    }
+
+    public void setShieldFlag(int x) {
         shieldFlag = x;
-    } 
-     
+    }
+
     public Rectangle2D.Double getDetectionCollisionBox() {
         return new Rectangle2D.Double(this.getCX(), this.getCY(), 2, 2);
     }
@@ -244,7 +275,7 @@ public class Protagonist extends Entity implements Observable {
     public void removeObserver(Observer o) {
         this.observers.remove(o);
     }
-    
+
     public void removeAllObservers() {
         this.observers.clear();
     }
