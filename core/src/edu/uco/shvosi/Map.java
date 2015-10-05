@@ -84,8 +84,9 @@ public class Map {
                     } else if (properties.get("Trap2") != null) {
                         initTrap(x, y, Constants.TrapType.TRAP2);
                     }
-                } else if (properties.get("Trap3") != null) {
-                    initTrap(x, y, Constants.TrapType.TRAP3);
+                    //else if (properties.get("Trap3") != null) {
+                    //  initTrap(x, y, Constants.TrapType.TRAP3);
+                    //  }
                 } else {
                     entityGrid[x][y] = Constants.EntityGridCode.NONE;
                 }
@@ -94,7 +95,6 @@ public class Map {
                 //cell.setTile(new AnimatedTiledMapTile(0.5f,waterTiles));
             }
         }
-
         // Populate Entity Grid and List for testing
         populateMapForTesting();
 
@@ -180,9 +180,9 @@ public class Map {
             case TRAP2:
                 entityList.add(new TrapType2(cX, cY));
                 break;
-            case TRAP3:
-                entityList.add(new TrapType3(cX, cY));
-                break;
+//            case TRAP3:
+//                entityList.add(new TrapType3(cX, cY));
+//                break;
             default:
                 //ERROR
                 Gdx.app.log("ERROR", "Trap type not found. Not added to entity grid.");
@@ -193,7 +193,7 @@ public class Map {
     private void populateMapForTesting() {
         List<Entity> tempList = new ArrayList<Entity>();
 
-		//Add entities to tempList below
+        //Add entities to tempList below
 		/*	Be aware that entities placed on testmap.tmx will be overriden
          on the mapGrid and will be placed on top of each other. Please
          place them in an empty block
