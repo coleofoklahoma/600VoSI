@@ -74,10 +74,11 @@ public class CatLady extends Antagonist {
         
          for(int i = 0; i < entityList.size(); i++)
         {
-            if(entityList.get(i).getGridCode() == Constants.EntityGridCode.PLAYER);
-            bernardX = entityList.get(i).getCX();
-            bernardY = entityList.get(i).getCY();
-            break;
+            if(entityList.get(i).getGridCode() == Constants.EntityGridCode.PLAYER){
+                bernardX = entityList.get(i).getCX();
+                bernardY = entityList.get(i).getCY();
+                break;
+            }
         }
         
         xdis = this.getCX() - bernardX;
@@ -121,8 +122,10 @@ public class CatLady extends Antagonist {
         }
         
                     tries++;
-            if(tries > 5)
-                break;
+            if(tries > 5){
+                this.setTurnAction(Constants.TurnAction.NONE);
+                return;
+            }
         }
 
         this.setTurnAction(Constants.TurnAction.MOVE);

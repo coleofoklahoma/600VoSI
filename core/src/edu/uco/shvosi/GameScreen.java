@@ -17,7 +17,6 @@ public class GameScreen implements Screen {
 
     private SpriteBatch batch;
     private OrthographicCamera camera;
-    private Protagonist bernard;
     private Map map;
     private Stage stage;
     private String healthpoints;
@@ -39,93 +38,93 @@ public class GameScreen implements Screen {
         //Bernard Controls
         //Movement
         if (Gdx.input.isKeyJustPressed(Keys.W) && map.bernardCanMove(Constants.Direction.UP)) {
-            bernard.setPlayTurn(true);
-            bernard.notifyObservers();
-            bernard.setDirection(Constants.Direction.UP);
-            bernard.setTurnAction(Constants.TurnAction.MOVE);
+            map.bernard.setPlayTurn(true);
+            map.bernard.notifyObservers();
+            map.bernard.setDirection(Constants.Direction.UP);
+            map.bernard.setTurnAction(Constants.TurnAction.MOVE);
             Gdx.app.log("MOVING", "UP");
         } else if (Gdx.input.isKeyJustPressed(Keys.S) && map.bernardCanMove(Constants.Direction.DOWN)) {
-            bernard.setPlayTurn(true);
-            bernard.notifyObservers();
-            bernard.setDirection(Constants.Direction.DOWN);
-            bernard.setTurnAction(Constants.TurnAction.MOVE);
+            map.bernard.setPlayTurn(true);
+            map.bernard.notifyObservers();
+            map.bernard.setDirection(Constants.Direction.DOWN);
+            map.bernard.setTurnAction(Constants.TurnAction.MOVE);
             Gdx.app.log("MOVING", "DOWN");
         } else if (Gdx.input.isKeyJustPressed(Keys.A)) {
-            if (bernard.getDirection() != Constants.Direction.LEFT) {
-                bernard.flipTexture(Constants.Direction.LEFT);
-                bernard.setDirection(Constants.Direction.LEFT);
+            if (map.bernard.getDirection() != Constants.Direction.LEFT) {
+                map.bernard.flipTexture(Constants.Direction.LEFT);
+                map.bernard.setDirection(Constants.Direction.LEFT);
             }
             if (map.bernardCanMove(Constants.Direction.LEFT)) {
-                bernard.setPlayTurn(true);
-                bernard.notifyObservers();
-                bernard.setTurnAction(Constants.TurnAction.MOVE);
+                map.bernard.setPlayTurn(true);
+                map.bernard.notifyObservers();
+                map.bernard.setTurnAction(Constants.TurnAction.MOVE);
                 Gdx.app.log("MOVING", "LEFT");
             }
         } else if (Gdx.input.isKeyJustPressed(Keys.D)) {
-            if (bernard.getDirection() != Constants.Direction.RIGHT) {
-                bernard.flipTexture(Constants.Direction.RIGHT);
-                bernard.setDirection(Constants.Direction.RIGHT);
+            if (map.bernard.getDirection() != Constants.Direction.RIGHT) {
+                map.bernard.flipTexture(Constants.Direction.RIGHT);
+                map.bernard.setDirection(Constants.Direction.RIGHT);
             }
 
             if (map.bernardCanMove(Constants.Direction.RIGHT)) {
-                bernard.setPlayTurn(true);
-                bernard.notifyObservers();
-                bernard.setTurnAction(Constants.TurnAction.MOVE);
+                map.bernard.setPlayTurn(true);
+                map.bernard.notifyObservers();
+                map.bernard.setTurnAction(Constants.TurnAction.MOVE);
                 Gdx.app.log("MOVING", "RIGHT");
             }
         }
 
         //Use Item
         if (Gdx.input.isKeyJustPressed(Keys.Q)) {
-            bernard.useItem();
+            map.bernard.useItem();
         }
 
         //Skills
         if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
-            bernard.setPlayTurn(true);
-            bernard.setFiring(true);
-            bernard.setTurnAction(Constants.TurnAction.ATTACK);
+            map.bernard.setPlayTurn(true);
+            map.bernard.setFiring(true);
+            map.bernard.setTurnAction(Constants.TurnAction.ATTACK);
         }
 
         if (Gdx.input.isKeyJustPressed(Keys.NUM_1)) {
-            bernard.setPlayTurn(true);
-            bernard.setExecuteSkillOne(true);
-            bernard.setTurnAction(Constants.TurnAction.ATTACK);
+            map.bernard.setPlayTurn(true);
+            map.bernard.setExecuteSkillOne(true);
+            map.bernard.setTurnAction(Constants.TurnAction.ATTACK);
         }
 
         if (Gdx.input.isKeyJustPressed(Keys.NUM_2)) {
-            bernard.setPlayTurn(true);
-            bernard.setExecuteSkillTwo(true);
-            bernard.setTurnAction(Constants.TurnAction.ATTACK);
+            map.bernard.setPlayTurn(true);
+            map.bernard.setExecuteSkillTwo(true);
+            map.bernard.setTurnAction(Constants.TurnAction.ATTACK);
         }
 
         if (Gdx.input.isKeyJustPressed(Keys.NUM_3)) {
-            bernard.setPlayTurn(true);
-            bernard.setExecuteDetection(true);
-            bernard.notifyObservers();
-            bernard.setTurnAction(Constants.TurnAction.ATTACK);
+            map.bernard.setPlayTurn(true);
+            map.bernard.setExecuteDetection(true);
+            map.bernard.notifyObservers();
+            map.bernard.setTurnAction(Constants.TurnAction.ATTACK);
         }
 
         if (Gdx.input.isKeyJustPressed(Keys.NUM_4)) {
-            bernard.setPlayTurn(true);
-            bernard.setExecuteBarrier(true);
-            bernard.setBarrierLimit(2);
-            bernard.notifyObservers();
-            bernard.setTurnAction(Constants.TurnAction.ATTACK);
+            map.bernard.setPlayTurn(true);
+            map.bernard.setExecuteBarrier(true);
+            map.bernard.setBarrierLimit(2);
+            map.bernard.notifyObservers();
+            map.bernard.setTurnAction(Constants.TurnAction.ATTACK);
         }
-        if (bernard.getBarrierLimit() == 0) {
-            bernard.setHeal(true);
+        if (map.bernard.getBarrierLimit() == 0) {
+            map.bernard.setHeal(true);
         }
 
         //temporary health display
-        healthpoints = "HP: " + bernard.getHealth();
-        healthLabel.setX(bernard.getX() + 25);
-        healthLabel.setY(bernard.getY() + 250);
+        healthpoints = "HP: " + map.bernard.getHealth();
+        healthLabel.setX(map.bernard.getX() + 25);
+        healthLabel.setY(map.bernard.getY() + 250);
         healthLabel.setText(healthpoints);
 
         //temporary inventory display
-        invent.setX(bernard.getX() - 325);
-        invent.setY(bernard.getY() + 175);
+        invent.setX(map.bernard.getX() - 325);
+        invent.setY(map.bernard.getY() + 175);
 
         //Remove dead entities, temporary handler?
         for (int i = 0; i < map.getEntityList().size(); i++) {
@@ -142,8 +141,8 @@ public class GameScreen implements Screen {
         }
 
         //Complete the turn
-        if (bernard.getPlayTurn()) {
-            if(bernard.getHealth() <= 0)
+        if (map.bernard.getPlayTurn()) {
+            if(map.bernard.getHealth() <= 0)
                 game.setScreen(game.startScreen);
             for (int i = 0; i < map.getEntityList().size(); i++) {
                 Entity aggressor = map.getEntityList().get(i);
@@ -158,10 +157,10 @@ public class GameScreen implements Screen {
                 map.playTurn(aggressor);
                 aggressor.update();
             }
-            bernard.setPlayTurn(false);
+            map.bernard.setPlayTurn(false);
             if (map.exitReached()) {
                 //Load the next level
-                bernard.setPlayTurn(true);
+                map.bernard.setPlayTurn(true);
                 stage.clear();
                 map.dispose();
                 initNewLevel();
@@ -179,7 +178,7 @@ public class GameScreen implements Screen {
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
 
-        centerCameraOn(bernard);
+        centerCameraOn(map.bernard);
         camera.update();
     }
 
@@ -199,7 +198,6 @@ public class GameScreen implements Screen {
         camera.setToOrtho(false, Constants.SCREENWIDTH, Constants.SCREENHEIGHT);
         FitViewport fv = new FitViewport(Constants.SCREENWIDTH, Constants.SCREENHEIGHT, camera);
         stage = new Stage(fv, batch);
-        bernard = new Protagonist(TextureLoader.BERNARDTEXTURE, 1, 1);
         invent = new Inventory(TextureLoader.INVENTORYTEXTURE, 5, 0);
         healthLabel = new Label("HP: ", skin);
 
@@ -236,12 +234,12 @@ public class GameScreen implements Screen {
     public void initNewLevel() {
         //Test Level
         if (level == 0) {
-            this.bernard.removeAllObservers();
-            map = new Map(bernard, "maps/testmap.tmx");
+            map = new Map("maps/testmap.tmx");
+            map.bernard.removeAllObservers();
             level = 1;
         } else if (level == 1) {
-            this.bernard.removeAllObservers();
-            map = new Map(bernard, "maps/testmap2.tmx");
+            map = new Map("maps/testmap2.tmx");
+            map.bernard.removeAllObservers();
             level = 0;
         }
 
@@ -259,16 +257,16 @@ public class GameScreen implements Screen {
                     break;
                 case ENEMY:
                     //     stage.getActors().get(i).setZIndex(2);
-                    for (Skill s : bernard.getSkills().values()) {
+                    for (Skill s : map.bernard.getSkills().values()) {
                         s.addObserver(map.getEntityList().get(i));
                     }
                     // bernard.addObserver(map.getEntityList().get(i));
                     break;
                 case TRAP:
-                    bernard.addObserver(map.getEntityList().get(i));
+                    map.bernard.addObserver(map.getEntityList().get(i));
                     break;
                 case ITEM:
-                    bernard.addObserver(map.getEntityList().get(i));
+                    map.bernard.addObserver(map.getEntityList().get(i));
                     break;
                 default:
                     //      stage.getActors().get(i).setZIndex(1);

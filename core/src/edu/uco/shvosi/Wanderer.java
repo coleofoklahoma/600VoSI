@@ -19,7 +19,7 @@ public class Wanderer extends Antagonist {
     private String XorY;
     private int xdis;
     private int ydis;
-    private int damage = 50;
+    private int damage = 10;
     private boolean active = false;
     
 
@@ -122,9 +122,9 @@ public class Wanderer extends Antagonist {
             }
         
             tries++;
-            if(tries > 5)
-            {
-                break;
+            if(tries > 5){
+                this.setTurnAction(Constants.TurnAction.NONE);
+                return;
             }
         }//end while
    

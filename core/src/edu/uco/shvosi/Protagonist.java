@@ -43,8 +43,8 @@ public class Protagonist extends Entity implements Observable {
         return skills;
     }
 
-    public Protagonist(Texture texture, int cX, int cY) {
-        super(Constants.EntityGridCode.PLAYER, texture, cX, cY);
+    public Protagonist(int cX, int cY) {
+        super(Constants.EntityGridCode.PLAYER, TextureLoader.BERNARDTEXTURE, cX, cY);
         this.playTurn = true;
         this.setHealth(100);
 

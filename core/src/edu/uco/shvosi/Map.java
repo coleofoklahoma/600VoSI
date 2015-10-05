@@ -21,10 +21,9 @@ public class Map {
     private int tileDimension;
     private int width;
     private int height;
-    private Protagonist bernard;
+    public Protagonist bernard = new Protagonist(1,1);
 
-    public Map(Protagonist bernard, String tmxFileName) {
-        this.bernard = bernard;
+    public Map(String tmxFileName) {
         this.tiledMap = new TmxMapLoader().load(tmxFileName);
         this.renderer = new OrthogonalTiledMapRenderer(this.tiledMap);
         TiledMapTileLayer mapLayer = (TiledMapTileLayer) tiledMap.getLayers().get(0);
