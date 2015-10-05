@@ -2,6 +2,7 @@ package edu.uco.shvosi;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -18,18 +19,22 @@ public class StartScreen implements Screen{
 	private Texture startT;
 	private Sprite quitBut;
 	private Texture quitT;
+        
+        Sound intro = Gdx.audio.newSound(Gdx.files.internal("music/Brazen.mp3"));
+        Sound music = Gdx.audio.newSound(Gdx.files.internal("music/MellowDarkness.mp3"));
 
 
 	public StartScreen (MyGdxGame game)
 	{
 		this.game = game;
+                intro.play(1.0f);
 	}
 	
 	@Override
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+                
 		batch.begin();
 		splash.draw(batch);
 		startBut.draw(batch);
@@ -37,6 +42,8 @@ public class StartScreen implements Screen{
 		batch.end();
 		
 		if (Gdx.input.isTouched()) {
+                        intro.stop();
+                        music.loop(1.0f);
 			game.setScreen(game.gameScreen);
 		}
 	}

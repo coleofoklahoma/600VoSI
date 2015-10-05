@@ -1,6 +1,7 @@
 package edu.uco.shvosi;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,6 +17,7 @@ public class TrapType3 extends Entity implements Observer {
     private Animation smoke;
     private TextureRegion temp;
     private boolean activateSmoke;
+    Sound trap3 = Gdx.audio.newSound(Gdx.files.internal("sounds/trap3.mp3"));
 
     public TrapType3(int cX, int cY) {
         super(Constants.EntityGridCode.TRAP, TextureLoader.TRAPTEXTURE3, cX, cY);
@@ -58,6 +60,7 @@ public class TrapType3 extends Entity implements Observer {
             if (xCoordinate == this.getCX() && yCoordinate == this.getCY() && this.state == 0) {
                 this.setVisible(true);
                 this.activateSmoke = true;
+                trap3.play(1.0f);
                 if (bernard.getShieldFlag() == 1) {
                     bernard.setImage(TextureLoader.BERNARDTEXTURE);
                     bernard.setShieldFlag(0);

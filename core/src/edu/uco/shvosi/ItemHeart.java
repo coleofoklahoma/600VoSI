@@ -1,6 +1,7 @@
 package edu.uco.shvosi;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -16,6 +17,7 @@ public class ItemHeart extends Entity implements Observer {
     private float elapsedHeal;
     private Animation heal;
     private TextureRegion temp;
+    Sound health = Gdx.audio.newSound(Gdx.files.internal("sounds/health.mp3"));
 
     public ItemHeart(int cX, int cY) {
         super(Constants.EntityGridCode.ITEM, TextureLoader.HEALTHTEXTURE, cX, cY);
@@ -52,6 +54,7 @@ public class ItemHeart extends Entity implements Observer {
             Integer xCoordinate = bernard.getDCX();
             Integer yCoordinate = bernard.getDCY();
             if (xCoordinate == this.getCX() && yCoordinate == this.getCY() && this.state == 0) {
+                health.play(1.0f);
                 bernard.setHealth(bernard.getHealth() + this.healAmount);
                 if (bernard.getHealth() > 100) {
                     bernard.setHealth(100);

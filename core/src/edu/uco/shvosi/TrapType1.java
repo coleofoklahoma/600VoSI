@@ -1,6 +1,7 @@
 package edu.uco.shvosi;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,6 +17,7 @@ public class TrapType1 extends Entity implements Observer {
     private TextureRegion temp;
     private Animation kunai;
     private int damage;
+    Sound trap1 = Gdx.audio.newSound(Gdx.files.internal("sounds/trap1.mp3"));
 
     public TrapType1(int cX, int cY) {
         super(Constants.EntityGridCode.TRAP, TextureLoader.TRAPTEXTURE, cX, cY);
@@ -37,7 +39,7 @@ public class TrapType1 extends Entity implements Observer {
             if (kunai.isAnimationFinished(elapsedKunai)) {
                 activateKunai = false;
                 elapsedKunai = 0f;
-                this.state = 1;
+                this.state = 1;               
                 this.setHealth(0);
             }
         }
@@ -56,6 +58,7 @@ public class TrapType1 extends Entity implements Observer {
             if (xCoordinate == this.getCX() && yCoordinate == this.getCY() && this.state == 0) {
                 this.setVisible(true);
                 this.activateKunai = true;
+                trap1.play(1.0f);
                 if (bernard.getShieldFlag() == 1) {
                     bernard.setImage(TextureLoader.BERNARDTEXTURE);
                     bernard.setShieldFlag(0);

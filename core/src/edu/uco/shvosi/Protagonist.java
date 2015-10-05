@@ -1,6 +1,7 @@
 package edu.uco.shvosi;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -38,6 +39,14 @@ public class Protagonist extends Entity implements Observable {
 
     private List<Observer> observers;
     private HashMap<String, Skill> skills;
+    
+    Sound attack = Gdx.audio.newSound(Gdx.files.internal("sounds/attack.mp3"));
+    Sound skill1 = Gdx.audio.newSound(Gdx.files.internal("sounds/skill1.mp3"));
+    Sound skill2 = Gdx.audio.newSound(Gdx.files.internal("sounds/skill2.mp3"));
+    Sound skill3 = Gdx.audio.newSound(Gdx.files.internal("sounds/skill3.mp3"));
+    Sound skill4 = Gdx.audio.newSound(Gdx.files.internal("sounds/skill4.mp3"));
+    Sound shield = Gdx.audio.newSound(Gdx.files.internal("sounds/shield.mp3"));
+    
 
     public HashMap<String, Skill> getSkills() {
         return skills;
@@ -167,19 +176,24 @@ public class Protagonist extends Entity implements Observable {
     }
 
     public void setFiring(boolean firing) {
+        attack.play(1.0f);
         this.firing = firing;
     }
 
     public void setExecuteSkillOne(boolean executeSkillOne) {
+        skill1.play(1.0f);
         this.executeSkillOne = executeSkillOne;
     }
 
     public void setExecuteSkillTwo(boolean executeSkillTwo) {
+        skill2.play(1.0f);
         this.executeSkillTwo = executeSkillTwo;
     }
 
     public void setExecuteDetection(boolean executeDetection) {
+        skill3.play(1.0f);
         this.executeDetection = executeDetection;
+        
     }
 
     public boolean getExecuteDetection() {
@@ -187,6 +201,7 @@ public class Protagonist extends Entity implements Observable {
     }
 
     public void setExecuteBarrier(boolean executeBarrier) {
+        skill4.play(1.0f);
         this.executeBarrier = executeBarrier;
     }
 
@@ -242,7 +257,9 @@ public class Protagonist extends Entity implements Observable {
 
     public void useItem() {
         if (itemHeld == 0) {
-        } else if (itemHeld == 1) {
+        } 
+        else if (itemHeld == 1) {
+            shield.play(1.0f);
             this.setImage(TextureLoader.BERNARDSHIELDTEXTURE);
             itemHeld = 0;
             invent.setImage(TextureLoader.INVENTORYTEXTURE);
