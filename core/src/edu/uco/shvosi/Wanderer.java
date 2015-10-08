@@ -27,13 +27,15 @@ public class Wanderer extends Antagonist {
         super(TextureLoader.WANDERTEXTURE, cX, cY);
         this.setEnemyType(Constants.EnemyType.WANDERER);
         wanderWalk = TextureLoader.wanderWalk;
+        this.setBoundingBox(120);
+        this.damage = damage;
 
     }
 
     @Override
     public void attackAction() {
         //Do Attack Stuffs?
-        MeleeAttack meleeAttach = new MeleeAttack(bernardX, bernardY, damage);
+        //MeleeAttack meleeAttach = new MeleeAttack(bernardX, bernardY, damage);
         
     }
     
@@ -132,11 +134,11 @@ public class Wanderer extends Antagonist {
    
         this.setTurnAction(Constants.TurnAction.MOVE);
              }//end if active
-        else if (active && (xdis <= 1 && ydis <= 1))
-        {
-           this.setTurnAction(Constants.TurnAction.ATTACK);
-
-        }
+//        else if (active && (xdis <= 1 && ydis <= 1))
+//        {
+//           this.setTurnAction(Constants.TurnAction.ATTACK);
+//
+//        }
     }
     
     @Override

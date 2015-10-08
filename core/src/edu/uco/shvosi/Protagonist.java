@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
 import static edu.uco.shvosi.GameScreen.invent;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -307,5 +309,19 @@ public class Protagonist extends Entity implements Observable {
 
     public void attackAction() {
         //Do Stuffs
+    }
+    
+        @Override
+    public void observerUpdate(Object o) {
+       Gdx.app.log("ObserverUpdate", "Reached");
+       
+       
+       Rectangle.tmp.set(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+       Gdx.app.log("tmp", Rectangle.tmp.toString());
+       
+       Gdx.app.log("Enemy box", ((Antagonist) o).getBoundingBox().toString());
+       if(Intersector.overlaps(((Antagonist) o).getBoundingBox(), Rectangle.tmp)) {
+           this.setHealth(this.getHealth() - ((Antagonist) o).getDamage());
+       }
     }
 }

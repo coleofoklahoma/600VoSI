@@ -10,9 +10,24 @@ import java.util.List;
 
 public class Antagonist extends Entity implements Observer {
     private Constants.EnemyType enemyType;
+    protected Rectangle boundingBox;
+    protected int damage;
 
     public Antagonist(Texture texture, int cX, int cY) {
         super(Constants.EntityGridCode.ENEMY, texture, cX, cY);
+    }
+    
+    public int getDamage() {
+        return damage;
+    }
+        
+    public Rectangle getBoundingBox() {
+        return boundingBox;
+    }
+    
+    public void setBoundingBox(int size)
+    {
+        Rectangle box = new Rectangle(getCX(), getCY(), size, size);
     }
 
     public Constants.EnemyType getEnemyType() {
