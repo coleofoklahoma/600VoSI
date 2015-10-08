@@ -19,13 +19,13 @@ public class MeleeAttack extends Entity implements Observer {
     private int damage;
    // Sound meleeSound = Gdx.audio.newSound(Gdx.files.internal("sounds/trap1.mp3"));
 
-    public MeleeAttack(int cX, int cY) {
-        super(Constants.EntityGridCode.TRAP, TextureLoader.MELEETEXTURE, cX, cY);
+    public MeleeAttack(int cX, int cY, int damage) {
+        super(Constants.EntityGridCode.ENEMYATTACK, TextureLoader.MELEETEXTURE, cX, cY);
         meleeAttack = TextureLoader.meleeAttack;
         activateAttack = false;
         elapsedAttack = 0f;
-        this.damage = 25;
-        this.setVisible(false);
+        this.damage = damage;
+        this.setVisible(true);
         this.state = 0;
     }
 
@@ -38,7 +38,7 @@ public class MeleeAttack extends Entity implements Observer {
             batch.draw(meleeAttack.getKeyFrame(elapsedAttack), this.getX(), this.getY(), Constants.TILEDIMENSION, Constants.TILEDIMENSION);
             if (meleeAttack.isAnimationFinished(elapsedAttack)) {
                 activateAttack = false;
-                elapsedAttack = 0f;
+                elapsedAttack = 0.f;
                 this.state = 1;               
                 this.setHealth(0);
             }

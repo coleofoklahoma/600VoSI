@@ -18,6 +18,7 @@ public class TextureLoader {
     public static final Texture SKILLONETEXTURE = new Texture(Gdx.files.internal("skillOne.png"));
     public static final Texture BARRIERTEXTURE = new Texture(Gdx.files.internal("barrier.png"));
     public static final Texture HEALTEXTURE = new Texture(Gdx.files.internal("heal.png"));
+    
 
     private TextureRegion[] detectionFrames;
     private TextureRegion[] barrierFrames;
@@ -32,6 +33,7 @@ public class TextureLoader {
     public static Animation heal;
 
     //antagonist
+    public static final Texture MELEETEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
     public static final Texture WANDERTEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
     public static final Texture DRUNKTEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
     public static final Texture DRUNKENTEXTURE = new Texture(Gdx.files.internal("characters/drunk_sheet.png"));
@@ -39,12 +41,17 @@ public class TextureLoader {
     public static final Texture BLANKTEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
     public static final Texture CATLADYTEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
     public static final Texture CATTYTEXTURE = new Texture(Gdx.files.internal("characters/catLady_sheet.png"));
+    public static final Texture MELEEATTACKTEXTURE = new Texture(Gdx.files.internal("melee_sheet.png"));
+
     private Array<TextureRegion> drunkFrames;
     private Array<TextureRegion> wanderFrames;
     private Array<TextureRegion> catLadyFrames;
+    private Array<TextureRegion> meleeFrames;
     public static Animation catLadyWalk;
     public static Animation drunkWalk;
     public static Animation wanderWalk;
+    public static Animation meleeAttack;
+
 
     //traps and items
     public static final Texture TRAPTEXTURE = new Texture(Gdx.files.internal("traps/trap.png"));
@@ -145,6 +152,13 @@ public class TextureLoader {
         }
 
         catLadyWalk = new Animation(0.50f, catLadyFrames, PlayMode.LOOP);
+        
+        meleeFrames = new Array<TextureRegion>(7);
+        for (int i = 0; i < 7; i++) {
+            meleeFrames.add(new TextureRegion(MELEEATTACKTEXTURE, 25, i * 100, 100, 100));
+        }
+
+        meleeAttack = new Animation(0.03f, meleeFrames, PlayMode.NORMAL);
 
         //traps and items
         //Kunai Trap

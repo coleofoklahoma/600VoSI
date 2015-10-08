@@ -11,7 +11,7 @@ public final class Constants {
     }
     
     public static enum EntityGridCode {
-        NONE, PLAYER, ENEMY, ITEM, TRAP;
+        NONE, PLAYER, ENEMY, ENEMYATTACK,ITEM, TRAP;
     }
     
     public static enum EnemyType {
@@ -19,6 +19,11 @@ public final class Constants {
         WANDERER,
         DRUNK,
         CATLADY;
+    }
+    
+    public static enum EnemyAttackType {
+	NONE,
+        MELEEATTACK;
     }
     
     public static enum ItemType {

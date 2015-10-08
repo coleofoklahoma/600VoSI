@@ -130,7 +130,7 @@ public class CatLady extends Antagonist {
 
          this.setTurnAction(Constants.TurnAction.MOVE);
         }//end if active
-        else
+        else if (active && (xdis >= 2 || ydis >= 2))
         {
            this.setTurnAction(Constants.TurnAction.ATTACK);
 

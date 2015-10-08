@@ -19,7 +19,7 @@ public class Wanderer extends Antagonist {
     private String XorY;
     private int xdis;
     private int ydis;
-    private int damage = 10;
+    private int damage = 50;
     private boolean active = false;
     
 
@@ -33,6 +33,8 @@ public class Wanderer extends Antagonist {
     @Override
     public void attackAction() {
         //Do Attack Stuffs?
+        MeleeAttack meleeAttach = new MeleeAttack(bernardX, bernardY, damage);
+        
     }
     
         @Override
@@ -80,7 +82,7 @@ public class Wanderer extends Antagonist {
                     break;
                 }
             }
-        
+          
             xdis = this.getCX() - bernardX;
             ydis = this.getCY() - bernardY;
             if(xdis < 5 && ydis < 5)
@@ -88,7 +90,7 @@ public class Wanderer extends Antagonist {
                 active = true;
             }
         
-            if (active)
+            if (active && (xdis <= 1 || ydis <= 1))
              {
             
             while (!canMove(d, mapGrid, entityGrid)) {
@@ -130,6 +132,11 @@ public class Wanderer extends Antagonist {
    
         this.setTurnAction(Constants.TurnAction.MOVE);
              }//end if active
+        else if (active && (xdis <= 1 && ydis <= 1))
+        {
+           this.setTurnAction(Constants.TurnAction.ATTACK);
+
+        }
     }
     
     @Override

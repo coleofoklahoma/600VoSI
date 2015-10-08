@@ -65,6 +65,7 @@ public class Antagonist extends Entity implements Observer {
        
        Rectangle.tmp.set(this.getX(), this.getY(), this.getWidth(), this.getHeight());
        Gdx.app.log("tmp", Rectangle.tmp.toString());
+       
        Gdx.app.log("Skill box", ((Skill) o).getBoundingBox().toString());
        if(Intersector.overlaps(((Skill) o).getBoundingBox(), Rectangle.tmp)) {
            this.setHealth(this.getHealth() - ((Skill) o).getDamage());
