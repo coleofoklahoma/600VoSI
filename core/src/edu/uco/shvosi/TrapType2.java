@@ -58,7 +58,7 @@ public class TrapType2 extends Entity implements Observer {
 
             if (xCoordinate == this.getCX() && yCoordinate == this.getCY() && this.state == 0) {
                 this.setVisible(true);
-                trap2.play(1.0f);
+                trap2.play(Constants.MASTERVOLUME);
                 this.activatePower = true;
 
                 if (bernard.getShieldFlag() == 1) {

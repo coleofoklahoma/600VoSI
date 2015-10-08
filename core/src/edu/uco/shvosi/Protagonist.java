@@ -178,22 +178,22 @@ public class Protagonist extends Entity implements Observable {
     }
 
     public void setFiring(boolean firing) {
-        attack.play(1.0f);
+        attack.play(Constants.MASTERVOLUME);
         this.firing = firing;
     }
 
     public void setExecuteSkillOne(boolean executeSkillOne) {
-        skill1.play(1.0f);
+        skill1.play(Constants.MASTERVOLUME);
         this.executeSkillOne = executeSkillOne;
     }
 
     public void setExecuteSkillTwo(boolean executeSkillTwo) {
-        skill2.play(1.0f);
+        skill2.play(Constants.MASTERVOLUME);
         this.executeSkillTwo = executeSkillTwo;
     }
 
     public void setExecuteDetection(boolean executeDetection) {
-        skill3.play(1.0f);
+        skill3.play(Constants.MASTERVOLUME);
         this.executeDetection = executeDetection;
         
     }
@@ -203,7 +203,7 @@ public class Protagonist extends Entity implements Observable {
     }
 
     public void setExecuteBarrier(boolean executeBarrier) {
-        skill4.play(1.0f);
+        skill4.play(Constants.MASTERVOLUME);
         this.executeBarrier = executeBarrier;
     }
 
@@ -261,7 +261,7 @@ public class Protagonist extends Entity implements Observable {
         if (itemHeld == 0) {
         } 
         else if (itemHeld == 1) {
-            shield.play(1.0f);
+            shield.play(Constants.MASTERVOLUME);
             this.setImage(TextureLoader.BERNARDSHIELDTEXTURE);
             itemHeld = 0;
             invent.setImage(TextureLoader.INVENTORYTEXTURE);

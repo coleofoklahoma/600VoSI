@@ -28,7 +28,7 @@ public class ItemShield extends Entity implements Observer{
                 if (bernard.getItemHeld() == 0){
                     bernard.setItemHeld(1);
                     GameScreen.invent.setImage(TextureLoader.INVENTORYSHIELDTEXTURE);
-                    invent.play(1.0f);
+                    invent.play(Constants.MASTERVOLUME);
                     this.setHealth(0);
                     this.state = 1;
                 }

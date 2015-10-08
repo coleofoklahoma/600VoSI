@@ -60,7 +60,7 @@ public class TrapType3 extends Entity implements Observer {
             if (xCoordinate == this.getCX() && yCoordinate == this.getCY() && this.state == 0) {
                 this.setVisible(true);
                 this.activateSmoke = true;
-                trap3.play(1.0f);
+                trap3.play(Constants.MASTERVOLUME);
                 if (bernard.getShieldFlag() == 1) {
                     bernard.setImage(TextureLoader.BERNARDTEXTURE);
                     bernard.setShieldFlag(0);

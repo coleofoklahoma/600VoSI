@@ -27,7 +27,7 @@ public class StartScreen implements Screen{
 	public StartScreen (MyGdxGame game)
 	{
 		this.game = game;
-                intro.play(1.0f);
+                intro.play(Constants.MASTERVOLUME);
 	}
 	
 	@Override
@@ -43,7 +43,7 @@ public class StartScreen implements Screen{
 		
 		if (Gdx.input.isTouched()) {
                         intro.stop();
-                        music.loop(1.0f);
+                        music.loop(Constants.MASTERVOLUME);
 			game.setScreen(game.gameScreen);
 		}
 	}

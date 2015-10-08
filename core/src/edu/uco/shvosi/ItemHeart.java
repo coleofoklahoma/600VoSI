@@ -54,7 +54,7 @@ public class ItemHeart extends Entity implements Observer {
             Integer xCoordinate = bernard.getDCX();
             Integer yCoordinate = bernard.getDCY();
             if (xCoordinate == this.getCX() && yCoordinate == this.getCY() && this.state == 0) {
-                health.play(1.0f);
+                health.play(Constants.MASTERVOLUME);
                 bernard.setHealth(bernard.getHealth() + this.healAmount);
                 if (bernard.getHealth() > 100) {
                     bernard.setHealth(100);

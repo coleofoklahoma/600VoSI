@@ -5,6 +5,7 @@ public final class Constants {
     public static final int SCREENWIDTH = 800;
     public static final int SCREENHEIGHT = 450;
     public static final float MOVEACTIONDURATION = 0.5f;
+    public static float MASTERVOLUME = 0.1f;
     
     public static enum MapGridCode {
         FLOOR, WALL, STRUCTURE, EXIT;
