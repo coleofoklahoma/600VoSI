@@ -42,15 +42,20 @@ public class TextureLoader {
     public static final Texture CATLADYTEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
     public static final Texture CATTYTEXTURE = new Texture(Gdx.files.internal("characters/catLady_sheet.png"));
     public static final Texture MELEEATTACKTEXTURE = new Texture(Gdx.files.internal("melee_sheet.png"));
+    public static final Texture WANDERATTACKTEXTURE = new Texture(Gdx.files.internal("characters/wander_attack_sheet.png"));
+
 
     private Array<TextureRegion> drunkFrames;
     private Array<TextureRegion> wanderFrames;
     private Array<TextureRegion> catLadyFrames;
     private Array<TextureRegion> meleeFrames;
+    private Array<TextureRegion> wanderAttackFrames;
     public static Animation catLadyWalk;
     public static Animation drunkWalk;
     public static Animation wanderWalk;
     public static Animation meleeAttack;
+    public static Animation wanderAttack;
+
 
 
     //traps and items
@@ -144,6 +149,13 @@ public class TextureLoader {
         }
 
         wanderWalk = new Animation(0.50f, wanderFrames, PlayMode.LOOP);
+        
+        wanderAttackFrames = new Array<TextureRegion>(5);
+        for (int i = 0; i < 5; i++) {
+            wanderAttackFrames.add(new TextureRegion(WANDERATTACKTEXTURE, 25, i * 100, 100, 100));
+        }
+
+        wanderAttack = new Animation(0.10f, wanderAttackFrames, PlayMode.LOOP);
 
         //Antagonist catlady
         catLadyFrames = new Array<TextureRegion>(3);

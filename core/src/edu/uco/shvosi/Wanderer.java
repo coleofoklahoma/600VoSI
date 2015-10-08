@@ -10,6 +10,7 @@ import java.util.List;
 public class Wanderer extends Antagonist {
     
     private Animation wanderWalk;
+    private Animation wanderAttack;
     private boolean moving = false;
     private boolean flip = false;
     private float elapsedTime;
@@ -27,6 +28,8 @@ public class Wanderer extends Antagonist {
         super(TextureLoader.WANDERTEXTURE, cX, cY);
         this.setEnemyType(Constants.EnemyType.WANDERER);
         wanderWalk = TextureLoader.wanderWalk;
+        wanderAttack = TextureLoader.wanderAttack;
+
         this.setBoundingBox(120);
         this.damage = damage;
 
@@ -42,8 +45,8 @@ public class Wanderer extends Antagonist {
         @Override
     public void draw(Batch batch, float alpha) {
         super.draw(batch, alpha);
-    
-                
+        
+                         
             elapsedTime += Gdx.graphics.getDeltaTime();
             if(xdis >=0)
             {
@@ -53,18 +56,33 @@ public class Wanderer extends Antagonist {
             {
                 flip = false;
             }
-                
-            if (flip) {
-                temp = wanderWalk.getKeyFrame(elapsedTime);
-                temp.flip(true, false);
-                batch.draw(temp, this.getX(),getY(), Constants.TILEDIMENSION, Constants.TILEDIMENSION);
-                temp.flip(true, false);
-            } else {
-                batch.draw(wanderWalk.getKeyFrame(elapsedTime), this.getX(), this.getY(), Constants.TILEDIMENSION, Constants.TILEDIMENSION);
+            if(xdis >1 || ydis >1){    
+                if (flip) {
+                    temp = wanderWalk.getKeyFrame(elapsedTime);
+                    temp.flip(true, false);
+                    batch.draw(temp, this.getX(),getY(), Constants.TILEDIMENSION, Constants.TILEDIMENSION);
+                    temp.flip(true, false);
+                } else {
+                    batch.draw(wanderWalk.getKeyFrame(elapsedTime), this.getX(), this.getY(), Constants.TILEDIMENSION, Constants.TILEDIMENSION);
+                }
+                if (wanderWalk.isAnimationFinished(elapsedTime)) {
+                    moving = false;
+                    elapsedTime = 0f;
+                }
             }
-            if (wanderWalk.isAnimationFinished(elapsedTime)) {
-                moving = false;
-                elapsedTime = 0f;
+            if(xdis <=1 && ydis <=1){    
+                if (flip) {
+                    temp = wanderAttack.getKeyFrame(elapsedTime);
+                    temp.flip(true, false);
+                    batch.draw(temp, this.getX(),getY(), Constants.TILEDIMENSION, Constants.TILEDIMENSION);
+                    temp.flip(true, false);
+                } else {
+                    batch.draw(wanderAttack.getKeyFrame(elapsedTime), this.getX(), this.getY(), Constants.TILEDIMENSION, Constants.TILEDIMENSION);
+                }
+                if (wanderAttack.isAnimationFinished(elapsedTime)) {
+                    moving = false;
+                    elapsedTime = 0f;
+                }
             }
         
     }
