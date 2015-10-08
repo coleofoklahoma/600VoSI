@@ -89,7 +89,7 @@ public class CatLady extends Antagonist {
         active = true;
         }
         
-        if (active)
+        if (active && (xdis < 2 || ydis < 2))
         {
         
         while (!canMove(d, mapGrid, entityGrid)) {
@@ -105,20 +105,20 @@ public class CatLady extends Antagonist {
         
         if("X".equals(XorY) && xdis >= 0)
         {
-            d = Constants.Direction.LEFT;
+            d = Constants.Direction.RIGHT;
         }
         
         if("X".equals(XorY) && xdis < 0)
         {
-            d = Constants.Direction.RIGHT;
+            d = Constants.Direction.LEFT;
         }
         if("Y".equals(XorY) && ydis >= 0)
         {
-            d = Constants.Direction.DOWN;
+            d = Constants.Direction.UP;
         }
         if("Y".equals(XorY) && ydis < 0)
         {
-            d = Constants.Direction.UP;
+            d = Constants.Direction.DOWN;
         }
         
                     tries++;
@@ -128,8 +128,13 @@ public class CatLady extends Antagonist {
             }
         }
 
-        this.setTurnAction(Constants.TurnAction.MOVE);
+         this.setTurnAction(Constants.TurnAction.MOVE);
         }//end if active
+        else
+        {
+           this.setTurnAction(Constants.TurnAction.ATTACK);
+
+        }
     }
 
     private boolean canMove(Constants.Direction direction, Constants.MapGridCode[][] mapGrid, Constants.EntityGridCode[][] entityGrid) {

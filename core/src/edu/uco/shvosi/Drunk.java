@@ -15,6 +15,12 @@ public class Drunk extends Antagonist {
     private boolean flip = false;
     private float elapsedTime;
     private TextureRegion temp;
+    private int bernardX; 
+    private int bernardY; 
+    private String XorY; 
+    private int xdis; 
+    private int ydis; 
+    private boolean active = false;
     
     public Drunk(int cX, int cY) {
         super(TextureLoader.DRUNKTEXTURE, cX, cY);
@@ -55,33 +61,84 @@ public class Drunk extends Antagonist {
         int random = 0;
         int tries = 0;
         Constants.Direction d = Constants.Direction.NONE;
-
-        while (!canMove(d, mapGrid, entityGrid)) {
-            random = (int) (Math.random() * entityGrid.length);
-            switch (random % 4) {
-                case 1:
-                    d = Constants.Direction.UP;
-                    break;
-                case 2:
-                    d = Constants.Direction.DOWN;
-                    break;
-                case 3:
-                    d = Constants.Direction.LEFT;
-                    flip = true;
-                    break;
-                default:
-                    d = Constants.Direction.RIGHT;
-                    flip = false;
-                    break;
+        
+        for(int i = 0; i < entityList.size(); i++)
+            {
+            if(entityList.get(i).getGridCode() == Constants.EntityGridCode.PLAYER){
+                bernardX = entityList.get(i).getCX();
+                bernardY = entityList.get(i).getCY();
+                break;
+                }
             }
-            tries++;
-            if(tries > 5){
-                this.setTurnAction(Constants.TurnAction.NONE);
-                return;
+        
+            xdis = this.getCX() - bernardX;
+            ydis = this.getCY() - bernardY;
+            if(xdis < 5 && ydis < 5)
+            {
+                active = true;
+            }
+        if(active)
+        {
+            while (!canMove(d, mapGrid, entityGrid)) {
+                if(xdis < 5 || ydis < 5)
+                {
+                    random = (int) (Math.random() * entityGrid.length);
+                    switch (random % 4) {
+                        case 1:
+                            d = Constants.Direction.UP;
+                            break;
+                        case 2:
+                            d = Constants.Direction.DOWN;
+                            break;
+                        case 3:
+                            d = Constants.Direction.LEFT;
+                            flip = true;
+                            break;
+                        default:
+                            d = Constants.Direction.RIGHT;
+                            flip = false;
+                            break;
+                    }
+                }//end
+                if(xdis >= 5 || ydis >= 5)
+                {
+                     if(Math.abs(xdis) > Math.abs(ydis))
+                {
+                    XorY="X";
+                }
+                else
+                {
+                    XorY="Y";
+                }
+        
+                if("X".equals(XorY) && xdis >= 0)
+                {
+                    d = Constants.Direction.LEFT;
+                }
+        
+            if("X".equals(XorY) && xdis < 0)
+            {
+                d = Constants.Direction.RIGHT;
+            }
+            if("Y".equals(XorY) && ydis >= 0)
+            {
+                d = Constants.Direction.DOWN;
+            }
+        
+            if("Y".equals(XorY) && ydis < 0)
+            {
+                d = Constants.Direction.UP;
+            }
+                }//end
+                tries++;
+                if(tries > 5){
+                    this.setTurnAction(Constants.TurnAction.NONE);
+                    return;
             }
         }
 
         this.setTurnAction(Constants.TurnAction.MOVE);
+        }//end if active
     }
     
     @Override
