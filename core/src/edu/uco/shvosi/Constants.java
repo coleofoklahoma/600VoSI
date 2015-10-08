@@ -12,7 +12,7 @@ public final class Constants {
     }
     
     public static enum EntityGridCode {
-        NONE, PLAYER, ENEMY, ENEMYATTACK,ITEM, TRAP;
+        NONE, PLAYER, ENEMY,ITEM, TRAP;
     }
     
     public static enum EnemyType {
