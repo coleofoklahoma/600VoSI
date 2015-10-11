@@ -89,39 +89,38 @@ public class CatLady extends Antagonist {
         active = true;
         }
         
-        if (active && (xdis < 2 || ydis < 2))
+        if (active && (xdis < 2 && ydis < 2))
         {
         
-        while (!canMove(d, mapGrid, entityGrid)) {
+            while (!canMove(d, mapGrid, entityGrid)) {
         
-        if(Math.abs(xdis) > Math.abs(ydis))
-        {
-            XorY="X";
-        }
-        else
-        {
-            XorY="Y";
-        }
+                if(Math.abs(xdis) > Math.abs(ydis))
+                {
+                XorY="X";
+                }
+            else
+            {
+                XorY="Y";
+            }
         
-        if("X".equals(XorY) && xdis >= 0)
-        {
-            d = Constants.Direction.RIGHT;
-        }
+            if("X".equals(XorY) && xdis >= 0)
+            {
+                d = Constants.Direction.RIGHT;
+            }
         
-        if("X".equals(XorY) && xdis < 0)
-        {
-            d = Constants.Direction.LEFT;
-        }
-        if("Y".equals(XorY) && ydis >= 0)
-        {
-            d = Constants.Direction.UP;
-        }
-        if("Y".equals(XorY) && ydis < 0)
-        {
-            d = Constants.Direction.DOWN;
-        }
-        
-                    tries++;
+            if("X".equals(XorY) && xdis < 0)
+            {
+                d = Constants.Direction.LEFT;
+            }
+            if("Y".equals(XorY) && ydis >= 0)
+            {
+                d = Constants.Direction.UP;
+            }
+            if("Y".equals(XorY) && ydis < 0)
+            {
+                d = Constants.Direction.DOWN;
+            }
+        tries++;
             if(tries > 5){
                 this.setTurnAction(Constants.TurnAction.NONE);
                 return;
@@ -129,7 +128,7 @@ public class CatLady extends Antagonist {
         }
 
          this.setTurnAction(Constants.TurnAction.MOVE);
-        }//end if active
+        }//end if active ^
         else if (active && (xdis >= 2 || ydis >= 2))
         {
            this.setTurnAction(Constants.TurnAction.ATTACK);
