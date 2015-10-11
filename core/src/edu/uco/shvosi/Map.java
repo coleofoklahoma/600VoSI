@@ -198,6 +198,7 @@ public class Map {
          place them in an empty block
          */
         tempList.add(new TrapType3(2, 2));
+        tempList.add(new TrapType4(3, 2));
 
         // Populate the cells from the temp list and add to entity list
         for (int i = 0; i < tempList.size(); i++) {

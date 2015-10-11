@@ -19,6 +19,9 @@ import java.util.List;
 public class Protagonist extends Entity implements Observable {
 
     ParticleEffect smokeParticle;
+    ParticleEffect poisonParticle;
+    boolean scaleEffect = false;
+
     private boolean playTurn;
     private Constants.Direction direction;
 
@@ -37,18 +40,19 @@ public class Protagonist extends Entity implements Observable {
     private int barrierDamage = 0;
 
     private boolean blind = false;
-    private int actionCounter = 0;
+    private boolean poison = false;
+    private int blindCounter = 0;
+    private int poisonCounter = 0;
 
     private List<Observer> observers;
     private HashMap<String, Skill> skills;
-    
+
     Sound attack = Gdx.audio.newSound(Gdx.files.internal("sounds/attack.mp3"));
     Sound skill1 = Gdx.audio.newSound(Gdx.files.internal("sounds/skill1.mp3"));
     Sound skill2 = Gdx.audio.newSound(Gdx.files.internal("sounds/skill2.mp3"));
     Sound skill3 = Gdx.audio.newSound(Gdx.files.internal("sounds/skill3.mp3"));
     Sound skill4 = Gdx.audio.newSound(Gdx.files.internal("sounds/skill4.mp3"));
     Sound shield = Gdx.audio.newSound(Gdx.files.internal("sounds/shield.mp3"));
-    
 
     public HashMap<String, Skill> getSkills() {
         return skills;
@@ -89,6 +93,10 @@ public class Protagonist extends Entity implements Observable {
 
         smokeParticle = new ParticleEffect();
         smokeParticle.load(Gdx.files.internal("traps/smoke.p"), Gdx.files.internal("traps"));
+        poisonParticle = new ParticleEffect();
+        poisonParticle.load(Gdx.files.internal("traps/poison.p"), Gdx.files.internal("traps"));
+        poisonParticle.scaleEffect(-0.40f);
+
     }
 
     @Override
@@ -129,14 +137,37 @@ public class Protagonist extends Entity implements Observable {
             }
         }
 
-        if (actionCounter >= 2 && blind == true) {
+        if (blindCounter >= 2 && blind == true) {
             smokeParticle.start();
             smokeParticle.getEmitters().first().setPosition(this.getX() + 50, this.getY() + 35);
-            smokeParticle.draw(batch, Gdx.graphics.getDeltaTime());
-            if (actionCounter == 17) {
-                blind = false;
-                actionCounter = 0;
+            if (scaleEffect == true) {
+                smokeParticle.scaleEffect(1.40f);
+                scaleEffect = false;
             }
+
+            smokeParticle.draw(batch, Gdx.graphics.getDeltaTime());
+            if (blindCounter == 7) {
+                blind = false;
+                blindCounter = 0;
+                smokeParticle.reset();
+            }
+        }
+
+        if (poisonCounter >= 2 && poison == true) {
+            poisonParticle.start();
+            poisonParticle.getEmitters().first().setPosition(this.getX() + 50, this.getY() + 35);
+
+            poisonParticle.draw(batch, Gdx.graphics.getDeltaTime());
+            if (poisonCounter == 6) {
+                poison = false;
+                poisonCounter = 0;
+                poisonParticle.reset();
+            }
+        }
+        if (executeDetection == true) {
+            resetStatusCounter();
+            smokeParticle.reset();
+            poisonParticle.reset();
         }
     }
 
@@ -146,13 +177,26 @@ public class Protagonist extends Entity implements Observable {
             case MOVE:
                 moveAction();
                 if (blind == true) {
-                    actionCounter++;
+                    blindCounter++;
+                    scaleEffect = true;
+                }
+                
+                if (poison == true) {
+                    poisonCounter++;
+                    if(poisonCounter >= 2)
+                    this.setHealth(this.getHealth()-8);
                 }
                 break;
             case ATTACK:
                 attackAction();
                 if (blind == true) {
-                    actionCounter++;
+                    blindCounter++;
+                    scaleEffect = true;
+                }
+                
+                if(poison == true && executeDetection == false) {
+                    poisonCounter++;
+                    this.setHealth(this.getHealth()-8);
                 }
                 break;
             default:
@@ -195,7 +239,7 @@ public class Protagonist extends Entity implements Observable {
     public void setExecuteDetection(boolean executeDetection) {
         skill3.play(Constants.MASTERVOLUME);
         this.executeDetection = executeDetection;
-        
+
     }
 
     public boolean getExecuteDetection() {
@@ -227,6 +271,19 @@ public class Protagonist extends Entity implements Observable {
         this.blind = blind;
     }
 
+     public boolean getPoison() {
+        return poison;
+    }
+
+    public void setPoison(boolean poison) {
+        this.poison = poison;
+    }
+    
+    public void resetStatusCounter() {
+        blindCounter = 0;
+        poisonCounter =0;
+    }
+    
     public void setBarrierLimit(int b) {
         barrierLimit = b;
     }
@@ -259,8 +316,7 @@ public class Protagonist extends Entity implements Observable {
 
     public void useItem() {
         if (itemHeld == 0) {
-        } 
-        else if (itemHeld == 1) {
+        } else if (itemHeld == 1) {
             shield.play(Constants.MASTERVOLUME);
             this.setImage(TextureLoader.BERNARDSHIELDTEXTURE);
             itemHeld = 0;
@@ -310,18 +366,17 @@ public class Protagonist extends Entity implements Observable {
     public void attackAction() {
         //Do Stuffs
     }
-    
-        @Override
+
+    @Override
     public void observerUpdate(Object o) {
-       Gdx.app.log("ObserverUpdate", "Reached");
-       
-       
-       Rectangle.tmp.set(this.getX(), this.getY(), this.getWidth(), this.getHeight());
-       Gdx.app.log("tmp", Rectangle.tmp.toString());
-       
-       Gdx.app.log("Enemy box", ((Antagonist) o).getBoundingBox().toString());
-       if(Intersector.overlaps(((Antagonist) o).getBoundingBox(), Rectangle.tmp)) {
-           this.setHealth(this.getHealth() - ((Antagonist) o).getDamage());
-       }
+        Gdx.app.log("ObserverUpdate", "Reached");
+
+        Rectangle.tmp.set(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+        Gdx.app.log("tmp", Rectangle.tmp.toString());
+
+        Gdx.app.log("Enemy box", ((Antagonist) o).getBoundingBox().toString());
+        if (Intersector.overlaps(((Antagonist) o).getBoundingBox(), Rectangle.tmp)) {
+            this.setHealth(this.getHealth() - ((Antagonist) o).getDamage());
+        }
     }
 }

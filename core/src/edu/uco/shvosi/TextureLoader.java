@@ -131,7 +131,7 @@ public class TextureLoader {
                 healFrames[index5++] = tmp5[i][j];
             }
         }
-        heal = new Animation(0.03f, healFrames);
+        heal = new Animation(0.02f, healFrames);
 
         //antagonist
         //Antagonist Drunk

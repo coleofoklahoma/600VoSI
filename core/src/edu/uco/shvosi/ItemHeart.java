@@ -12,7 +12,7 @@ public class ItemHeart extends Entity implements Observer {
     private int type;
     private int healAmount;
     private int state = 0;
-    
+
     private boolean activateHeal;
     private float elapsedHeal;
     private Animation heal;
@@ -29,7 +29,6 @@ public class ItemHeart extends Entity implements Observer {
 
     @Override
     public void draw(Batch batch, float alpha) {
-        super.draw(batch, alpha);
         if (activateHeal) {
             elapsedHeal += Gdx.graphics.getDeltaTime();
             temp = heal.getKeyFrame(elapsedHeal);
@@ -40,6 +39,8 @@ public class ItemHeart extends Entity implements Observer {
                 this.state = 1;
                 this.setHealth(0);
             }
+        } else {
+            super.draw(batch, alpha);
         }
     }
 
