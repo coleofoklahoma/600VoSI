@@ -110,7 +110,7 @@ public class Wanderer extends Antagonist {
                 active = true;
             }
         
-            if (active && (xdis <= 1 || ydis <= 1))
+            if (active)
              {
             
             while (!canMove(d, mapGrid, entityGrid)) {

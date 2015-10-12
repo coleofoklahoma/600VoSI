@@ -11,6 +11,7 @@ import java.util.List;
 public class Drunk extends Antagonist {
     
     private Animation drunkWalk;
+    private Animation drunkAttack;
     private boolean moving = false;
     private boolean flip = false;
     private float elapsedTime;
@@ -26,6 +27,7 @@ public class Drunk extends Antagonist {
         super(TextureLoader.DRUNKTEXTURE, cX, cY);
         this.setEnemyType(Constants.EnemyType.DRUNK);
         drunkWalk = TextureLoader.drunkWalk;
+        drunkAttack = TextureLoader.drunkAttack;
     }
 
     @Override
@@ -36,23 +38,43 @@ public class Drunk extends Antagonist {
     @Override
     public void draw(Batch batch, float alpha) {
         super.draw(batch, alpha);
-    
                 
+                int random = 0;
+                random = (int) (Math.random() * 10);
+                random = random % 2;
+                                
                 elapsedTime += Gdx.graphics.getDeltaTime();
-                
-            if (flip) {
-                temp = drunkWalk.getKeyFrame(elapsedTime);
-                temp.flip(true, false);
-                batch.draw(temp, this.getX(),getY(), Constants.TILEDIMENSION, Constants.TILEDIMENSION);
-                temp.flip(true, false);
-            } else {
-                batch.draw(drunkWalk.getKeyFrame(elapsedTime), this.getX(), this.getY(), Constants.TILEDIMENSION , Constants.TILEDIMENSION);
-            }
-            if (drunkWalk.isAnimationFinished(elapsedTime)) {
-                moving = false;
-                elapsedTime = 0f;
-            }
-        
+           //if(random == 0)
+           //{
+                if (flip) {
+                    temp = drunkWalk.getKeyFrame(elapsedTime);
+                    temp.flip(true, false);
+                    batch.draw(temp, this.getX(),getY(), Constants.TILEDIMENSION, Constants.TILEDIMENSION);
+                    temp.flip(true, false);
+                } else {
+                    batch.draw(drunkWalk.getKeyFrame(elapsedTime), this.getX(), this.getY(), Constants.TILEDIMENSION , Constants.TILEDIMENSION);
+                }
+                if (drunkWalk.isAnimationFinished(elapsedTime)) {
+                    moving = false;
+                    elapsedTime = 0f;
+                 //   }
+                    
+//            if (random == 1)
+//            {
+//                if (flip) {
+//                    temp = drunkAttack.getKeyFrame(elapsedTime);
+//                    temp.flip(true, false);
+//                    batch.draw(temp, this.getX(),getY(), Constants.TILEDIMENSION, Constants.TILEDIMENSION);
+//                    temp.flip(true, false);
+//                } else {
+//                    batch.draw(drunkAttack.getKeyFrame(elapsedTime), this.getX(), this.getY(), Constants.TILEDIMENSION , Constants.TILEDIMENSION);
+//                }
+//                if (drunkAttack.isAnimationFinished(elapsedTime)) {
+//                    moving = false;
+//                    elapsedTime = 0f;
+//                    }
+//            }
+        }//end switch
     }
 
     @Override
@@ -80,7 +102,7 @@ public class Drunk extends Antagonist {
         if(active)
         {
             while (!canMove(d, mapGrid, entityGrid)) {
-                if(xdis < 5 || ydis < 5)
+                if(xdis < 3 && ydis < 3)
                 {
                     random = (int) (Math.random() * entityGrid.length);
                     switch (random % 4) {
@@ -100,7 +122,7 @@ public class Drunk extends Antagonist {
                             break;
                     }
                 }//end
-                if(xdis >= 5 || ydis >= 5)
+                if(xdis >= 3 || ydis >= 3)
                 {
                      if(Math.abs(xdis) > Math.abs(ydis))
                 {
