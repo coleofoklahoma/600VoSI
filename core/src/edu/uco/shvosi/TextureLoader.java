@@ -37,9 +37,11 @@ public class TextureLoader {
     public static Animation heal;
 
     //antagonist
+    public static final Texture WREKERTEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
     public static final Texture MELEETEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
     public static final Texture WANDERTEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
     public static final Texture DRUNKTEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
+    public static final Texture WREKINGTEXTURE = new Texture(Gdx.files.internal("characters/wrek_sheet.png"));
     public static final Texture DRUNKENTEXTURE = new Texture(Gdx.files.internal("characters/drunk_sheet.png"));
     public static final Texture WANDTEXTURE = new Texture(Gdx.files.internal("characters/wander_sheet.png"));
     public static final Texture BLANKTEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
@@ -48,20 +50,26 @@ public class TextureLoader {
     public static final Texture MELEEATTACKTEXTURE = new Texture(Gdx.files.internal("melee_sheet.png"));
     public static final Texture WANDERATTACKTEXTURE = new Texture(Gdx.files.internal("characters/wander_attack_sheet.png"));
     public static final Texture DRUNKATTACKTEXTURE = new Texture(Gdx.files.internal("characters/drunk_attack_sheet.png"));
+    public static final Texture WREKERATTACKTEXTURE = new Texture(Gdx.files.internal("characters/wrek_attack_sheet.png"));
 
 
     private Array<TextureRegion> drunkFrames;
     private Array<TextureRegion> wanderFrames;
     private Array<TextureRegion> catLadyFrames;
+    private Array<TextureRegion> wrekerFrames;
     private Array<TextureRegion> meleeFrames;
     private Array<TextureRegion> wanderAttackFrames;
+    private Array<TextureRegion> wrekerAttackFrames;
     private Array<TextureRegion> drunkAttackFrames;
     public static Animation catLadyWalk;
     public static Animation drunkWalk;
     public static Animation wanderWalk;
+    public static Animation wrekerWalk;
     public static Animation meleeAttack;
     public static Animation wanderAttack;
     public static Animation drunkAttack;
+    public static Animation wrekerAttack;
+
 
 
     //traps and items
@@ -179,7 +187,23 @@ public class TextureLoader {
         }
 
         wanderAttack = new Animation(0.10f, wanderAttackFrames, PlayMode.LOOP);
+        
+        //antagonist wreker
+        wrekerFrames = new Array<TextureRegion>(2);
+        for (int i = 0; i < 2; i++) {
+            wrekerFrames.add(new TextureRegion(WREKINGTEXTURE, 25, i * 100, 100, 100));
+        }
 
+        wrekerWalk = new Animation(0.50f, wrekerFrames, PlayMode.LOOP);
+        
+        wrekerAttackFrames = new Array<TextureRegion>(5);
+        for (int i = 0; i < 5; i++) {
+            wrekerAttackFrames.add(new TextureRegion(WREKERATTACKTEXTURE, 25, i * 100, 100, 100));
+        }
+
+        wrekerAttack = new Animation(0.10f, wrekerAttackFrames, PlayMode.LOOP);
+        
+        //
         //Antagonist catlady
         catLadyFrames = new Array<TextureRegion>(3);
         for (int i = 0; i < 3; i++) {
@@ -250,6 +274,8 @@ public class TextureLoader {
         BLANKTEXTURE.dispose();
         CATTYTEXTURE.dispose();
         CATLADYTEXTURE.dispose();
+        WANDERATTACKTEXTURE.dispose();
+
 
     }
 }

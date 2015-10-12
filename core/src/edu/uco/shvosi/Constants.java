@@ -19,7 +19,8 @@ public final class Constants {
 	NONE,
         WANDERER,
         DRUNK,
-        CATLADY;
+        CATLADY,
+        WREKER;
     }
     
     public static enum EnemyAttackType {

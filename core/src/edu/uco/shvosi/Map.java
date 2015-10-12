@@ -69,6 +69,9 @@ public class Map {
                     } else if (properties.get("Wanderer") != null) {
                         initEnemy(x, y, Constants.EnemyType.WANDERER);
                     }
+                    else if (properties.get("Wreker") != null) {
+                        initEnemy(x, y, Constants.EnemyType.WREKER);
+                    }
                 } else if (properties.get("ITEM") != null) {
                     entityGrid[x][y] = Constants.EntityGridCode.ITEM;
                     if (properties.get("Health") != null) {
@@ -149,6 +152,9 @@ public class Map {
             case WANDERER:
                 entityList.add(new Wanderer(cX, cY));
                 break;
+            case WREKER:
+                entityList.add(new Wreker(cX, cY));
+                break;
             default:
                 //ERROR
                 Gdx.app.log("ERROR", "Enemy type not found. Not added to entity grid.");
@@ -199,6 +205,8 @@ public class Map {
          */
         tempList.add(new TrapType3(2, 2));
         tempList.add(new TrapType4(3, 2));
+        tempList.add(new Wreker(4, 1));
+
 
         // Populate the cells from the temp list and add to entity list
         for (int i = 0; i < tempList.size(); i++) {
