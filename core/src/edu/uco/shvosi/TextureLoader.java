@@ -12,6 +12,7 @@ public class TextureLoader {
     //bernard and his powers
     public static final Texture BERNARDTEXTURE = new Texture(Gdx.files.internal("characters/bernard.png"));
     public static final Texture BERNARDSHIELDTEXTURE = new Texture(Gdx.files.internal("characters/bernard_shield.png"));
+    public static final Texture BERNARDGLANCETEXTURE = new Texture(Gdx.files.internal("characters/bernard_sheet.png"));
     public static final Texture HEALTHTEXTURE = new Texture(Gdx.files.internal("items/health.png"));
     public static final Texture REDLASERTEXTURE = new Texture(Gdx.files.internal("RedLaserAnimation.png"));
     public static final Texture DETECTIONTEXTURE = new Texture(Gdx.files.internal("detection.png"));
@@ -25,6 +26,9 @@ public class TextureLoader {
     private TextureRegion[] healFrames;
     private Array<TextureRegion> laserFrames;
     private Array<TextureRegion> skillOneFrames;
+    private Array<TextureRegion> bernardGlanceFrames;
+    
+    public static Animation bernardGlance;
     public static Animation redLaser;
     public static Animation skillOne;
     public static Animation skillTwo;
@@ -79,9 +83,20 @@ public class TextureLoader {
     private static final int FRAME_ROWS = 4;
     private static final int FRAME_ROWS3 = 3;
     private static final int FRAME_ROWS10 = 10;
+    
 
     TextureLoader() {
         //bernard
+        
+                
+        //Bernard's animation
+        bernardGlanceFrames = new Array<TextureRegion>();
+        for(int i = 0; i < 5; i++){
+            
+            bernardGlanceFrames.add(new TextureRegion(BERNARDGLANCETEXTURE, 0, i * 100, 100, 100));
+        }
+        
+        bernardGlance = new Animation(0.4f, bernardGlanceFrames, PlayMode.NORMAL);
         //Big Ass Laser
         laserFrames = new Array<TextureRegion>(15);
         for (int i = 0; i < 15; i++) {

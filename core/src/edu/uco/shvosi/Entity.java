@@ -121,6 +121,7 @@ public class Entity extends Image implements Observer{
 	
     @Override
     public void draw(Batch batch, float alpha){
+        
         batch.draw(textureRegion,this.getX(),this.getY());
     }
 

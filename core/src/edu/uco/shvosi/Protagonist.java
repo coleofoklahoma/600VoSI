@@ -36,19 +36,21 @@ public class Protagonist extends Entity implements Observable {
     private int barrierLimit = 2;
     private int barrierDamage = 0;
 
+    private float totalTimeSinceLastAnimation;
+    private float animationPlaying;
+
     private boolean blind = false;
     private int actionCounter = 0;
 
     private List<Observer> observers;
     private HashMap<String, Skill> skills;
-    
+
     Sound attack = Gdx.audio.newSound(Gdx.files.internal("sounds/attack.mp3"));
     Sound skill1 = Gdx.audio.newSound(Gdx.files.internal("sounds/skill1.mp3"));
     Sound skill2 = Gdx.audio.newSound(Gdx.files.internal("sounds/skill2.mp3"));
     Sound skill3 = Gdx.audio.newSound(Gdx.files.internal("sounds/skill3.mp3"));
     Sound skill4 = Gdx.audio.newSound(Gdx.files.internal("sounds/skill4.mp3"));
     Sound shield = Gdx.audio.newSound(Gdx.files.internal("sounds/shield.mp3"));
-    
 
     public HashMap<String, Skill> getSkills() {
         return skills;
@@ -89,11 +91,36 @@ public class Protagonist extends Entity implements Observable {
 
         smokeParticle = new ParticleEffect();
         smokeParticle.load(Gdx.files.internal("traps/smoke.p"), Gdx.files.internal("traps"));
+
+        totalTimeSinceLastAnimation = 0f;
+        animationPlaying = 0f;
     }
 
     @Override
     public void draw(Batch batch, float alpha) {
-        super.draw(batch, alpha);
+        
+
+        totalTimeSinceLastAnimation += Gdx.graphics.getDeltaTime();
+
+        if (totalTimeSinceLastAnimation > 1) {
+
+            super.getTextureRegion().setRegion(TextureLoader.bernardGlance.getKeyFrame(animationPlaying));
+            //super.getTextureRegion().setRegion(0, 0, 90, 90);
+            animationPlaying += Gdx.graphics.getDeltaTime();
+            if (TextureLoader.bernardGlance.isAnimationFinished(animationPlaying)) {
+                super.setImage(TextureLoader.BERNARDTEXTURE);
+                totalTimeSinceLastAnimation = 0f;
+                animationPlaying = 0f;
+            }
+            
+            batch.draw(super.getTextureRegion(), this.getX() + 12, this.getY() + 12, 78, 78);
+
+        }
+        else
+        {
+            batch.draw(super.getTextureRegion(), this.getX(), this.getY());
+        }
+
         if (firing) {
             skills.get("RedLaser").draw(batch, alpha, this);
             skills.get("RedLaser").notifyObservers();
@@ -195,7 +222,7 @@ public class Protagonist extends Entity implements Observable {
     public void setExecuteDetection(boolean executeDetection) {
         skill3.play(Constants.MASTERVOLUME);
         this.executeDetection = executeDetection;
-        
+
     }
 
     public boolean getExecuteDetection() {
@@ -259,8 +286,7 @@ public class Protagonist extends Entity implements Observable {
 
     public void useItem() {
         if (itemHeld == 0) {
-        } 
-        else if (itemHeld == 1) {
+        } else if (itemHeld == 1) {
             shield.play(Constants.MASTERVOLUME);
             this.setImage(TextureLoader.BERNARDSHIELDTEXTURE);
             itemHeld = 0;
@@ -310,18 +336,14 @@ public class Protagonist extends Entity implements Observable {
     public void attackAction() {
         //Do Stuffs
     }
-    
-        @Override
+
+    @Override
     public void observerUpdate(Object o) {
-       Gdx.app.log("ObserverUpdate", "Reached");
-       
-       
-       Rectangle.tmp.set(this.getX(), this.getY(), this.getWidth(), this.getHeight());
-       Gdx.app.log("tmp", Rectangle.tmp.toString());
-       
-       Gdx.app.log("Enemy box", ((Antagonist) o).getBoundingBox().toString());
-       if(Intersector.overlaps(((Antagonist) o).getBoundingBox(), Rectangle.tmp)) {
-           this.setHealth(this.getHealth() - ((Antagonist) o).getDamage());
-       }
+        Gdx.app.log("ObserverUpdate", "Reached");
+
+        Rectangle.tmp.set(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+        if (Intersector.overlaps(((Antagonist) o).getBoundingBox(), Rectangle.tmp)) {
+            this.setHealth(this.getHealth() - ((Antagonist) o).getDamage());
+        }
     }
 }
