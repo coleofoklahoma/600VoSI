@@ -42,7 +42,7 @@ public class TextureLoader {
     public static final Texture MELEETEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
     public static final Texture WANDERTEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
     public static final Texture DRUNKTEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
-    public static final Texture WREKINGTEXTURE = new Texture(Gdx.files.internal("characters/wrek_sheet.png"));
+    public static final Texture WREKINGTEXTURE = new Texture(Gdx.files.internal("characters/wreker_sheet.png"));
     public static final Texture DRUNKENTEXTURE = new Texture(Gdx.files.internal("characters/drunk_sheet.png"));
     public static final Texture WANDTEXTURE = new Texture(Gdx.files.internal("characters/wander_sheet.png"));
     public static final Texture BLUETEXTURE = new Texture(Gdx.files.internal("characters/blues_sheet.png"));
@@ -52,7 +52,7 @@ public class TextureLoader {
     public static final Texture MELEEATTACKTEXTURE = new Texture(Gdx.files.internal("melee_sheet.png"));
     public static final Texture WANDERATTACKTEXTURE = new Texture(Gdx.files.internal("characters/wander_attack_sheet.png"));
     public static final Texture DRUNKATTACKTEXTURE = new Texture(Gdx.files.internal("characters/drunk_attack_sheet.png"));
-    public static final Texture WREKERATTACKTEXTURE = new Texture(Gdx.files.internal("characters/wrek_attack_sheet.png"));
+    public static final Texture WREKERATTACKTEXTURE = new Texture(Gdx.files.internal("characters/wreker_attack_sheet.png"));
 
 
     private Array<TextureRegion>  blueFrames;
@@ -208,8 +208,8 @@ public class TextureLoader {
 
         wrekerWalk = new Animation(0.50f, wrekerFrames, PlayMode.LOOP);
         
-        wrekerAttackFrames = new Array<TextureRegion>(5);
-        for (int i = 0; i < 5; i++) {
+        wrekerAttackFrames = new Array<TextureRegion>(4);
+        for (int i = 0; i < 4; i++) {
             wrekerAttackFrames.add(new TextureRegion(WREKERATTACKTEXTURE, 25, i * 100, 100, 100));
         }
 
