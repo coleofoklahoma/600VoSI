@@ -122,7 +122,7 @@ public class Protagonist extends Entity implements Observable {
                 animationPlaying = 0f;
             }
             
-            batch.draw(super.getTextureRegion(), this.getX() + 12, this.getY() + 12, 78, 78);
+            batch.draw(super.getTextureRegion(), this.getX(), this.getY(), 100, 100);
 
         }
         else

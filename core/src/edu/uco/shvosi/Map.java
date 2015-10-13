@@ -205,7 +205,7 @@ public class Map {
          */
         tempList.add(new TrapType3(2, 2));
         tempList.add(new TrapType4(3, 2));
-        tempList.add(new Wreker(4, 1));
+        entityList.add(new Wreker( 4, 1));
 
 
         // Populate the cells from the temp list and add to entity list
