@@ -20,7 +20,13 @@ public final class Constants {
         WANDERER,
         DRUNK,
         CATLADY,
-        WREKER;
+        WREKER,
+        BLUES,
+        FLAPPER,
+        SUFFERAGETTE,
+        HAMMER,
+        BONNIE,
+        CLYDE;
     }
     
     public static enum EnemyAttackType {

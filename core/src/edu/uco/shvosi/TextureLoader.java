@@ -37,6 +37,7 @@ public class TextureLoader {
     public static Animation heal;
 
     //antagonist
+    public static final Texture BLUESTEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
     public static final Texture WREKERTEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
     public static final Texture MELEETEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
     public static final Texture WANDERTEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
@@ -44,6 +45,7 @@ public class TextureLoader {
     public static final Texture WREKINGTEXTURE = new Texture(Gdx.files.internal("characters/wrek_sheet.png"));
     public static final Texture DRUNKENTEXTURE = new Texture(Gdx.files.internal("characters/drunk_sheet.png"));
     public static final Texture WANDTEXTURE = new Texture(Gdx.files.internal("characters/wander_sheet.png"));
+    public static final Texture BLUETEXTURE = new Texture(Gdx.files.internal("characters/blues_sheet.png"));
     public static final Texture BLANKTEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
     public static final Texture CATLADYTEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
     public static final Texture CATTYTEXTURE = new Texture(Gdx.files.internal("characters/catLady_sheet.png"));
@@ -53,6 +55,7 @@ public class TextureLoader {
     public static final Texture WREKERATTACKTEXTURE = new Texture(Gdx.files.internal("characters/wrek_attack_sheet.png"));
 
 
+    private Array<TextureRegion>  blueFrames;
     private Array<TextureRegion> drunkFrames;
     private Array<TextureRegion> wanderFrames;
     private Array<TextureRegion> catLadyFrames;
@@ -61,6 +64,7 @@ public class TextureLoader {
     private Array<TextureRegion> wanderAttackFrames;
     private Array<TextureRegion> wrekerAttackFrames;
     private Array<TextureRegion> drunkAttackFrames;
+    public static Animation blueWalk;
     public static Animation catLadyWalk;
     public static Animation drunkWalk;
     public static Animation wanderWalk;
@@ -172,7 +176,15 @@ public class TextureLoader {
         }
 
         drunkAttack = new Animation(0.10f, drunkAttackFrames, PlayMode.LOOP);
+       
+        //Antagonist Blues
+                blueFrames = new Array<TextureRegion>(5);
+        for (int i = 0; i < 5; i++) {
+            blueFrames.add(new TextureRegion(BLUETEXTURE, 25, i * 100, 100, 100));
+        }
 
+        blueWalk = new Animation(0.50f, blueFrames, PlayMode.LOOP);        
+        //
         //Antagonist wnaderer
         wanderFrames = new Array<TextureRegion>(2);
         for (int i = 0; i < 2; i++) {
