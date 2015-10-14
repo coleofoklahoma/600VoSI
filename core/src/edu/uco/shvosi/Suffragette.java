@@ -28,7 +28,8 @@ public class Suffragette extends Antagonist {
         super(TextureLoader.SUFFERTETEXTURE, cX, cY);
         this.setEnemyType(Constants.EnemyType.SUFFERAGETTE);
         suffragetteWalk = TextureLoader.suffragetteWalk;
-
+        this.begX = cX;
+        this.begY = cY;
         this.setBoundingBox(120);
         this.damage = damage;
         this.setHealth(1000); 
@@ -56,7 +57,7 @@ public class Suffragette extends Antagonist {
             {
                 flip = false;
             }
-            if(xdis >1 || ydis >1){    
+                
                 if (flip) {
                     temp = suffragetteWalk.getKeyFrame(elapsedTime);
                     temp.flip(true, false);
@@ -69,10 +70,8 @@ public class Suffragette extends Antagonist {
                     moving = false;
                     elapsedTime = 0f;
                 }
-            }
-            if(xdis <=1 && ydis <=1){    
-                
-            }
+            
+         
         
     }
 
@@ -101,6 +100,7 @@ public class Suffragette extends Antagonist {
         
             if (active)
              {
+             if(xdis > 1 && ydis >1){    
             
             while (!canMove(d, mapGrid, entityGrid)) {
         
@@ -137,7 +137,55 @@ public class Suffragette extends Antagonist {
                 this.setTurnAction(Constants.TurnAction.NONE);
                 return;
             }
-        }//end while
+        }//end while         
+            
+             }//end if > 1
+               else{
+                 int backX;
+                 int backY;
+                 
+                 backX = this.getCX() - this.begX;
+                 backY = this.getCY() - this.begY;
+                 
+                while (!canMove(d, mapGrid, entityGrid)) {
+        
+                if(Math.abs(backX) > Math.abs(backY))
+                {
+                    XorY="X";
+                }
+                else
+                {
+                    XorY="Y";
+                }
+        
+                if("X".equals(XorY) && backX >= 0)
+                {
+                    d = Constants.Direction.LEFT;
+                }
+        
+            if("X".equals(XorY) && backY < 0)
+            {
+                d = Constants.Direction.RIGHT;
+            }
+            if("Y".equals(XorY) && backY >= 0)
+            {
+                d = Constants.Direction.DOWN;
+            }
+        
+            if("Y".equals(XorY) && backY < 0)
+            {
+                d = Constants.Direction.UP;
+            }
+        
+            tries++;
+            if(tries > 5){
+                this.setTurnAction(Constants.TurnAction.NONE);
+                return;
+            }
+        }//end while 
+                 
+                    
+             }
    
         this.setTurnAction(Constants.TurnAction.MOVE);
              }//end if active
