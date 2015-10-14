@@ -37,6 +37,7 @@ public class TextureLoader {
     public static Animation heal;
 
     //antagonist
+    public static final Texture SUFFERTETEXTURE = new Texture(Gdx.files.internal("characters/blank.png")); 
     public static final Texture BLUESTEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
     public static final Texture WREKERTEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
     public static final Texture MELEETEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
@@ -53,7 +54,8 @@ public class TextureLoader {
     public static final Texture WANDERATTACKTEXTURE = new Texture(Gdx.files.internal("characters/wander_attack_sheet.png"));
     public static final Texture DRUNKATTACKTEXTURE = new Texture(Gdx.files.internal("characters/drunk_attack_sheet.png"));
     public static final Texture WREKERATTACKTEXTURE = new Texture(Gdx.files.internal("characters/wreker_attack_sheet.png"));
-
+    public static final Texture SUFFRAGETTETEXTURE = new Texture(Gdx.files.internal("characters/suffragette_sheet.png")); 
+ 
 
     private Array<TextureRegion>  blueFrames;
     private Array<TextureRegion> drunkFrames;
@@ -64,6 +66,7 @@ public class TextureLoader {
     private Array<TextureRegion> wanderAttackFrames;
     private Array<TextureRegion> wrekerAttackFrames;
     private Array<TextureRegion> drunkAttackFrames;
+    private Array<TextureRegion> suffragetteFrames; 
     public static Animation blueWalk;
     public static Animation catLadyWalk;
     public static Animation drunkWalk;
@@ -73,6 +76,7 @@ public class TextureLoader {
     public static Animation wanderAttack;
     public static Animation drunkAttack;
     public static Animation wrekerAttack;
+    public static Animation suffragetteWalk; 
 
 
 
@@ -199,7 +203,14 @@ public class TextureLoader {
         }
 
         wanderAttack = new Animation(0.10f, wanderAttackFrames, PlayMode.LOOP);
-        
+        //sufferagette
+        suffragetteFrames = new Array<TextureRegion>(2);
+        for (int i = 0; i < 2; i++) {
+            suffragetteFrames.add(new TextureRegion(SUFFRAGETTETEXTURE, 25, i * 100, 100, 100));
+        }
+
+        suffragetteWalk = new Animation(0.50f, suffragetteFrames, PlayMode.LOOP);  
+        //
         //antagonist wreker
         wrekerFrames = new Array<TextureRegion>(2);
         for (int i = 0; i < 2; i++) {
@@ -287,7 +298,9 @@ public class TextureLoader {
         CATTYTEXTURE.dispose();
         CATLADYTEXTURE.dispose();
         WANDERATTACKTEXTURE.dispose();
+        SUFFRAGETTETEXTURE.dispose(); 
 
 
     }
 }
+

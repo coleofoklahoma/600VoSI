@@ -21,7 +21,7 @@ public class Map {
     private int tileDimension;
     private int width;
     private int height;
-    public Protagonist bernard = new Protagonist(1,1);
+    public Protagonist bernard = new Protagonist(1, 1);
 
     public Map(String tmxFileName) {
         this.tiledMap = new TmxMapLoader().load(tmxFileName);
@@ -68,11 +68,11 @@ public class Map {
                         initEnemy(x, y, Constants.EnemyType.DRUNK);
                     } else if (properties.get("Wanderer") != null) {
                         initEnemy(x, y, Constants.EnemyType.WANDERER);
-                    }
-                    else if (properties.get("Wreker") != null) {
+                    } else if (properties.get("Suffragette") != null) {
+                        initEnemy(x, y, Constants.EnemyType.SUFFERAGETTE);
+                    } else if (properties.get("Wreker") != null) {
                         initEnemy(x, y, Constants.EnemyType.WREKER);
-                    }
-                    else if (properties.get("Blues") != null) {
+                    } else if (properties.get("Blues") != null) {
                         initEnemy(x, y, Constants.EnemyType.BLUES);
                     }
                 } else if (properties.get("ITEM") != null) {
@@ -155,6 +155,9 @@ public class Map {
             case WANDERER:
                 entityList.add(new Wanderer(cX, cY));
                 break;
+            case SUFFERAGETTE:
+                entityList.add(new Suffragette(cX, cY));
+                break;
             case WREKER:
                 entityList.add(new Wreker(cX, cY));
                 break;
@@ -211,9 +214,9 @@ public class Map {
          */
         tempList.add(new TrapType3(2, 2));
         tempList.add(new TrapType4(3, 2));
-        tempList.add(new Wreker( 3, 1));
-        tempList.add(new Blues(5,1));
-
+        tempList.add(new Wreker(3, 1));
+        tempList.add(new Blues(5, 1));
+        tempList.add(new Suffragette(8,3) ); 
         // Populate the cells from the temp list and add to entity list
         for (int i = 0; i < tempList.size(); i++) {
             Entity entity = tempList.get(i);
@@ -418,3 +421,4 @@ public class Map {
         tiledMap.dispose();
     }
 }
+
