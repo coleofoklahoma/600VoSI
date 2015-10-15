@@ -219,8 +219,8 @@ public class TextureLoader {
 
         hammerWalk = new Animation(0.50f, hammerFrames, PlayMode.LOOP);
         
-        hammerAttackFrames = new Array<TextureRegion>(5);
-        for (int i = 0; i < 5; i++) {
+        hammerAttackFrames = new Array<TextureRegion>(7);
+        for (int i = 0; i < 7; i++) {
             hammerAttackFrames.add(new TextureRegion(HAMMERATTACKTETEXTURE, 25, i * 100, 100, 100));
         }
 

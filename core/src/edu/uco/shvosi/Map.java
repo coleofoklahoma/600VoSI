@@ -222,7 +222,7 @@ public class Map {
         tempList.add(new Wreker(4, 6));
         tempList.add(new Blues(5, 1));
         tempList.add(new Suffragette(8,3) ); 
-        tempList.add(new Hammer(5,6) ); 
+        tempList.add(new Hammer(5,7) ); 
         // Populate the cells from the temp list and add to entity list
         for (int i = 0; i < tempList.size(); i++) {
             Entity entity = tempList.get(i);
