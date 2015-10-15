@@ -38,12 +38,14 @@ public class TextureLoader {
 
     //antagonist
     public static final Texture SUFFERTETEXTURE = new Texture(Gdx.files.internal("characters/blank.png")); 
+    public static final Texture HAMMERTETEXTURE = new Texture(Gdx.files.internal("characters/blank.png")); 
     public static final Texture BLUESTEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
     public static final Texture WREKERTEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
     public static final Texture MELEETEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
     public static final Texture WANDERTEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
     public static final Texture DRUNKTEXTURE = new Texture(Gdx.files.internal("characters/blank.png"));
     public static final Texture WREKINGTEXTURE = new Texture(Gdx.files.internal("characters/wreker_sheet.png"));
+    public static final Texture HAMTEXTURE = new Texture(Gdx.files.internal("characters/hammer_sheet.png"));
     public static final Texture DRUNKENTEXTURE = new Texture(Gdx.files.internal("characters/drunk_sheet.png"));
     public static final Texture WANDTEXTURE = new Texture(Gdx.files.internal("characters/wander_sheet.png"));
     public static final Texture BLUETEXTURE = new Texture(Gdx.files.internal("characters/blues_sheet.png"));
@@ -55,8 +57,10 @@ public class TextureLoader {
     public static final Texture DRUNKATTACKTEXTURE = new Texture(Gdx.files.internal("characters/drunk_attack_sheet.png"));
     public static final Texture WREKERATTACKTEXTURE = new Texture(Gdx.files.internal("characters/wreker_attack_sheet.png"));
     public static final Texture SUFFRAGETTETEXTURE = new Texture(Gdx.files.internal("characters/suffragette_sheet.png")); 
- 
+    public static final Texture HAMMERATTACKTETEXTURE = new Texture(Gdx.files.internal("characters/hammer_attack.png")); 
 
+
+    private Array<TextureRegion>  hammerFrames;
     private Array<TextureRegion>  blueFrames;
     private Array<TextureRegion> drunkFrames;
     private Array<TextureRegion> wanderFrames;
@@ -67,7 +71,9 @@ public class TextureLoader {
     private Array<TextureRegion> wrekerAttackFrames;
     private Array<TextureRegion> drunkAttackFrames;
     private Array<TextureRegion> suffragetteFrames; 
+    private Array<TextureRegion> hammerAttackFrames; 
     public static Animation blueWalk;
+    public static Animation hammerWalk;
     public static Animation catLadyWalk;
     public static Animation drunkWalk;
     public static Animation wanderWalk;
@@ -77,6 +83,8 @@ public class TextureLoader {
     public static Animation drunkAttack;
     public static Animation wrekerAttack;
     public static Animation suffragetteWalk; 
+    public static Animation hammerAttack;
+
 
 
 
@@ -203,6 +211,22 @@ public class TextureLoader {
         }
 
         wanderAttack = new Animation(0.10f, wanderAttackFrames, PlayMode.LOOP);
+        //hammer
+        hammerFrames = new Array<TextureRegion>(2);
+        for (int i = 0; i < 2; i++) {
+            hammerFrames.add(new TextureRegion(HAMTEXTURE, 25, i * 100, 100, 100));
+        }
+
+        hammerWalk = new Animation(0.50f, hammerFrames, PlayMode.LOOP);
+        
+        hammerAttackFrames = new Array<TextureRegion>(5);
+        for (int i = 0; i < 5; i++) {
+            hammerAttackFrames.add(new TextureRegion(HAMMERATTACKTETEXTURE, 25, i * 100, 100, 100));
+        }
+
+        hammerAttack = new Animation(0.10f, hammerAttackFrames, PlayMode.LOOP);
+        
+        //
         //sufferagette
         suffragetteFrames = new Array<TextureRegion>(2);
         for (int i = 0; i < 2; i++) {

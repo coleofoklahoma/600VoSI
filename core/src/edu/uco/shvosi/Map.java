@@ -74,6 +74,8 @@ public class Map {
                         initEnemy(x, y, Constants.EnemyType.WREKER);
                     } else if (properties.get("Blues") != null) {
                         initEnemy(x, y, Constants.EnemyType.BLUES);
+                    }else if (properties.get("Hammer") != null) {
+                        initEnemy(x, y, Constants.EnemyType.HAMMER);
                     }
                 } else if (properties.get("ITEM") != null) {
                     entityGrid[x][y] = Constants.EntityGridCode.ITEM;
@@ -164,6 +166,9 @@ public class Map {
             case BLUES:
                 entityList.add(new Blues(cX, cY));
                 break;
+            case HAMMER:
+                entityList.add(new Hammer(cX, cY));
+                break;
             default:
                 //ERROR
                 Gdx.app.log("ERROR", "Enemy type not found. Not added to entity grid.");
@@ -214,9 +219,10 @@ public class Map {
          */
         tempList.add(new TrapType3(2, 2));
         tempList.add(new TrapType4(3, 2));
-        tempList.add(new Wreker(3, 1));
+        tempList.add(new Wreker(4, 6));
         tempList.add(new Blues(5, 1));
         tempList.add(new Suffragette(8,3) ); 
+        tempList.add(new Hammer(5,6) ); 
         // Populate the cells from the temp list and add to entity list
         for (int i = 0; i < tempList.size(); i++) {
             Entity entity = tempList.get(i);
